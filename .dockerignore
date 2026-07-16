@@ -1,0 +1,8 @@
+.git
+.next
+node_modules
+*.db
+.env
+.env.local
+.env.docker
+public/media

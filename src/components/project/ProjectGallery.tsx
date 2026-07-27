@@ -50,14 +50,13 @@ export function ProjectGallery({ images, accentColor }: ProjectGalleryProps) {
       >
         {images.map((img, i) => (
           <motion.button
-            key={img.src}
+            key={`${img.src}-${i}`}
             variants={tileVariant}
             className="project-gallery-tile"
             onClick={() => setSelected(i)}
             whileHover={{ scale: 1.02, y: -4 }}
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.3, ease: easeOutExpo }}
-            style={{ outline: 'none' }}
           >
             <div className="project-gallery-tile-inner" style={{ borderRadius: 'var(--rounded)' }}>
               <Image

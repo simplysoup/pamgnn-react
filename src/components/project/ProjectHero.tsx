@@ -32,10 +32,9 @@ type ProjectHeroProps = {
   title: string
   accentColor: string
   coverImage?: string | null
-  slug: string
 }
 
-export function ProjectHero({ title, accentColor, coverImage, slug }: ProjectHeroProps) {
+export function ProjectHero({ title, accentColor, coverImage }: ProjectHeroProps) {
   const [heroLoaded, setHeroLoaded] = useState(false)
 
   // Scroll-driven parallax for the cover image

@@ -174,7 +174,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         title={title}
         accentColor={accentColor}
         coverImage={coverImageUrl}
-        slug={slug}
       />
 
       {/* ── Content section ── */}

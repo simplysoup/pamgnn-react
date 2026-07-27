@@ -1136,6 +1136,12 @@ img { max-width: 100%; display: block; }
   opacity: 1;
 }
 
+.project-gallery-tile:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+  border-radius: var(--rounded);
+}
+
 /* ─── Gallery fullscreen ──────────────────────────────────── */
 .project-gallery-fullscreen {
   position: fixed;

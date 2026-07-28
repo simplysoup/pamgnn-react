@@ -5,6 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef } from 'react'
 
+import { getCoverImage } from '@/lib/project-images'
+
 /* ─── Easing ───────────────────────────────────────────── */
 const easeOutExpo = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
@@ -55,15 +57,18 @@ export function ProjectRelated({ projects, currentSlug }: ProjectRelatedProps) {
                   className="project-related-card-media"
                   style={{ backgroundColor: project.accentColor || '#4b1f44' }}
                 >
-                  {project.coverImage ? (
-                    <Image
-                      src={project.coverImage}
-                      alt={project.title}
-                      fill
-                      className="project-related-card-image"
-                      sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 25vw"
-                    />
-                  ) : null}
+                  {(() => {
+                    const coverUrl = getCoverImage(project.slug, project.coverImage)
+                    return coverUrl ? (
+                      <Image
+                        src={coverUrl}
+                        alt={project.title}
+                        fill
+                        className="project-related-card-image"
+                        sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 25vw"
+                      />
+                    ) : null
+                  })()}
                   <div className="project-related-card-overlay">
                     <span className="project-related-card-label">View Project</span>
                   </div>

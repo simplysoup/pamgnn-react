@@ -5,6 +5,7 @@ import { ProjectGallery } from '@/components/project/ProjectGallery'
 import { ProjectHero } from '@/components/project/ProjectHero'
 import { ProjectRelated } from '@/components/project/ProjectRelated'
 import { ProjectSummary } from '@/components/project/ProjectSummary'
+import { StaticBody } from '@/components/project/StaticBody'
 import { getPayloadClient } from '@/lib/payload'
 
 type ProjectPageProps = {
@@ -17,17 +18,75 @@ type StaticProject = {
   accentColor: string
   summary: string
   coverImage?: string
+  contentHtml?: string
+  client?: string
+  tools?: string[]
+  categories?: string[]
 }
 
 const STATIC_PROJECTS: Record<string, StaticProject> = {
-  'comfortabull':               { title: 'Comfortabull',                accentColor: '#141d37', summary: 'Brand identity and web design for a comfort food restaurant.' },
-  'camp-brigitte':              { title: 'Camp Brigitte',               accentColor: '#e29d36', summary: 'Illustrated editorial identity for a summer camp brand.' },
-  'vaughan-intl-film-festival': { title: 'Vaughan Intl. Film Festival', accentColor: '#c0392b', summary: 'Event branding and motion graphics package.' },
-  'dynastic-wealth':            { title: 'Dynastic Wealth',             accentColor: '#1a1a2e', summary: 'Visual identity for a financial advisory firm.' },
-  'shinee-love-sick':           { title: 'Shinee Love Sick',            accentColor: '#7b2d8b', summary: 'Fan-art editorial series and motion piece.' },
-  'pearl-earring':              { title: 'Pearl Earring',               accentColor: '#2c3e50', summary: 'Illustration series inspired by Vermeer.' },
-  'animated-business-cards':    { title: 'Animated Business Cards',     accentColor: '#16a085', summary: 'Motion-design micro-animations for business card concepts.' },
-  'social-media-graphics-ads':  { title: 'Social Media Graphics & Ads',accentColor: '#e67e22', summary: 'Social content packages for various client campaigns.' },
+  'comfortabull': {
+    title: 'Comfortabull',
+    accentColor: '#141d37',
+    summary: 'Brand identity and web design for a comfort food restaurant.',
+    categories: ['identity', 'web-design'],
+    contentHtml: `<p>Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need. Comfortabull offers group stays, or private, to fit your pup perfectly. With this in mind, they wanted their new logo to feature both bulldog varieties, have a cozy but professional vibe, with an interest in hatchwork styling. The illustration style pulls formline style which gives a nod to the owners indigenous culture, ancestry, and residence.</p><p>First on my list, I had to figure out how I wanted to approach the bulldogs. I spent some time looking at and drawing French and English bulldogs and their key features. As we wanted both dogs and a cozy vibe I leaned towards having them both in a doggy bed together.</p><p>But another idea was to have the dogs be able to separate; and use them as 2 individual elements which made the doggy bed idea harder to work with so I also looked at stacking the dogs, having them face each other, and standing side by side.</p><p>Luckily, the graphic came together nicely, with the circle and dogs inside and a cute paw heart touch! With the lineart and crosshatching set, there weren't too many additional adjustments past the palette.</p><p><strong>NEXT UP: TYPEFACE</strong></p><p>I ran through options with a meld of sans serif and cursive font. With the client preferring a cursive expressive looping style to compliment the sans-serif. Then tested out the fonts with some key phrases they wanted to use for branding down the line; &ldquo;Life is Better with a Bulldog&rdquo;, &ldquo;Heavy Breathers Club&rdquo;, and &ldquo;Squish Face Crew&rdquo;. With the finalized font choice we went with the simplistic &ldquo;We Love Bulldogs&rdquo; stylizing love with the chosen Shaley typeface and Neutra Text combo.</p><p>Along with the logo design I provided Comfortabull with full branding for socials; including a set of custom social icons, template socials and stories, and banners for Facebook and Instagram. The template socials and stories were both designed in Canva and made to accommodate the free version, to provide easy access and adjustment capabilities for the client.</p>`,
+  },
+  'camp-brigitte': {
+    title: 'Camp Brigitte',
+    accentColor: '#e29d36',
+    summary: 'Illustrated editorial identity for a summer camp brand.',
+    categories: ['illustration', 'identity'],
+    contentHtml: `<p>Camp Brigitte is an indigenous-owned lodging and vacation located in upper west Ontario. A prime destination for overnight stays, gatherings/parties, hunting, bonfires, and winter activities. Looking for a logo they wanted to show their key focus on family and friends integrating with nature.</p><p>This is a project I did with the Bloom + Brilliance team, which you can see here.</p><p>A main focus with this client was wanting to include key elements of the camp and activities there in the logo; trees/forest, people, animals, and the cabin itself.</p><p>I first experimented with 3 different looks to the logo and placement/amount of elements. The first is more of a badge look and focuses on the deer and 1 person, the second is a much more full logo with a full scene including the cabin, and the third is a simplistic linear logo; with each element specifically shaped.</p><p>Choosing to move forward with the circular logo I worked on different variations, pulling the girl back from the previous designs adding another child. I also experimented with a seasonal variation showing winter activities.</p><p>Then moving forward with the help of Janelle Desrosiers we transitioned it into the final version. Simplifying the logo while bringing the text up much more. We pulled the deer and children forward, centering the bonfire in front of the cabin, and brightened the colours. Tying them with meaning and connection to their brand focus to make everything cohesive.</p>`,
+  },
+  'vaughan-intl-film-festival': {
+    title: 'Vaughan Intl. Film Festival',
+    accentColor: '#c0392b',
+    summary: 'Event branding and motion graphics package.',
+    client: 'Vaughan Int\'l Film Festival',
+    categories: ['motion'],
+    contentHtml: `<p>During my time working with VFF I worked with the team to redefine the 2024 style for the festival. Along with the Manager of Marketing and 2 other team members focused on graphic design we laid out the new style and created the full graphics for festival run. From countdowns, holiday posts, announcements of films, presenters, winners, to email blast graphics, and more.</p><p>With my motion graphic, animation and video experience I was also tasked to work along the video team to create two videos (with landscape and mobile versions). First up the VFF By the Numbers video which showcases the festival so far and how much it has grown. Secondly an informative video for submissions for the student film competition. Highschool students across Ontario are open to submit their short films to be screened in front of a live audience and evaluated by professionals in the film industry with the chance to win prizes for their team and school.</p>`,
+  },
+  'dynastic-wealth': {
+    title: 'Dynastic Wealth',
+    accentColor: '#1a1a2e',
+    summary: 'Visual identity for a financial advisory firm.',
+    client: 'Dr. Latanya White',
+    categories: ['identity'],
+    contentHtml: `<p>Financial wellness and building generational wealth through culturally relevant training.</p><p>With a focus on building and creating intergenerational wealth Dr. Latanya White wanted a refresh of her brand and a new website. The website would serve as her base point for displaying future talks and features, promoting her services, and giving support with more than just financial wealth.</p><p>To start, we began with the logo first; with Dr. Latanya wanted to use the logo for the parent company Concept Creative Group, LLC as a starting point to build from with the peacock iconography.</p><p>At first I very simply tried to use a peacock and the iconic feathers to integrate the wealth aspect. Then moved on to combining the peacock and gold with her focus on uplifting families and generational wealth through the couple and egg.</p><p><strong>Symbolism:</strong></p><p><strong>Couple:</strong> Depicts mentorship, community, and the tie with egg to show generational transfer of wealth</p><p><strong>Peacock:</strong> Shows success, ties to Concept Creative Group LLC, and vibrant wealth</p><p><strong>Egg:</strong> The nest egg, protected assets, new beginnings and the tie to the couple</p>`,
+  },
+  'shinee-love-sick': {
+    title: 'Shinee Love Sick',
+    accentColor: '#7b2d8b',
+    summary: 'Fan-art editorial series and motion piece.',
+    categories: ['illustration', 'motion'],
+    tools: ['After Effects', 'Illustrator', 'Premiere Pro'],
+    contentHtml: `<p>Music video for Korean group SHINee and the song 'Love Sick'. The song references their debut single 'Replay' and so I integrated small references to the song and its music video through the video. Style was inspired by the animation work done by Utomaru (Yuko Motoki) for ORESAMA music videos. All animation and illustration work was done by me within Adobe Illustrator and After Effects, and then finalized in Premiere Pro.</p>`,
+  },
+  'pearl-earring': {
+    title: 'Pearl Earring',
+    accentColor: '#2c3e50',
+    summary: 'Illustration series inspired by Vermeer.',
+    categories: ['illustration'],
+    tools: ['Photoshop'],
+    contentHtml: `<p>This came from the prompt to base a famous painting rendition from one artist by pulling inspiration from another artist's style. It was fun working with the limited bright palette and interesting shading style brought in by Loish's style to bring a new perspective on the famous Girl with the Pearl Earring by Johannes Vermeer.</p>`,
+  },
+  'animated-business-cards': {
+    title: 'Animated Business Cards',
+    accentColor: '#16a085',
+    summary: 'Motion-design micro-animations for business card concepts.',
+    categories: ['motion'],
+    tools: ['Animate', 'Illustrator', 'After Effects'],
+    contentHtml: `<p>Personal business cards I made to show all three of my specializations; illustration, animation, and graphic design. Scanning the QR code on each card brings up a different animation in relation to the graphic on it. Grab one from me and try it out yourself!</p>`,
+  },
+  'social-media-graphics-ads': {
+    title: 'Social Media Graphics & Ads',
+    accentColor: '#e67e22',
+    summary: 'Social content packages for various client campaigns.',
+    client: 'Various',
+    categories: ['illustration', 'motion'],
+    contentHtml: `<p>A collection of social media graphics and advertisements designed for various clients across different industries — including BOW, Centanni, 21 Stages, Premier Care, HSM, OsoHair, Alcan, and more.</p>`,
+  },
 }
 
 /* ─── Static gallery fallback per project ──────────────── */
@@ -36,6 +95,8 @@ const STATIC_GALLERIES: Record<string, string[]> = {
   'camp-brigitte':              ['/images/project-camp-brigitte.webp'],
   'vaughan-intl-film-festival': ['/images/project-vaughan.jpg'],
   'dynastic-wealth':            ['/images/project-dynastic.png'],
+  'shinee-love-sick':           ['/images/project-shinee-preview.gif'],
+  'pearl-earring':              ['/images/project-pearl-earring-gallery.webp'],
   'animated-business-cards':    ['/images/project-animated-business-cards.webp'],
   'social-media-graphics-ads':  ['/images/project-social-media.webp'],
 }
@@ -46,8 +107,8 @@ const STATIC_ALL_PROJECTS: { slug: string; title: string; coverImage?: string; a
   { slug: 'camp-brigitte',              title: 'Camp Brigitte',               coverImage: '/images/project-camp-brigitte.webp',                 accentColor: '#e29d36' },
   { slug: 'vaughan-intl-film-festival', title: 'Vaughan Intl. Film Festival', coverImage: '/images/project-vaughan.jpg',                        accentColor: '#c0392b' },
   { slug: 'dynastic-wealth',            title: 'Dynastic Wealth',             coverImage: '/images/project-dynastic.png',                       accentColor: '#1a1a2e' },
-  { slug: 'shinee-love-sick',           title: 'Shinee Love Sick',            accentColor: '#7b2d8b' },
-  { slug: 'pearl-earring',              title: 'Pearl Earring',               accentColor: '#2c3e50' },
+  { slug: 'shinee-love-sick',           title: 'Shinee Love Sick',            coverImage: '/images/project-shinee-preview.gif',            accentColor: '#7b2d8b' },
+  { slug: 'pearl-earring',              title: 'Pearl Earring',               coverImage: '/images/project-pearl-earring-gallery.webp',    accentColor: '#2c3e50' },
   { slug: 'animated-business-cards',    title: 'Animated Business Cards',     coverImage: '/images/project-animated-business-cards.webp',        accentColor: '#16a085' },
   { slug: 'social-media-graphics-ads',  title: 'Social Media Graphics & Ads', coverImage: '/images/project-social-media.webp',                   accentColor: '#e67e22' },
 ]
@@ -133,6 +194,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const accentColor = typeof project.accentColor === 'string' ? project.accentColor : '#4b1f44'
   const summary = typeof project.summary === 'string' ? project.summary : ''
   const content = typeof project.content === 'object' && project.content ? (project.content as object) : null
+  const contentHtml = typeof project.contentHtml === 'string' ? project.contentHtml : (STATIC_PROJECTS[slug]?.contentHtml ?? null)
+  const client = typeof project.client === 'string' ? project.client : (STATIC_PROJECTS[slug]?.client ?? null)
+  const tools = Array.isArray(project.tools) ? project.tools : (STATIC_PROJECTS[slug]?.tools ?? null)
+  const categories = Array.isArray(project.categories) ? project.categories : (STATIC_PROJECTS[slug]?.categories ?? null)
   const galleryRaw = Array.isArray(project.gallery) ? project.gallery : []
   const coverImageUrl = typeof project.coverImage === 'object' && project.coverImage && 'url' in project.coverImage
     ? String(project.coverImage.url)
@@ -151,7 +216,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   // Static fallback
   if (galleryImages.length === 0 && STATIC_GALLERIES[slug]) {
     STATIC_GALLERIES[slug].forEach((src) => {
-      galleryImages.push({ src, alt: title })
+      if (src) galleryImages.push({ src, alt: title })
     })
   }
 
@@ -176,20 +241,41 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         coverImage={coverImageUrl}
       />
 
-      {/* ── Content section ── */}
-      <section className="project-content-section">
-        <div className="container">
-          <div className="project-body">
-            {/* Summary with word-by-word reveal */}
-            {summary ? <ProjectSummary summary={summary} /> : null}
-
-            {/* Rich text body with scroll-triggered reveal */}
-            {content ? (
-              <ProjectBody content={content} />
-            ) : null}
+      {/* ── Project metadata (category, tools, client) ── */}
+      {(categories && categories.length > 0) || tools || client ? (
+        <section className="project-meta-section">
+          <div className="container">
+            <div className="project-meta-bar">
+              {categories && categories.length > 0 ? (
+                <div className="project-meta-group">
+                  <span className="project-meta-label">Category</span>
+                  <div className="project-meta-tags">
+                    {categories.map((cat: string) => (
+                      <span key={cat} className="project-meta-tag">{cat}</span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {tools && tools.length > 0 ? (
+                <div className="project-meta-group">
+                  <span className="project-meta-label">Tools</span>
+                  <div className="project-meta-tags">
+                    {tools.map((tool: string) => (
+                      <span key={tool} className="project-meta-tag tool-tag">{tool}</span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {client ? (
+                <div className="project-meta-group">
+                  <span className="project-meta-label">Client</span>
+                  <span className="project-meta-value">{client}</span>
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* ── Gallery with spring entrances + full-screen morph ── */}
       {galleryImages.length > 0 ? (
@@ -199,6 +285,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </section>
       ) : null}
+
+      {/* ── Content section ── */}
+      <section className="project-content-section">
+        <div className="container">
+          <div className="project-body">
+            {/* Summary with word-by-word reveal */}
+            {summary ? <ProjectSummary summary={summary} /> : null}
+
+            {/* Rich text body from CMS */}
+            {content ? (
+              <ProjectBody content={content} />
+            ) : null}
+
+            {/* Static HTML body from Webflow content */}
+            {contentHtml && !content ? (
+              <StaticBody contentHtml={contentHtml} />
+            ) : null}
+          </div>
+        </div>
+      </section>
 
       {/* ── Related projects carousel ── */}
       <ProjectRelated projects={relatedProjects} currentSlug={slug} />

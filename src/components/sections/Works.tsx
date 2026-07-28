@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { getPayloadClient } from '@/lib/payload'
+import { getCoverImage } from '@/lib/project-images'
 
 type ProjectDoc = {
   id: string | number
@@ -11,16 +12,14 @@ type ProjectDoc = {
   accentColor?: string
 }
 
-// Local image fallbacks by slug (from Webflow export)
-const SLUG_IMAGES: Record<string, string> = {
-  'comfortabull':             '/images/project-comfortabull.png',
-  'camp-brigitte':            '/images/project-camp-brigitte.webp',
-  'vaughan-intl-film-festival': '/images/project-vaughan.jpg',
-  'dynastic-wealth':          '/images/project-dynastic.png',
-  'pearl-earring':            '/images/project-pearl-earring.jpg',
-  'animated-business-cards':  '/images/project-animated-business-cards.webp',
-  'social-media-graphics-ads': '/images/project-social-media.webp',
-}
+
+// Static fallback data shown when the database is empty or unreachable
+const STATIC_FEATURED: ProjectDoc[] = [
+  { id: 'static-1', slug: 'comfortabull',               title: 'Comfortabull',                  accentColor: '#141d37' },
+  { id: 'static-2', slug: 'camp-brigitte',              title: 'Camp Brigitte',                 accentColor: '#e29d36' },
+  { id: 'static-3', slug: 'vaughan-intl-film-festival', title: 'Vaughan Intl. Film Festival',   accentColor: '#c0392b' },
+  { id: 'static-4', slug: 'dynastic-wealth',            title: 'Dynastic Wealth',               accentColor: '#1a1a2e' },
+]
 
 export async function Works() {
   const payload = await getPayloadClient()
@@ -39,6 +38,11 @@ export async function Works() {
     docs = []
   }
 
+  // Fall back to static data so the section always renders
+  if (docs.length === 0) {
+    docs = STATIC_FEATURED
+  }
+
   return (
     <section className="section" id="services">
       <section className="section-homepage" id="works">
@@ -47,7 +51,7 @@ export async function Works() {
             <div className="projects-collection-list" role="list">
               {docs.map((project) => {
                 const slug = typeof project.slug === 'string' ? project.slug : String(project.id)
-                const coverUrl = project.coverImage?.url ?? SLUG_IMAGES[slug] ?? null
+                const coverUrl = getCoverImage(slug, project.coverImage?.url)
                 const color = project.accentColor ?? '#4b1f44'
 
                 return (

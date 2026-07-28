@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { getPayloadClient } from '@/lib/payload'
@@ -60,31 +59,24 @@ export async function Footer() {
                   className="sc-link"
                   aria-label={label}
                 >
-                  <Image src={icon} alt={label} width={18} height={18} />
+                  <img src={icon} alt={label} width={18} height={18} />
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Bottom row: logo + nav */}
+        {/* Bottom row: nav links */}
         <div className="footer-bottom">
-          <Link href="/" aria-label="pamgnn home">
-            <Image
-              src="/images/logo.png"
-              alt="pamgnn"
-              width={72}
-              height={72}
-              style={{ width: '60px', height: 'auto', filter: 'brightness(10) saturate(0)' }}
-            />
-          </Link>
-          <nav className="footer-nav-links" aria-label="Footer navigation">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="footer-nav-link">
-                {link.label}
-              </Link>
+          <ul className="footer-nav-links" role="list">
+            {navLinks.map(({ label, href }) => (
+              <li key={label}>
+                <Link href={href} className="footer-nav-link">
+                  {label}
+                </Link>
+              </li>
             ))}
-          </nav>
+          </ul>
         </div>
       </div>
     </footer>

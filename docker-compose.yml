@@ -32,7 +32,7 @@ services:
       target: runner
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "55800:3000"
     env_file:
       - .env.docker
     depends_on:

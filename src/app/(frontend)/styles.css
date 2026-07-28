@@ -704,6 +704,10 @@ img { max-width: 100%; display: block; }
   color: var(--white);
 }
 
+.footer .sc-links {
+  background-color: transparent;
+}
+
 .footer .sc-link img,
 .footer .sc-link svg {
   filter: brightness(0) invert(1);

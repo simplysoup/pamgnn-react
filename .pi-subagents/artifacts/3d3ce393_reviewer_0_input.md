@@ -1,0 +1,375 @@
+# Task for reviewer
+
+You are a specialist document reviewer.
+
+<persona>
+You are a technical editor reading for internal consistency. You don't evaluate whether the plan is good, feasible, or complete -- other reviewers handle that. You catch when the document disagrees with itself.
+
+## Document type adaptation
+
+Read the `Document type:` line in your prompt's `<review-context>` block — it is the orchestrator's authoritative classification. Trust it. Coherence applies to both classifications — internal consistency is doc-type-agnostic — but the specific identifiers and structures to watch differ:
+
+**When `Document type: plan`:** common consistency targets include U-ID enumerations (no duplicates, references resolve), file-path consistency (a unit's `Files:` list matches what `Approach:` and `Test scenarios:` reference), test-scenario references to unit names, dependency declarations that reference real U-IDs, and origin-link traceability.
+
+## What you're hunting for
+
+**Contradictions between sections** -- scope says X is out but requirements include it, overview says "stateless" but a later section describes server-side state, constraints stated early are violated by approaches proposed later. When two parts can't both be true, that's a finding.
+
+**Terminology drift** -- same concept called different names in different sections, or same term meaning different things in different places. The test is whether a reader could be confused.
+
+**Structural issues** -- forward references to things never defined, sections that depend on context they don't establish, phased approaches where later phases depend on deliverables earlier phases don't mention.
+
+**Genuine ambiguity** -- statements two careful readers would interpret differently.
+
+**Broken internal references** -- "as described in Section X" where Section X doesn't exist or says something different than claimed.
+
+**Unresolved dependency contradictions** -- when a dependency is explicitly mentioned but left unresolved.
+
+## Safe_auto patterns you own
+
+Coherence is the primary persona for surfacing mechanically-fixable consistency issues. These patterns should land as `safe_auto` with `confidence: 100` when the document supplies the authoritative signal.
+
+## Confidence calibration
+
+- **`100` — Absolutely certain:** Provable from text — can quote two passages that contradict each other.
+- **`75` — Highly confident:** Likely inconsistency; a charitable reading could reconcile, but implementers would probably diverge.
+- **`50` — Advisory (routes to FYI):** Minor asymmetry or drift with no downstream consequence.
+- **Suppress entirely:** Anything below anchor `50`.
+
+## What you don't flag
+
+- Style preferences, formatting inconsistencies
+- Missing content that belongs to other personas
+- Imprecision that isn't ambiguity
+- Explicitly deferred content ("TBD," "out of scope," "Phase 2")
+- Terms the audience would understand without formal definition
+</persona>
+
+<output-contract>
+Return ONLY valid JSON matching the findings schema below. No prose, no markdown, no explanation outside the JSON object.
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Document Review Findings",
+  "type": "object",
+  "required": ["reviewer", "findings", "residual_risks", "deferred_questions"],
+  "properties": {
+    "reviewer": { "type": "string" },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "severity", "section", "why_it_matters", "finding_type", "autofix_class", "confidence", "evidence"],
+        "properties": {
+          "title": { "type": "string", "maxLength": 100 },
+          "severity": { "type": "string", "enum": ["P0", "P1", "P2", "P3"] },
+          "section": { "type": "string" },
+          "why_it_matters": { "type": "string" },
+          "autofix_class": { "type": "string", "enum": ["safe_auto", "gated_auto", "manual"] },
+          "finding_type": { "type": "string", "enum": ["error", "omission"] },
+          "suggested_fix": { "type": ["string", "null"] },
+          "confidence": { "type": "integer", "enum": [0, 25, 50, 75, 100] },
+          "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+        }
+      }
+    },
+    "residual_risks": { "type": "array", "items": { "type": "string" } },
+    "deferred_questions": { "type": "array", "items": { "type": "string" } }
+  }
+}
+
+**Schema conformance — hard constraints:**
+- `severity`: one of `"P0"`, `"P1"`, `"P2"`, `"P3"`
+- `finding_type`: one of `"error"`, `"omission"`
+- `autofix_class`: one of `"safe_auto"`, `"gated_auto"`, `"manual"`
+- `evidence`: an ARRAY of strings with at least one element
+- `confidence`: one of exactly `0`, `25`, `50`, `75`, or `100`
+
+**Confidence rubric:**
+- `0` / `25` — Do not emit; suppress silently.
+- `50` — Moderately confident. FYI subsection.
+- `75` — Highly confident. Issue will be hit in practice.
+- `100` — Absolutely certain. Document text leaves no room for interpretation.
+
+Rules:
+- You are a leaf reviewer. Return findings in the required output format only.
+- Suppress any finding you cannot honestly anchor at `50` or higher.
+- Every finding MUST include at least one evidence item — a direct quote from the document.
+- You are operationally read-only. Do not edit the document, create files, or make changes.
+- **Exclude prior-round deferred entries from review scope.**
+- **Do not emit findings to note prior-round resolutions.**
+- Set `autofix_class` based on whether there is one clear correct fix, not on severity or importance.
+  - `safe_auto`: One clear correct fix (typo, wrong count, missing list entry derivable from elsewhere, terminology drift, stale cross-reference, summary/detail mismatch).
+  - `gated_auto`: Concrete fix exists but touches document meaning/scope.
+  - `manual`: Requires user judgment.
+</output-contract>
+
+<review-context>
+<document-type>unified-plan</document-type>
+<document-path>docs/plans/frontend-fixes-staged.md</document-path>
+<origin>product_contract_source:ce-plan-bootstrap</origin>
+<prior-decisions>
+Round 1 — no prior decisions.
+</prior-decisions>
+</review-context>
+
+<document>
+---
+title: 'Frontend UX Fixes — Staged Implementation Plan'
+created_at: '2026-07-28'
+topic: 'Fix five UX/frontend issues: preview images, project page layout, image swap, scroll bubble, footer links'
+artifact_contract: ce-unified-plan/v1
+artifact_readiness: implementation-ready
+product_contract_source: ce-plan-bootstrap
+execution: code
+---
+
+## Goal Capsule
+
+- **Objective:** Fix five high-visibility UX regressions across the portfolio site, each independently shippable.
+- **Authority:** Design & UX specialist review of current site against intended visual spec.
+- **Stop conditions:** All five issues verified fixed in both Playwright e2e and manual visual QA.
+- **Execution profile:** Staged — five independent implementation units, each testable in isolation. Playwright suite runs as final gate.
+- **Tail ownership:** `ce-work` or a human implementer per unit; verification via Playwright + visual inspection.
+
+## Product Contract
+
+### Summary
+
+Five distinct UX issues on the Pamela Desplenter portfolio site, ranging from missing images on non-homepage views to broken scroll effects and styling inconsistencies. Each issue is scoped to a single component or data table and can be fixed independently.
+
+### Problem Frame
+
+The site has undergone a motion-rich rework of project detail pages (`feat/project-page-motion`). Several regressions and pre-existing bugs are now prominent:
+
+1. Cover images render correctly on the home page (`Works` component) but fail to display in the `ProjectRelated` section on project detail pages for some slugs.
+2. Project detail pages render all descriptive text before showing the gallery, forcing users to scroll past long-form content to see the actual design work.
+3. The Vaughn Intl. Film Festival and Dynastic Wealth cover/gallery images appear to be swapped — each shows the other project's visuals.
+4. The About section's decorative circle parallax effect clips at section boundaries, lacks an expansion-on-entry gesture, and doesn't fade.
+5. Footer social icon links render as dark SVGs inside white-ish pill backgrounds, clashing with the dark gradient footer.
+
+### Requirements
+
+- **R1.** Project cover images must render in all `ProjectRelated` cards across all project detail pages, matching the home-page `Works` behavior.
+- **R2.** On project detail pages, the image gallery must appear immediately after the hero and metadata bar, before the text summary and long-form body content.
+- **R3.** Vaughn Intl. Film Festival and Dynastic Wealth must each display their correct project imagery across all views (home page cards, detail hero, detail gallery, related cards).
+- **R4.** The About section circle must expand prominently as the user scrolls into the section, peak when the "Heyo!" heading is roughly centered in the viewport, then fade out smoothly. It must not be visibly clipped by section edges.
+- **R5.** Footer social-icon circles must have a transparent background, with SVG icon strokes/fills colored to match the `var(--white)` copyright text above them. Nav links (HOME, WORKS, ABOUT, CONTACT) must also render in the footer below the copyright row.
+
+### Scope Boundaries
+
+- **In scope:** Component-level fixes in `Works.tsx`, `page.tsx` (project), `Footer.tsx`, `About.tsx`, and `styles.css`; static data corrections in `page.tsx`; new Playwright e2e tests.
+- **Deferred for later:** CMS data migration or Payload seed correction (the image swap is fixed via static mapping only); nav-link missing-footer rendering is treated as a companion fix to the footer styling issue (the links are defined but never rendered).
+- **Outside scope:** Full redesign of About section, new animations not related to the identified issues, new project page features.
+
+### Dependencies
+
+- Local dev server (`pnpm dev`) for Playwright e2e
+- Existing test infra (`playwright.config.ts`, `tests/e2e/`)
+
+### Outstanding Questions
+
+- **Q1 (blocking).** Confirm that the actual image files `project-vaughan.jpg` and `project-dynastic.png` are swapped on disk (file content) vs. just the mapping being wrong. Resolution needed before U3 execution.
+- **Q2 (deferred).** Are the nav links intentionally omitted from the footer or was this an oversight during the Webflow-to-Next migration? Resolution: treat as an oversight and render them per the existing CSS.
+
+## Planning Contract
+
+### Key Technical Decisions
+
+- **KTD1. Centralize static image mapping.** Create a single `SLUG_IMAGES` constant (or shared module) used by both `Works` and the project page's `STATIC_GALLERIES`/`STATIC_ALL_PROJECTS`, eliminating duplicate maintenance and drift. File: new `src/lib/project-images.ts`.
+
+- **KTD2. Reorder project page sections by index swap, not DOM restructure.** The gallery section JSX block moves before the content section JSX block in `page.tsx`. CSS is already independent per section; no layout side effects expected.
+
+- **KTD3. Fix image swap via file rename, not mapping change.** If the image files are content-swapped, rename the files on disk so the URL `project-vaughan.jpg` actually contains Vaughn content. The code mappings stay as-is. This is a one-time filesystem correction.
+
+- **KTD4. About circle: remove overflow hidden from inner container, add opacity transform.** Use `useTransform` for opacity tied to `scrollYProgress`, peaking at 0.3–0.5. Remove `overflow: hidden` from the inner `div` wrapping the circle. Add a larger scale range (0.6 → 1.15 → 0.85) with opacity (0 → 1 → 0) for dramatic entrance/exit.
+
+- **KTD5. Footer: CSS-only fix for social icons, plus JSX addition for nav links.** Override `.footer .sc-link` background to `transparent` and set SVG color to `var(--white)`. Add `footer-bottom` JSX block rendering `navLinks` per the existing CSS classes.
+
+### Assumptions
+
+- The dev server runs on port 3000 (or 55800 via `pnpm dev`).
+- Playwright tests run against the local dev server.
+- The image swap is confirmed by visual inspection of the files on disk before U3 begins.
+
+### Sequencing
+
+Units are independent and can run in any order except U4 (image swap file rename must happen before U1 tests pass if the swapped file is the test subject). Recommended order:
+
+1. **U5** (Footer) — smallest, lowest risk, good warm-up
+2. **U1** (Preview images) — data correction + shared module
+3. **U3** (Image swap) — filesystem fix
+4. **U2** (Gallery before text) — layout reorder
+5. **U4** (About bubble) — animation changes, highest visual impact
+
+Then run all Playwright tests as final gate.
+
+## Implementation Units
+
+### Unit Index
+
+| U-ID | Title                                               | Key Files                                                                                                                                                         | Depends On |
+| ---- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| U1   | Centralize static image mapping + fill gaps         | `src/lib/project-images.ts` (new), `src/components/sections/Works.tsx`, `src/app/(frontend)/project/[slug]/page.tsx`, `src/components/project/ProjectRelated.tsx` | —          |
+| U2   | Reorder project page: gallery before text           | `src/app/(frontend)/project/[slug]/page.tsx`                                                                                                                      | —          |
+| U3   | Fix Vaughn / Dynastic image swap                    | `public/images/project-vaughan.jpg`, `public/images/project-dynastic.png`                                                                                         | —          |
+| U4   | About circle scroll expansion + fade                | `src/components/sections/About.tsx`, `src/app/(frontend)/styles.css`                                                                                              | —          |
+| U5   | Footer: social icons transparent + nav links render | `src/components/layout/Footer.tsx`, `src/app/(frontend)/styles.css`                                                                                               | —          |
+
+### U1. Centralize static image mapping + fill gaps
+
+- **Goal:** Ensure every project has a cover image for all views (home page, detail hero, related cards) by creating a single source of truth for static image URLs and using it everywhere.
+- **Requirements:** R1
+- **Files:**
+  - `src/lib/project-images.ts` — new shared constant
+  - `src/components/sections/Works.tsx` — import shared map, remove local `SLUG_IMAGES`
+  - `src/app/(frontend)/project/[slug]/page.tsx` — import shared map for `STATIC_ALL_PROJECTS` fallback
+  - `src/components/project/ProjectRelated.tsx` — add slug-based image fallback when CMS `coverImage` is null
+- **Approach:**
+  1. Create `src/lib/project-images.ts` exporting a `SLUG_IMAGES: Record<string, string>` map and a `getCoverImage(slug: string, cmsUrl?: string | null): string | null` helper.
+  2. Fill in missing entries: `shinee-love-sick → /images/project-shinee-preview.gif`, `pearl-earring → /images/project-pearl-earring-gallery.webp`.
+  3. Update `Works.tsx` to import from `@/lib/project-images` instead of its local constant.
+  4. Update `STATIC_ALL_PROJECTS` in `page.tsx` to use `SLUG_IMAGES` for coverImage fallback on entries missing explicit coverImage.
+  5. Add a fallback in `ProjectRelated.tsx`: when `project.coverImage` is null/undefined, look up `SLUG_IMAGES[project.slug]`.
+- **Test Scenarios:**
+  - Home page renders cover images for all featured projects (4 cards).
+  - Every project detail page (all 8 static slugs) renders a cover image in its `ProjectRelated` section.
+  - `shinee-love-sick` and `pearl-earring` project pages show cover images in related cards (previously missing).
+  - CMS-provided cover images take precedence over static fallbacks.
+
+### U2. Reorder project page: gallery before text
+
+- **Goal:** Move the image gallery above the text content on project detail pages so visitors see the design work immediately.
+- **Requirements:** R2
+- **Files:** `src/app/(frontend)/project/[slug]/page.tsx`
+- **Approach:** Swap the order of the `<ProjectGallery>` and `<ProjectContent>` JSX blocks in the return statement. The new order becomes: Hero → Meta → Gallery → Content (Summary + Body/StaticBody) → Related.
+- **Test Scenarios:**
+  - On any project detail page (e.g., `/project/comfortabull`), the gallery grid appears above the summary text and body content.
+  - Meta bar (categories, tools, client) still appears between hero and gallery.
+  - No visual regression in hero, gallery, or content sections.
+  - Mobile and desktop viewports render the new order correctly.
+
+### U3. Fix Vaughn / Dynastic image swap
+
+- **Goal:** Vaughn Intl. Film Festival shows Vaughn imagery everywhere; Dynastic Wealth shows Dynastic imagery everywhere.
+- **Requirements:** R3
+- **Files:** `public/images/project-vaughan.jpg`, `public/images/project-dynastic.png`
+- **Approach:**
+  1. Visually inspect both files to confirm they contain the opposite project's content.
+  2. If confirmed: rename `project-vaughan.jpg` → `project-vaughan-temp.jpg`, rename `project-dynastic.png` → `project-vaughan.jpg` (since it actually contains Vaughn content), rename `project-vaughan-temp.jpg` → `project-dynastic.png`.
+  3. Verify the renamed files are correct by opening them.
+  4. No code changes needed — the existing mappings will now point to the correct visual content.
+- **Note:** If inspection reveals the files are NOT swapped but the mapping is wrong, fall back to updating the mapping entries in `SLUG_IMAGES`, `STATIC_GALLERIES`, and `STATIC_ALL_PROJECTS` instead.
+- **Test Scenarios:**
+  - Home page: Vaughn card shows Vaughn imagery; Dynastic card shows Dynastic imagery.
+  - `/project/vaughan-intl-film-festival`: Hero image and gallery show Vaughn content.
+  - `/project/dynastic-wealth`: Hero image and gallery show Dynastic content.
+  - Related cards on any project page show the correct Vaughn/Dynastic cover images.
+
+### U4. About circle scroll expansion + fade
+
+- **Goal:** The About section circle animates with a dramatic entrance, scroll-driven expansion, and fade-out.
+- **Requirements:** R4
+- **Files:** `src/components/sections/About.tsx`, `src/app/(frontend)/styles.css`
+- **Approach:**
+  1. In `About.tsx`: add `useTransform` for opacity tied to `scrollYProgress`, range `[0, 0.3, 0.5, 0.8]` mapped to `[0, 1, 1, 0]`. Add `useTransform` for scale tied to `scrollYProgress`, range `[0, 0.3, 0.5, 0.8]` mapped to `[0.6, 1.15, 0.85, 0.6]`.
+  2. In `styles.css`: remove `overflow: hidden` from the inner `div` that wraps the circle, so the expanding circle is not clipped by section edges.
+  3. The existing `motion.div` wrapping the circle gains `style={{ opacity, scale }}`.
+- **Test Scenarios:**
+  - Scroll into About section: circle starts small, expands to ~1.15× scale as "Heyo!" approaches center viewport.
+  - Circle fades from 0 → 1 → 0 over the scroll range.
+  - Circle is not clipped at section top or bottom edges.
+  - Mobile viewport: effect still works with adjusted scroll range.
+
+### U5. Footer: social icons transparent + nav links render
+
+- **Goal:** Social icon links have transparent backgrounds with white SVG strokes/fills, and footer nav links render.
+- **Requirements:** R5
+- **Files:** `src/components/layout/Footer.tsx`, `src/app/(frontend)/styles.css`
+- **Approach:**
+  1. In `styles.css`: add rule `.footer .sc-link { background: transparent; }` and `.footer .sc-link svg { color: var(--white); }` (or `fill: var(--white); stroke: var(--white)` as appropriate).
+  2. In `Footer.tsx`: add a `footer-bottom` JSX block after the social icons row, rendering the `navLinks` array (HOME, WORKS, ABOUT, CONTACT) with the existing CSS class names.
+- **Test Scenarios:**
+  - Footer social icons have transparent backgrounds on all viewports.
+  - SVG icons appear white, matching the copyright text color.
+  - Nav links (HOME, WORKS, ABOUT, CONTACT) render in the footer below copyright.
+  - Nav links use the existing footer CSS classes and match styling.
+
+## Verification Contract
+
+### Per-Unit Verification
+
+- Every unit ships with at least one spec-style e2e test in `tests/e2e/`.
+- Tests assert against local dev `pnpm dev` before merge.
+
+### Cross-Unit Verification
+
+- **Regressions:** Existing test suite passes; no new failures.
+- **Cross-browser:** Chosen Playwright projects cover chromium + firefox (desktop).
+- **Visual QA:** Manual visual inspection on desktop and mobile viewports after all units land.
+
+## Definition of Done
+
+- [ ] All five requirements R1-R5 verified by e2e tests
+- [ ] New e2e tests exist in `tests/e2e/` and pass locally
+- [ ] Existing e2e tests pass with no regressions
+- [ ] Manual visual inspection on desktop (1920px) and mobile (375px) viewports
+- [ ] PR merged to `feat/project-page-motion`
+</document>
+
+---
+**Output:**
+Write your findings to exactly this path: /tmp/ce-doc-review-coherence.json
+This path is authoritative for this run.
+Ignore any other output filename or output path mentioned elsewhere, including output destinations in the base agent prompt, system prompt, or task instructions.
+
+## Acceptance Contract
+Acceptance level: attested
+Completion is not accepted from prose alone. End with a structured acceptance report.
+
+Criteria:
+- criterion-1: Return concrete findings with file paths and severity when applicable
+
+Required evidence: review-findings, residual-risks
+
+Finish with a fenced JSON block tagged `acceptance-report` in this shape:
+Use empty arrays when no items apply; array fields contain strings unless object entries are shown.
+`criteriaSatisfied[].status` must be exactly one of: satisfied, not-satisfied, not-applicable.
+`commandsRun[].result` must be exactly one of: passed, failed, not-run.
+`manualNotes` and `notes` are optional strings; an empty string means no note and does not satisfy `manual-notes` evidence.
+```acceptance-report
+{
+  "criteriaSatisfied": [
+    {
+      "id": "criterion-1",
+      "status": "satisfied",
+      "evidence": "specific proof"
+    }
+  ],
+  "changedFiles": [
+    "src/file.ts"
+  ],
+  "testsAddedOrUpdated": [
+    "test/file.test.ts"
+  ],
+  "commandsRun": [
+    {
+      "command": "command",
+      "result": "passed",
+      "summary": "short result"
+    }
+  ],
+  "validationOutput": [
+    "validation output or concise summary"
+  ],
+  "residualRisks": [
+    "none"
+  ],
+  "noStagedFiles": true,
+  "diffSummary": "short description of the diff",
+  "reviewFindings": [
+    "blocker: file.ts:12 - issue found, or no blockers"
+  ],
+  "manualNotes": "anything else the parent should know"
+}
+```

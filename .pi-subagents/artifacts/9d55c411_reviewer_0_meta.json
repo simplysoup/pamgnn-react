@@ -1,0 +1,97 @@
+{
+  "runId": "9d55c411",
+  "agent": "reviewer",
+  "task": "You are the Solution Extractor for a ce-compound run. Run ID: 20260728-203007-7082d613.\n\nWrite your FULL doc-body prose to the artifact file at:\n/tmp/compound-engineering/ce-compound/20260728-203007-7082d613/solution.md\n\nAfter writing, CONFIRM the file exists and is non-empty, then return ONLY the artifact path.\n\n## Problem being documented\n\nTwo connected problems in the pamgnn-react Next.js 16 + Docker project:\n\n### Problem 1: Docker healthcheck failing in Alpine container\nDocker Alpine containers resolve `localhost` to `::1` (IPv6 loopback). The Next.js 16 standalone production server (`node server.js`) reads `HOSTNAME=0.0.0.0` from the environment and only binds to `0.0.0.0:3000` (IPv4) — NOT on `[::]:3000` (IPv6). This causes Docker healthchecks using `wget http://localhost:3000/api/health` to fail with \"Connection refused\" because wget resolves `localhost` → `::1` → connects to `[::1]:3000` which isn't listening.\n\n### Problem 2: Next.js 16 dev server blocking external IP access\nNext.js 16 introduced an `allowedDevOrigins` security feature. When the dev server is accessed via an external IP address instead of `localhost`, every `/_next/static/chunks/*` request returns 500 Internal Server Error because the server rejects the mismatched Host header.\n\n## Track: Bug\n## Category: runtime-errors/\n\nWrite the doc-body prose for the bug track with these sections:\n\n## Problem\nWhen running a Next.js 16 app inside a Docker Alpine container, two routing issues arise:\n\n## Symptoms\n1. Docker healthcheck shows \"unhealthy\" even though the app serves HTTP 200 from the host\n2. Running `wget http://localhost:3000/api/health` inside the container fails with \"Connection refused\"\n3. Accessing the Next.js 16 dev server via an external/local IP (not localhost) causes all `_next/static/chunks/*` requests to return HTTP 500\n4. The healthcheck failure triggers container restarts or deployment rejections\n\n## What Didn't Work\n- Using `localhost` in the healthcheck URL — this was the original code, and it failed because Alpine resolves localhost to IPv6\n- Adding `--hostname 127.0.0.1` to the container — `HOSTNAME=0.0.0.0` env var was already set by the .env.docker file, overriding this\n- Checking if `localhost` resolves to IPv6 via `getent hosts localhost` confirmed the root cause\n- Clearing the .next cache and restarting the dev server didn't fix the external IP access issue - it was a Next.js security feature\n\n## Solution\n\n### Fix 1: Replace \"localhost\" with \"127.0.0.1\" in Docker healthcheck\nIn docker-compose.yml, change:\n```\ntest: [\"CMD-SHELL\", \"wget -qO- http://localhost:3000/api/health || exit 1\"]\n```\nto:\n```\ntest: [\"CMD-SHELL\", \"wget -qO- http://127.0.0.1:3000/api/health || exit 1\"]\n```\n`127.0.0.1` always resolves to the IPv4 loopback, matching the server's IPv4-only binding.\n\n### Fix 2: Add allowedDevOrigins to Next.js config\nIn next.config.ts, add:\n```\nallowedDevOrigins: ['*'],\n```\nThis permits the Next.js 16 dev server to accept requests from any origin, not just localhost. Without this, accessing the dev server via any external/local IP causes 500 errors on all static chunk files.\n\n## Why This Works\n- Alpine's `getent hosts localhost` maps `localhost` → `::1` (IPv6). The Next.js standalone server binds only to `0.0.0.0:3000` (IPv4) when `HOSTNAME=0.0.0.0` is set. The mismatch between IPv6 connection target and IPv4-only listener causes the \"Connection refused\". `127.0.0.1` is IPv4-only and matches the server's listener.\n- Next.js 16's `allowedDevOrigins` is a host-header validation feature. Without it, the dev server checks that the request's Host header matches the hostname it was initialized with (localhost). Requests from a different IP fail validation and return 500. `['*']` disables this check for development.\n\n## Prevention\n- In Docker healthcheck URLs, always use `127.0.0.1` instead of `localhost` when targeting an IPv4-only server inside an Alpine container\n- When adding `allowedDevOrigins` to next.config.ts, use `['*']` for development; for production, specify exact origins\n- Verify with `getent hosts localhost` inside a container to check if localhost resolves to IPv6\n- Verify with `ss -tlnp` which addresses the server is actually listening on",
+  "exitCode": 0,
+  "usage": {
+    "input": 9432,
+    "output": 3617,
+    "cacheRead": 74496,
+    "cacheWrite": 0,
+    "cost": 0.0025418288,
+    "turns": 7
+  },
+  "model": "deepseek/deepseek-v4-flash:high",
+  "attemptedModels": [
+    "deepseek/deepseek-v4-flash:high"
+  ],
+  "modelAttempts": [
+    {
+      "model": "deepseek/deepseek-v4-flash:high",
+      "success": true,
+      "exitCode": 0,
+      "usage": {
+        "input": 9432,
+        "output": 3617,
+        "cacheRead": 74496,
+        "cacheWrite": 0,
+        "cost": 0.0025418288,
+        "turns": 7
+      }
+    }
+  ],
+  "durationMs": 42526,
+  "toolCount": 12,
+  "launchContractDigest": "e56de705a5c0b7ca59577da2998d1972320938f4c11b7f86d955a68fa0c84be6",
+  "acceptance": {
+    "status": "rejected",
+    "evidenceStatus": "rejected",
+    "explicit": false,
+    "effectiveAcceptance": {
+      "level": "attested",
+      "explicit": false,
+      "inferredReason": [
+        "read-only/reviewer-style agent"
+      ],
+      "criteria": [
+        {
+          "id": "criterion-1",
+          "must": "Return concrete findings with file paths and severity when applicable",
+          "evidence": [
+            "review-findings",
+            "residual-risks"
+          ],
+          "severity": "required"
+        }
+      ],
+      "evidence": [
+        "review-findings",
+        "residual-risks"
+      ],
+      "verify": [],
+      "stopRules": []
+    },
+    "inferredReason": [
+      "read-only/reviewer-style agent"
+    ],
+    "criteria": [
+      {
+        "id": "criterion-1",
+        "must": "Return concrete findings with file paths and severity when applicable",
+        "evidence": [
+          "review-findings",
+          "residual-risks"
+        ],
+        "severity": "required"
+      }
+    ],
+    "runtimeChecks": [
+      {
+        "id": "attestation",
+        "status": "failed",
+        "message": "Structured acceptance report not found."
+      }
+    ],
+    "verifyRuns": [],
+    "childReportParseError": "Structured acceptance report not found."
+  },
+  "effects": {
+    "fileMutation": {
+      "status": "not-applicable",
+      "expected": false,
+      "attempted": true
+    }
+  },
+  "transcriptPath": "/home/soup/pamgnn-react/.pi-subagents/artifacts/9d55c411_reviewer_0_transcript.jsonl",
+  "timestamp": 1785270810997
+}

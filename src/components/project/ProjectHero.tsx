@@ -1,46 +1,37 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
-import Image from 'next/image'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 /* ─── Easing ───────────────────────────────────────────── */
 const easeOutExpo = [0.22, 1, 0.36, 1] as [number, number, number, number]
-const easeInOut = [0.76, 0, 0.24, 1] as [number, number, number, number]
 
-/* ─── Container variants ───────────────────────────────── */
-const container = {
+/* ─── Letter variants ──────────────────────────────────── */
+const letterContainer = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.03, delayChildren: 0.6 },
+    transition: { staggerChildren: 0.025, delayChildren: 0.15 },
   },
 }
 
 const letterVariant = {
-  hidden: { y: 80, opacity: 0, rotateX: -20 },
+  hidden: { y: 40, opacity: 0 },
   show: {
     y: 0,
     opacity: 1,
-    rotateX: 0,
-    transition: { duration: 0.5, ease: easeOutExpo },
+    transition: { duration: 0.4, ease: easeOutExpo },
   },
 }
 
 /* ─── Props ─────────────────────────────────────────────── */
 type ProjectHeroProps = {
   title: string
-  accentColor: string
-  coverImage?: string | null
+  summary: string
 }
 
-export function ProjectHero({ title, accentColor, coverImage }: ProjectHeroProps) {
+export function ProjectHero({ title, summary }: ProjectHeroProps) {
   const [heroLoaded, setHeroLoaded] = useState(false)
-
-  // Scroll-driven parallax for the cover image
-  const { scrollYProgress } = useScroll()
-  const imageY = useTransform(scrollYProgress, [0, 0.3], [0, 120])
-  const imageScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.08])
 
   useEffect(() => {
     // Trigger the entrance sequence after mount
@@ -50,56 +41,22 @@ export function ProjectHero({ title, accentColor, coverImage }: ProjectHeroProps
 
   // Split title into characters for letter-by-letter reveal
   const chars = title.split('').map((ch, i) => {
-    // Keep spaces as visible spaces
     if (ch === ' ') return { char: '\u00A0', key: `space-${i}` }
     return { char: ch, key: `char-${i}` }
   })
 
+  // Split summary into words for word-by-word reveal
+  const words = (summary || '').split(/\s+/).filter(Boolean)
+
   return (
-    <header className="project-hero" style={{ backgroundColor: accentColor }}>
-      {/* ── Accent sweep overlay ── */}
-      <motion.div
-        className="project-hero-sweep"
-        initial={{ scaleX: 0 }}
-        animate={heroLoaded ? { scaleX: 1 } : {}}
-        transition={{ duration: 0.9, ease: easeInOut, delay: 0 }}
-        style={{ originX: 0, backgroundColor: accentColor }}
-      />
-
-      {/* ── Cover image with parallax ── */}
-      {coverImage && (
-        <motion.div
-          className="project-hero-image-wrap"
-          style={{ y: imageY, scale: imageScale }}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={heroLoaded ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 1.2, ease: easeOutExpo, delay: 0.15 }}
-            className="project-hero-image-inner"
-          >
-            <Image
-              src={coverImage}
-              alt={title}
-              fill
-              className="project-hero-image"
-              priority
-              sizes="100vw"
-            />
-          </motion.div>
-          {/* Overlay gradient */}
-          <div className="project-hero-gradient" />
-        </motion.div>
-      )}
-
-      {/* ── Content layer ── */}
-      <div className="project-hero-content">
-        <div className="container project-hero-container">
+    <section className="project-hero">
+      <div className="container">
+        <div className="project-hero-inner">
           {/* Back link */}
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -6 }}
             animate={heroLoaded ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, ease: easeOutExpo, delay: 0.3 }}
+            transition={{ duration: 0.3, ease: easeOutExpo, delay: 0.05 }}
           >
             <Link
               href="/work/web-design"
@@ -115,7 +72,7 @@ export function ProjectHero({ title, accentColor, coverImage }: ProjectHeroProps
           {/* Letter-by-letter title */}
           <motion.h1
             className="project-hero-title"
-            variants={container}
+            variants={letterContainer}
             initial="hidden"
             animate={heroLoaded ? 'show' : 'hidden'}
             aria-label={title}
@@ -131,8 +88,37 @@ export function ProjectHero({ title, accentColor, coverImage }: ProjectHeroProps
               </motion.span>
             ))}
           </motion.h1>
+
+          {/* Summary paragraph */}
+          {words.length > 0 ? (
+            <motion.div
+              className="project-hero-summary"
+              initial={{ opacity: 0, y: 12 }}
+              animate={heroLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, ease: easeOutExpo, delay: 0.5 }}
+            >
+              <p className="project-hero-summary-text">
+                {words.map((word, i) => (
+                  <span key={`${word}-${i}`} className="project-hero-word-wrap">
+                    <motion.span
+                      className="project-hero-word"
+                      initial={{ y: 12, opacity: 0 }}
+                      animate={heroLoaded ? { y: 0, opacity: 1 } : {}}
+                      transition={{
+                        duration: 0.35,
+                        ease: easeOutExpo,
+                        delay: 0.55 + i * 0.025,
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                  </span>
+                ))}
+              </p>
+            </motion.div>
+          ) : null}
         </div>
       </div>
-    </header>
+    </section>
   )
 }

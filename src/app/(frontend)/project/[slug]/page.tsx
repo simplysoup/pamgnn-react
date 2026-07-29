@@ -4,7 +4,6 @@ import { ProjectBody } from '@/components/project/ProjectBody'
 import { ProjectGallery } from '@/components/project/ProjectGallery'
 import { ProjectHero } from '@/components/project/ProjectHero'
 import { ProjectRelated } from '@/components/project/ProjectRelated'
-import { ProjectSummary } from '@/components/project/ProjectSummary'
 import { StaticBody } from '@/components/project/StaticBody'
 
 import { StructuredBody } from '@/components/project/StructuredBody'
@@ -31,7 +30,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
   'comfortabull': {
     title: 'Comfortabull',
     accentColor: '#141d37',
-    summary: 'Brand identity and full brand design for a bulldog-focused doggy daycare.',
+    summary: 'Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need.',
     client: 'Comfortabull',
     categories: ['branding'],
     contentHtml: `<p>Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need. Comfortabull offers group stays, or private, to fit your pup perfectly. With this in mind, they wanted their new logo to feature both bulldog varieties, have a cozy but professional vibe, with an interest in hatchwork styling. The illustration style pulls formline style which gives a nod to the owners indigenous culture, ancestry, and residence.</p>`,
@@ -299,9 +298,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const tools = Array.isArray(project.tools) ? project.tools : (STATIC_PROJECTS[slug]?.tools ?? null)
   const categories = Array.isArray(project.categories) ? project.categories : (STATIC_PROJECTS[slug]?.categories ?? null)
   const galleryRaw = Array.isArray(project.gallery) ? project.gallery : []
-  const coverImageUrl = typeof project.coverImage === 'object' && project.coverImage && 'url' in project.coverImage
-    ? String(project.coverImage.url)
-    : (STATIC_PROJECTS[slug]?.coverImage ?? null)
+  const coverImageUrl = null
 
   // Build gallery image list from CMS or static fallback
   const galleryImages: { src: string; alt: string }[] = []
@@ -334,11 +331,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <>
-      {/* ── Motion hero with accent sweep + letter reveal ── */}
+      {/* ── Hero with letter reveal + summary ── */}
       <ProjectHero
         title={title}
-        accentColor={accentColor}
-        coverImage={coverImageUrl}
+        summary={summary}
       />
 
       {/* ── Project metadata (category, tools, client) ── */}
@@ -390,8 +386,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <section className="project-content-section">
         <div className="container">
           <div className="project-body">
-            {/* Summary with word-by-word reveal */}
-            {summary ? <ProjectSummary summary={summary} /> : null}
+            {/* Summary shown in hero — no duplicate here */}
 
             {/* Rich text body from CMS */}
             {content ? (

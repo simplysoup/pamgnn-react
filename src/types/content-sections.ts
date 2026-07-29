@@ -22,6 +22,7 @@ export type SectionFullWidthImage = {
   src: string
   alt: string
   width?: number
+  height?: number
 }
 
 export type SidebarDetail = {
@@ -41,6 +42,7 @@ export type ImageSection = {
   src: string
   alt: string
   width?: number
+  height?: number
 }
 
 export type SectionSideBySide = {

@@ -41,6 +41,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
         src: '/images/project-comfortabull/brand-presentation-cover.webp',
         alt: 'Comfortabull Brand Presentation',
         width: 1650,
+        height: 1275,
       },
       {
         type: 'detailsGrid',
@@ -62,6 +63,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
         src: '/images/project-comfortabull/second-sketch.webp',
         alt: 'Ideation sketch',
         width: 1921,
+        height: 1081,
       },
       {
         type: 'detailsGrid',
@@ -78,6 +80,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
         src: '/images/project-comfortabull/third-sketch.webp',
         alt: 'Third design sketch',
         width: 1921,
+        height: 1080,
       },
       {
         type: 'sideBySide',
@@ -85,11 +88,13 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
           src: '/images/project-comfortabull/third-pt1-process.webp',
           alt: 'Process step 1',
           width: 1081,
+          height: 1081,
         },
         right: {
           src: '/images/project-comfortabull/third-pt2-process.webp',
           alt: 'Process step 2',
           width: 1001,
+          height: 1001,
         },
       },
       {
@@ -103,6 +108,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
         src: '/images/project-comfortabull/fourth-typeface.webp',
         alt: 'Typeface exploration',
         width: 1921,
+        height: 1081,
       },
       {
         type: 'text',
@@ -114,11 +120,13 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
           src: '/images/project-comfortabull/fourth-pt2-social.webp',
           alt: 'Social branding 1',
           width: 1001,
+          height: 1001,
         },
         right: {
           src: '/images/project-comfortabull/fourth-pt1-social.webp',
           alt: 'Social branding 2',
           width: 1081,
+          height: 1081,
         },
       },
     ],

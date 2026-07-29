@@ -24,7 +24,7 @@ export function SectionSideBySide({ left, right }: SectionSideBySideType) {
       transition={{ duration: 0.7, ease: easeOutExpo }}
     >
       <div className="content-side-by-side">
-        <div className="content-full-image" style={{ aspectRatio: left.width ? `${left.width} / auto` : '4 / 3' }}>
+        <div className="content-full-image" style={{ aspectRatio: left.width && left.height ? `${left.width} / ${left.height}` : '4 / 3' }}>
           <Image
             src={left.src}
             alt={left.alt}
@@ -33,7 +33,7 @@ export function SectionSideBySide({ left, right }: SectionSideBySideType) {
             className="content-full-image-img"
           />
         </div>
-        <div className="content-full-image" style={{ aspectRatio: right.width ? `${right.width} / auto` : '4 / 3' }}>
+        <div className="content-full-image" style={{ aspectRatio: right.width && right.height ? `${right.width} / ${right.height}` : '4 / 3' }}>
           <Image
             src={right.src}
             alt={right.alt}

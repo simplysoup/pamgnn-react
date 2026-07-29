@@ -11,12 +11,12 @@ const easeOutExpo = [0.22, 1, 0.36, 1] as [number, number, number, number]
 /**
  * Renders a full-width image section with responsive sizing and border-radius.
  */
-export function SectionFullWidthImage({ src, alt, width }: SectionFullWidthImageType) {
+export function SectionFullWidthImage({ src, alt, width, height }: SectionFullWidthImageType) {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-60px 0px' })
 
-  // Use a default aspect ratio if width is unknown
-  const aspectRatio = width ? `${width} / auto` : '16 / 9'
+  // Compute aspect ratio from width and height if both known
+  const aspectRatio = width && height ? `${width} / ${height}` : '16 / 9'
 
   return (
     <motion.section

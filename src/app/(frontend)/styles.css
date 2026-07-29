@@ -1544,7 +1544,6 @@ img { max-width: 100%; display: block; }
   .project-gallery-section { padding: 32px 0 48px; }
   .project-related { padding: 48px 0 64px; }
   .project-hero { min-height: 40vh; }
-  .content-section { padding: 40px 0; }
   .content-side-by-side { grid-template-columns: 1fr; gap: 16px; }
   .content-grid-12 { grid-template-columns: 1fr; gap: 24px; }
   .content-sidebar { grid-column: span 12; }
@@ -1673,4 +1672,8 @@ img { max-width: 100%; display: block; }
 
 .content-text-body p:last-child {
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .content-section { padding: 40px 0; }
 }

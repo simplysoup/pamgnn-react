@@ -36,5 +36,17 @@ export const SiteSettings: GlobalConfig = {
       name: 'copyright',
       type: 'text',
     },
+    {
+      name: 'heroLine1',
+      type: 'text',
+    },
+    {
+      name: 'heroLine2',
+      type: 'text',
+    },
+    {
+      name: 'heroLine3',
+      type: 'text',
+    },
   ],
 }

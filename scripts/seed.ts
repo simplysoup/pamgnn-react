@@ -58,6 +58,9 @@ async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>>) {
       linkedin: siteSettingsSeedDefaults.linkedin,
       vimeo: siteSettingsSeedDefaults.vimeo,
       copyright: siteSettingsSeedDefaults.copyright,
+      heroLine1: siteSettingsSeedDefaults.heroLine1,
+      heroLine2: siteSettingsSeedDefaults.heroLine2,
+      heroLine3: siteSettingsSeedDefaults.heroLine3,
     },
   })
   console.log('  ✓ SiteSettings seeded.')

@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 const links = [
   { label: 'HOME', href: '/' },
@@ -16,30 +16,97 @@ const links = [
 ]
 
 export function Navbar() {
+  const menuRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
+  const isHomePage = pathname === '/'
 
   useEffect(() => { setOpen(false) }, [pathname])
 
+  // Focus trap: when menu opens, focus the close button
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    if (open && menuRef.current) {
+      const closeBtn = menuRef.current.querySelector<HTMLButtonElement>('.mobile-menu-close')
+      closeBtn?.focus()
+    }
+  }, [open])
+
+  // Hash navigation: after route change, scroll to the hash target section
+  useEffect(() => {
+    if (pathname === '/' && window.location.hash) {
+      const id = window.location.hash.slice(1)
+      const el = document.getElementById(id)
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100)
+      }
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (isHomePage) {
+        // EASING: to apply a custom scroll-to-progress curve, transform the raw
+        // ratio below before clamping, e.g. via a cubic-bezier lookup table.
+        const tickerEl = document.querySelector('.ticker-outer')
+        const maxScroll = tickerEl
+          ? Math.max(tickerEl.getBoundingClientRect().top + window.scrollY - 100, 100)
+          : Math.max(window.innerHeight, 320)
+        const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll))
+        setScrollProgress(progress)
+        setScrolled(progress > 0.15 || window.scrollY > 20)
+      } else {
+        setScrollProgress(1)
+        setScrolled(window.scrollY > 20)
+      }
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
     onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [isHomePage])
+
+  const heroProgress = Math.min(1, Math.max(0, scrollProgress))
+  const shellWidth = isHomePage ? `${100 - heroProgress * 5}%` : '95%'
+  const shellOpacity = isHomePage ? heroProgress : 1
+  const backgroundColor = isHomePage
+    ? `rgba(255, 255, 255, ${0.92 * heroProgress})`
+    : scrolled
+      ? 'rgba(255,255,255,0.92)'
+      : 'rgba(255,255,255,0.5)'
+  const boxShadow = isHomePage
+    ? heroProgress > 0.2
+      ? '0 4px 24px rgba(18,24,26,0.13)'
+      : 'none'
+    : scrolled
+      ? '0 4px 24px rgba(18,24,26,0.13)'
+      : '0 2px 5px rgba(42,38,46,0.25)'
 
   return (
     <>
       <nav
         className="navbar"
         style={{
-          boxShadow: scrolled
-            ? '0 4px 24px rgba(18,24,26,0.13)'
-            : '0 2px 5px rgba(42,38,46,0.25)',
-          backgroundColor: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.5)',
+          width: shellWidth,
+          
+          
         }}
       >
+        <div
+          className="navbar-shell"
+          style={{
+            backgroundColor,
+            boxShadow,
+            opacity: shellOpacity,
+            
+          }}
+        />
         <div className="navbar-inner">
           <Link href="/" aria-label="pamgnn home" className="navbar-logo">
             <Image
@@ -79,6 +146,7 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
             className="mobile-menu"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}

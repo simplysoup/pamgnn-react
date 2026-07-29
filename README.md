@@ -79,6 +79,10 @@ Key variables include:
 pnpm vitest run --config ./vitest.config.mts tests/int/contact-action.int.spec.ts
 ```
 
+## Docker permissions on remote hosts
+
+If Docker Compose needs sudo on your remote machine, the host is usually denying your user access to the Docker daemon socket. See [docs/docker-permissions.md](docs/docker-permissions.md) for the standard fix.
+
 ## Makefile workflow
 
 A Makefile is included for the most common commands:

@@ -52,7 +52,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
     accentColor: '#1a1a2e',
     summary: 'Visual identity for a financial advisory firm.',
     client: 'Dr. Latanya White',
-    categories: ['identity'],
+    categories: ['identity', 'web-design'],
     contentHtml: `<p>Financial wellness and building generational wealth through culturally relevant training.</p><p>With a focus on building and creating intergenerational wealth Dr. Latanya White wanted a refresh of her brand and a new website. The website would serve as her base point for displaying future talks and features, promoting her services, and giving support with more than just financial wealth.</p><p>To start, we began with the logo first; with Dr. Latanya wanted to use the logo for the parent company Concept Creative Group, LLC as a starting point to build from with the peacock iconography.</p><p>At first I very simply tried to use a peacock and the iconic feathers to integrate the wealth aspect. Then moved on to combining the peacock and gold with her focus on uplifting families and generational wealth through the couple and egg.</p><p><strong>Symbolism:</strong></p><p><strong>Couple:</strong> Depicts mentorship, community, and the tie with egg to show generational transfer of wealth</p><p><strong>Peacock:</strong> Shows success, ties to Concept Creative Group LLC, and vibrant wealth</p><p><strong>Egg:</strong> The nest egg, protected assets, new beginnings and the tie to the couple</p>`,
   },
   'shinee-love-sick': {
@@ -84,7 +84,7 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
     accentColor: '#e67e22',
     summary: 'Social content packages for various client campaigns.',
     client: 'Various',
-    categories: ['illustration', 'motion'],
+    categories: ['illustration', 'motion', 'web-design'],
     contentHtml: `<p>A collection of social media graphics and advertisements designed for various clients across different industries — including BOW, Centanni, 21 Stages, Premier Care, HSM, OsoHair, Alcan, and more.</p>`,
   },
 }

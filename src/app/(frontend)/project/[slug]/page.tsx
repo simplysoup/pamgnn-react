@@ -6,6 +6,8 @@ import { ProjectHero } from '@/components/project/ProjectHero'
 import { ProjectRelated } from '@/components/project/ProjectRelated'
 import { ProjectSummary } from '@/components/project/ProjectSummary'
 import { StaticBody } from '@/components/project/StaticBody'
+
+import { StructuredBody } from '@/components/project/StructuredBody'
 import { getPayloadClient } from '@/lib/payload'
 
 type ProjectPageProps = {
@@ -29,9 +31,97 @@ const STATIC_PROJECTS: Record<string, StaticProject> = {
   'comfortabull': {
     title: 'Comfortabull',
     accentColor: '#141d37',
-    summary: 'Brand identity and web design for a comfort food restaurant.',
-    categories: ['identity', 'web-design'],
-    contentHtml: `<p>Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need. Comfortabull offers group stays, or private, to fit your pup perfectly. With this in mind, they wanted their new logo to feature both bulldog varieties, have a cozy but professional vibe, with an interest in hatchwork styling. The illustration style pulls formline style which gives a nod to the owners indigenous culture, ancestry, and residence.</p><p>First on my list, I had to figure out how I wanted to approach the bulldogs. I spent some time looking at and drawing French and English bulldogs and their key features. As we wanted both dogs and a cozy vibe I leaned towards having them both in a doggy bed together.</p><p>But another idea was to have the dogs be able to separate; and use them as 2 individual elements which made the doggy bed idea harder to work with so I also looked at stacking the dogs, having them face each other, and standing side by side.</p><p>Luckily, the graphic came together nicely, with the circle and dogs inside and a cute paw heart touch! With the lineart and crosshatching set, there weren't too many additional adjustments past the palette.</p><p><strong>NEXT UP: TYPEFACE</strong></p><p>I ran through options with a meld of sans serif and cursive font. With the client preferring a cursive expressive looping style to compliment the sans-serif. Then tested out the fonts with some key phrases they wanted to use for branding down the line; &ldquo;Life is Better with a Bulldog&rdquo;, &ldquo;Heavy Breathers Club&rdquo;, and &ldquo;Squish Face Crew&rdquo;. With the finalized font choice we went with the simplistic &ldquo;We Love Bulldogs&rdquo; stylizing love with the chosen Shaley typeface and Neutra Text combo.</p><p>Along with the logo design I provided Comfortabull with full branding for socials; including a set of custom social icons, template socials and stories, and banners for Facebook and Instagram. The template socials and stories were both designed in Canva and made to accommodate the free version, to provide easy access and adjustment capabilities for the client.</p>`,
+    summary: 'Brand identity and full brand design for a bulldog-focused doggy daycare.',
+    client: 'Comfortabull',
+    categories: ['branding'],
+    contentHtml: `<p>Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need. Comfortabull offers group stays, or private, to fit your pup perfectly. With this in mind, they wanted their new logo to feature both bulldog varieties, have a cozy but professional vibe, with an interest in hatchwork styling. The illustration style pulls formline style which gives a nod to the owners indigenous culture, ancestry, and residence.</p>`,
+    sections: [
+      {
+        type: 'fullWidthImage',
+        src: '/images/project-comfortabull/brand-presentation-cover.webp',
+        alt: 'Comfortabull Brand Presentation',
+        width: 1650,
+      },
+      {
+        type: 'detailsGrid',
+        sidebar: [
+          { label: 'Client', value: 'Comfortabull' },
+          { label: 'Category', tags: ['Branding'] },
+          { label: 'Our Role', value: 'Creative Direction, Full Brand Design' },
+          { label: 'Tools', toolSlugs: ['clip-studio', 'photoshop', 'illustrator'] },
+        ],
+        content: [
+          {
+            type: 'text',
+            html: '<p>Comfortabull offers group stays, or private, to fit your pup perfectly. With this in mind, they wanted their new logo to feature both bulldog varieties, have a cozy but professional vibe, with an interest in hatchwork styling. The illustration style pulls formline style which gives a nod to the owners indigenous culture, ancestry, and residence.</p>',
+          },
+        ],
+      },
+      {
+        type: 'fullWidthImage',
+        src: '/images/project-comfortabull/second-sketch.webp',
+        alt: 'Ideation sketch',
+        width: 1921,
+      },
+      {
+        type: 'detailsGrid',
+        sidebar: [{ label: 'IDEATION', value: '' }],
+        content: [
+          {
+            type: 'text',
+            html: '<p>First on my list, I had to figure out how I wanted to approach the bulldogs. I spent some time looking at and drawing French and English bulldogs and their key features. As we wanted both dogs and a cozy vibe I leaned towards having them both in a doggy bed together.</p><p>But another idea was to have the dogs be able to separate; and use them as 2 individual elements which made the doggy bed idea harder to work with so I also looked at stacking the dogs, having them face each other, and standing side by side.</p><p>Luckily, the graphic came together nicely, with the circle and dogs inside and a cute paw heart touch! With the lineart and crosshatching set, there weren\'t too many additional adjustments past the palette.</p>',
+          },
+        ],
+      },
+      {
+        type: 'fullWidthImage',
+        src: '/images/project-comfortabull/third-sketch.webp',
+        alt: 'Third design sketch',
+        width: 1921,
+      },
+      {
+        type: 'sideBySide',
+        left: {
+          src: '/images/project-comfortabull/third-pt1-process.webp',
+          alt: 'Process step 1',
+          width: 1081,
+        },
+        right: {
+          src: '/images/project-comfortabull/third-pt2-process.webp',
+          alt: 'Process step 2',
+          width: 1001,
+        },
+      },
+      {
+        type: 'text',
+        heading: 'NEXT UP: TYPEFACE',
+        headingStyle: 'h2',
+        html: '<p>I ran through options with a meld of sans serif and cursive font. With the client preferring a cursive expressive looping style to compliment the sans-serif. Then tested out the fonts with some key phrases they wanted to use for branding down the line; &ldquo;Life is Better with a Bulldog&rdquo;, &ldquo;Heavy Breathers Club&rdquo;, and &ldquo;Squish Face Crew&rdquo;. With the finalized font choice we went with the simplistic &ldquo;We Love Bulldogs&rdquo; stylizing love with the chosen Shaley typeface and Neutra Text combo.</p>',
+      },
+      {
+        type: 'fullWidthImage',
+        src: '/images/project-comfortabull/fourth-typeface.webp',
+        alt: 'Typeface exploration',
+        width: 1921,
+      },
+      {
+        type: 'text',
+        html: '<p>Along with the logo design I provided Comfortabull with full branding for socials; including a set of custom social icons, template socials and stories, and banners for Facebook and Instagram. The template socials and stories were both designed in Canva and made to accommodate the free version, to provide easy access and adjustment capabilities for the client.</p>',
+      },
+      {
+        type: 'sideBySide',
+        left: {
+          src: '/images/project-comfortabull/fourth-pt2-social.webp',
+          alt: 'Social branding 1',
+          width: 1001,
+        },
+        right: {
+          src: '/images/project-comfortabull/fourth-pt1-social.webp',
+          alt: 'Social branding 2',
+          width: 1081,
+        },
+      },
+    ],
   },
   'camp-brigitte': {
     title: 'Camp Brigitte',
@@ -196,6 +286,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const summary = typeof project.summary === 'string' ? project.summary : ''
   const content = typeof project.content === 'object' && project.content ? (project.content as object) : null
   const contentHtml = typeof project.contentHtml === 'string' ? project.contentHtml : (STATIC_PROJECTS[slug]?.contentHtml ?? null)
+  const sections = Array.isArray(project.sections) ? project.sections as import('@/types/content-sections').ContentSection[] : (STATIC_PROJECTS[slug]?.sections ?? null)
   const client = typeof project.client === 'string' ? project.client : (STATIC_PROJECTS[slug]?.client ?? null)
   const tools = Array.isArray(project.tools) ? project.tools : (STATIC_PROJECTS[slug]?.tools ?? null)
   const categories = Array.isArray(project.categories) ? project.categories : (STATIC_PROJECTS[slug]?.categories ?? null)
@@ -299,8 +390,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <ProjectBody content={content} />
             ) : null}
 
-            {/* Static HTML body from Webflow content */}
-            {contentHtml && !content ? (
+            {/* Structured sections from content model */}
+            {sections && sections.length > 0 ? (
+              <StructuredBody sections={sections} />
+            ) : null}
+
+            {/* Static HTML body from Webflow content (fallback) */}
+            {!sections && contentHtml && !content ? (
               <StaticBody contentHtml={contentHtml} />
             ) : null}
           </div>

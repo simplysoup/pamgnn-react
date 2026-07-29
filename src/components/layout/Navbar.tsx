@@ -73,7 +73,7 @@ export function Navbar() {
   }, [isHomePage])
 
   const heroProgress = Math.min(1, Math.max(0, scrollProgress))
-  const shellWidth = isHomePage ? `${100 - heroProgress * 5}%` : '95%'
+  const shellWidth = isHomePage ? `${100 - heroProgress * 5}%` : '100%'
   const shellOpacity = isHomePage ? heroProgress : 1
   const backgroundColor = isHomePage
     ? `rgba(255, 255, 255, ${0.92 * heroProgress})`

@@ -13,6 +13,9 @@ const TOOL_ICONS: Record<string, string> = {
   'clip-studio': '/images/tools/clip-studio.png',
   'photoshop': '/images/tools/photoshop.png',
   'illustrator': '/images/tools/illustrator.png',
+  'after-effects': '/images/tools/after-effects.png',
+  'premiere': '/images/tools/premiere.png',
+  'animate': '/images/tools/animate.png',
 }
 
 /* ─── Internal section renderer for nested content ──────── */

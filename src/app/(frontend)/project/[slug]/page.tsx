@@ -19,6 +19,7 @@ type StaticProject = {
   summary: string
   coverImage?: string
   contentHtml?: string
+  sections?: import('@/types/content-sections').ContentSection[]
   client?: string
   tools?: string[]
   categories?: string[]

@@ -1544,4 +1544,133 @@ img { max-width: 100%; display: block; }
   .project-gallery-section { padding: 32px 0 48px; }
   .project-related { padding: 48px 0 64px; }
   .project-hero { min-height: 40vh; }
+  .content-section { padding: 40px 0; }
+  .content-side-by-side { grid-template-columns: 1fr; gap: 16px; }
+  .content-grid-12 { grid-template-columns: 1fr; gap: 24px; }
+  .content-sidebar { grid-column: span 12; }
+  .content-main { grid-column: span 12; }
+}
+
+/* ─── Structured content sections ───────────────────────── */
+.content-section {
+  padding: 60px 0;
+}
+
+/* Full-width image */
+.content-full-image {
+  width: 100%;
+  position: relative;
+  border-radius: var(--rounded);
+  overflow: hidden;
+}
+
+.content-full-image-img {
+  object-fit: cover;
+}
+
+/* 12-column grid layout */
+.content-grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.content-sidebar {
+  grid-column: span 3;
+}
+
+.content-main {
+  grid-column: span 9;
+}
+
+/* Sidebar detail rows */
+.sidebar-detail-row {
+  margin-bottom: 20px;
+}
+
+.sidebar-detail-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--dark-50);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.sidebar-detail-value {
+  font-size: 16px;
+  color: var(--dark);
+  margin-bottom: 0;
+}
+
+.sidebar-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sidebar-tag {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark);
+  text-transform: capitalize;
+}
+
+.sidebar-tool-icons {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tool-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* Side-by-side image pair */
+.content-side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Text section headings */
+.content-heading-h2 {
+  font-family: Exo, sans-serif;
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: var(--dark);
+}
+
+.content-heading-sidebar-wrapper {
+  margin-bottom: 12px;
+}
+
+.content-heading-sidebar {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--dark);
+}
+
+.content-text-body {
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--dark-70);
+}
+
+.content-text-body p {
+  margin-bottom: 16px;
+}
+
+.content-text-body p:last-child {
+  margin-bottom: 0;
 }

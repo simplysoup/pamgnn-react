@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import { getCoverImage } from '@/lib/project-images'
 import Image from 'next/image'
+import { ReelVideoPlayer } from '@/components/project/ReelVideoPlayer'
 
 type ProjectDoc = {
   id: string | number
@@ -16,6 +17,7 @@ const STATIC_MOTION_PROJECTS: ProjectDoc[] = [
   { id: 'static-2', slug: 'vaughan-intl-film-festival',  title: 'Vaughan Intl. Film Festival',   accentColor: '#c0392b' },
   { id: 'static-3', slug: 'animated-business-cards',      title: 'Animated Business Cards',       accentColor: '#16a085' },
   { id: 'static-4', slug: 'social-media-graphics-ads',    title: 'Social Media Graphics & Ads',   accentColor: '#e67e22' },
+  { id: 'static-5', slug: 'atla-reanimated',             title: 'ATLA Reanimated',                accentColor: '#2a4b7c' },
 ]
 
 export default async function ReelPage() {
@@ -40,15 +42,13 @@ export default async function ReelPage() {
 
   return (
     <>
+      <ReelVideoPlayer
+        vimeoId="638941634"
+        title="Reel"
+        description="Demo reel and motion work portfolio. View selected projects on Vimeo and YouTube."
+      />
       <div className="page-sections">
         <div className="container">
-          <h1 className="display-3" style={{ marginBottom: 20, textAlign: 'center' }}>Reel</h1>
-          <p style={{ fontSize: '18px', lineHeight: '30px', color: 'var(--dark-70)', textAlign: 'center', maxWidth: 600, margin: '0 auto 40px' }}>
-            Demo reel and motion work portfolio. View selected projects on{' '}
-            <Link href="https://vimeo.com/pamgnn" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'var(--primary)' }}>Vimeo</Link>
-            {' '}and{' '}
-            <Link href="https://www.youtube.com/@pamgraphicdesign" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'var(--primary)' }}>YouTube</Link>.
-          </p>
 
           <div className="projects-collection-list" role="list">
             {docs.map((project) => {

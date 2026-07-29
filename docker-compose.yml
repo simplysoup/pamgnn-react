@@ -32,7 +32,7 @@ services:
       target: runner
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "55800:3000"
     env_file:
       - .env.docker
     depends_on:
@@ -41,11 +41,11 @@ services:
       mailhog:
         condition: service_started
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 30s
+      start_period: 120s
     volumes:
       - ./public/media:/app/public/media
 

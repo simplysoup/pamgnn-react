@@ -6,22 +6,25 @@ dev:
 
 # Docker Compose stack
 up:
-	docker compose up --build -d
+	sh ./scripts/docker-compose.sh up --build -d
 
 down:
-	docker compose down
+	sh ./scripts/docker-compose.sh down
+
+restart:
+	sh ./scripts/docker-compose.sh restart
 
 reset:
-	docker compose down -v
+	sh ./scripts/docker-compose.sh down -v
 
 bootstrap:
 	chmod +x scripts/bootstrap.sh && ./scripts/bootstrap.sh
 
 build:
-	docker compose build
+	sh ./scripts/docker-compose.sh build
 
 logs:
-	docker compose logs -f app
+	sh ./scripts/docker-compose.sh logs -f app
 
 # Run the Vitest integration tests
 test:
@@ -33,4 +36,4 @@ seed:
 
 # Seed the Compose-backed database from inside the app container
 seed-compose:
-	docker compose exec app sh -lc "PAYLOAD_SECRET=$${PAYLOAD_SECRET:-local-secret-for-dev} DATABASE_URL=$${DATABASE_URL:-postgresql://pamgnn:pamgnn@postgres:5432/pamgnn} pnpm tsx scripts/seed.ts"
+	sh ./scripts/docker-compose.sh exec app sh -lc "PAYLOAD_SECRET=$${PAYLOAD_SECRET:-local-secret-for-dev} DATABASE_URL=$${DATABASE_URL:-postgresql://pamgnn:pamgnn@postgres:5432/pamgnn} pnpm tsx scripts/seed.ts"

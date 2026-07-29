@@ -15,11 +15,12 @@ export function About() {
   // The big circle drifts left and slightly upward as you scroll through the section
   const circleX = useTransform(scrollYProgress, [0, 1], [-200, -360])
   const circleY = useTransform(scrollYProgress, [0, 1], [-60, 60])
-  const circleScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.05, 0.95])
+  const circleScale = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.8, 1], [0.6, 1.15, 1.15, 0.85, 0.5])
+  const circleOpacity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.85, 1], [0, 1, 1, 0.6, 0])
 
   return (
     <section className="section about-section" id="about" ref={sectionRef}>
-      <div style={{ position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'relative' }}>
         {/* Parallax decorative circle */}
         <motion.div
           style={{
@@ -27,6 +28,7 @@ export function About() {
             x: circleX,
             y: circleY,
             scale: circleScale,
+            opacity: circleOpacity,
             zIndex: 0,
             pointerEvents: 'none',
             willChange: 'transform',
@@ -44,7 +46,7 @@ export function About() {
               height: 'auto',
               filter:
                 'invert(93%) sepia(5%) saturate(382%) hue-rotate(323deg) brightness(103%) contrast(92%)',
-              opacity: 0.65,
+              opacity: 1,
             }}
           />
         </motion.div>

@@ -4,6 +4,10 @@ set -eu
 command -v docker >/dev/null 2>&1 || { echo 'Error: docker not found.'; exit 1; }
 command -v pnpm >/dev/null 2>&1 || { echo 'Error: pnpm not found.'; exit 1; }
 
+if ! sh ./scripts/docker-compose.sh info >/dev/null 2>&1; then
+  exit 1
+fi
+
 if [ ! -f .env.docker ]; then
   cp .env.example .env.docker
   echo 'Created .env.docker from .env.example.'
@@ -11,10 +15,10 @@ if [ ! -f .env.docker ]; then
   read -r _
 fi
 
-if docker compose ps --services --filter status=running | grep -q .; then
+if sh ./scripts/docker-compose.sh ps --services --filter status=running | grep -q .; then
   echo 'Compose services already running; skipping startup.'
 else
-  docker compose up --build -d
+  sh ./scripts/docker-compose.sh up --build -d
 fi
 
 echo 'Waiting for app to become healthy...'

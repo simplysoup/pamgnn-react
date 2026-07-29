@@ -456,6 +456,9 @@ export interface SiteSetting {
   vimeo?: string | null;
   contactEmail?: string | null;
   copyright?: string | null;
+  heroLine1?: string | null;
+  heroLine2?: string | null;
+  heroLine3?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -472,6 +475,9 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   vimeo?: T;
   contactEmail?: T;
   copyright?: T;
+  heroLine1?: T;
+  heroLine2?: T;
+  heroLine3?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

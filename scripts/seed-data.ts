@@ -1,6 +1,6 @@
 type ProjectCategory = 'illustration' | 'web-design' | 'motion' | 'identity'
 
-export const projectSeeds: Array<{
+export type ProjectSeed = {
   title: string
   slug: string
   accentColor: string
@@ -8,7 +8,12 @@ export const projectSeeds: Array<{
   order: number
   summary: string
   category: ProjectCategory[]
-}> = [
+  contentHtml?: string
+  client?: string
+  tools?: string[]
+}
+
+export const projectSeeds: ProjectSeed[] = [
   {
     title: 'Comfortabull',
     slug: 'comfortabull',
@@ -35,6 +40,7 @@ export const projectSeeds: Array<{
     order: 3,
     summary: 'Event branding and motion graphics package.',
     category: ['identity', 'motion'],
+    client: 'Vaughan Int\'l Film Festival',
   },
   {
     title: 'Dynastic Wealth',
@@ -43,7 +49,8 @@ export const projectSeeds: Array<{
     featured: true,
     order: 4,
     summary: 'Visual identity for a financial advisory firm.',
-    category: ['identity'],
+    category: ['identity', 'web-design'],
+    client: 'Dr. Latanya White',
   },
   {
     title: 'Shinee Love Sick',
@@ -53,6 +60,7 @@ export const projectSeeds: Array<{
     order: 5,
     summary: 'Fan-art editorial series and motion piece.',
     category: ['illustration', 'motion'],
+    tools: ['After Effects', 'Illustrator', 'Premiere Pro'],
   },
   {
     title: 'Pearl Earring',
@@ -62,6 +70,7 @@ export const projectSeeds: Array<{
     order: 6,
     summary: 'Illustration series inspired by Vermeer.',
     category: ['illustration'],
+    tools: ['Photoshop'],
   },
   {
     title: 'Animated Business Cards',
@@ -71,6 +80,7 @@ export const projectSeeds: Array<{
     order: 7,
     summary: 'Motion-design micro-animations for business card concepts.',
     category: ['motion'],
+    tools: ['Animate', 'Illustrator', 'After Effects'],
   },
   {
     title: 'Social Media Graphics & Ads',
@@ -79,7 +89,8 @@ export const projectSeeds: Array<{
     featured: false,
     order: 8,
     summary: 'Social content packages for various client campaigns.',
-    category: ['illustration', 'motion'],
+    category: ['illustration', 'motion', 'web-design'],
+    client: 'Various',
   },
 ]
 
@@ -113,6 +124,9 @@ export const siteSettingsSeedDefaults = {
   youtube: 'https://www.youtube.com/@pamgraphicdesign',
   linkedin: 'https://www.linkedin.com/in/pamgraphicdesign',
   vimeo: 'https://vimeo.com/pamgraphicdesign',
+  heroLine1: 'multidisciplinary',
+  heroLine2: 'Designer who likes',
+  heroLine3: 'to make Cool Things',
 }
 
 export const adminSeedDefaults = {

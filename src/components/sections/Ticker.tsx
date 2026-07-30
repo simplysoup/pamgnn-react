@@ -18,10 +18,7 @@ const StarSvg = () => (
 
 // Build a single set of item+star pairs then repeat 5× for seamless loop
 const buildRow = () =>
-  items.flatMap((item) => [
-    { type: 'item' as const, text: item },
-    { type: 'star' as const },
-  ])
+  items.flatMap((item) => [{ type: 'item' as const, text: item }, { type: 'star' as const }])
 
 const row = buildRow()
 // 5 repetitions so the loop can animate -50% without gaps
@@ -39,64 +36,103 @@ export function Ticker() {
   }, [])
 
   return (
-    <div className="ticker-outer" role="marquee" aria-label="Skill categories">
-      <div className="ticker">
+    <div className="overflow-hidden w-full" role="marquee" aria-label="Skill categories">
+      <div className="bg-ticker text-dark flex flex-row pt-[28px] pb-[22px] overflow-hidden w-[106%] relative">
         <motion.div
-          className="ticker-wrapper"
+          className="flex-none flex"
+          style={{ backfaceVisibility: 'hidden', display: 'flex', perspective: 1 }}
           animate={prefersReducedMotion ? { x: '0%' } : { x: ['0%', '-40%'] }}
           transition={
             prefersReducedMotion
               ? { duration: 0 }
               : { duration: 18, ease: 'linear', repeat: Infinity }
           }
-          style={{ display: 'flex' }}
         >
           {/* First set — accessible to screen readers */}
-          <div className="ticker-inner" aria-hidden="false">
+          <div className="flex items-center gap-8 pr-8 shrink-0" aria-hidden="false">
             {buildRow().map((el, i) =>
               el.type === 'item' ? (
-                <h3 key={i} className="ticker-item">{el.text}</h3>
+                <h3
+                  key={i}
+                  className="m-0 text-[clamp(18px,2.5vw,26px)] leading-[1.2] font-bold font-['Exo',sans-serif] whitespace-nowrap"
+                >
+                  {el.text}
+                </h3>
               ) : (
-                <span key={i} aria-hidden="true"><StarSvg /></span>
+                <span key={i} aria-hidden="true">
+                  <StarSvg />
+                </span>
               ),
             )}
           </div>
           {/* Repeated copies — purely visual, hidden from screen readers */}
           {!prefersReducedMotion && (
             <>
-              <div className="ticker-inner" aria-hidden="true">
+              <div className="flex items-center gap-8 pr-8 shrink-0" aria-hidden="true">
                 {buildRow().map((el, i) =>
                   el.type === 'item' ? (
-                    <h3 key={`r1-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                    <h3
+                      key={`r1-${i}`}
+                      className="m-0 text-[clamp(18px,2.5vw,26px)] leading-[1.2] font-bold font-['Exo',sans-serif] whitespace-nowrap"
+                      aria-hidden="true"
+                    >
+                      {el.text}
+                    </h3>
                   ) : (
-                    <span key={`r1-${i}`} aria-hidden="true"><StarSvg /></span>
+                    <span key={`r1-${i}`} aria-hidden="true">
+                      <StarSvg />
+                    </span>
                   ),
                 )}
               </div>
-              <div className="ticker-inner" aria-hidden="true">
+              <div className="flex items-center gap-8 pr-8 shrink-0" aria-hidden="true">
                 {buildRow().map((el, i) =>
                   el.type === 'item' ? (
-                    <h3 key={`r2-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                    <h3
+                      key={`r2-${i}`}
+                      className="m-0 text-[clamp(18px,2.5vw,26px)] leading-[1.2] font-bold font-['Exo',sans-serif] whitespace-nowrap"
+                      aria-hidden="true"
+                    >
+                      {el.text}
+                    </h3>
                   ) : (
-                    <span key={`r2-${i}`} aria-hidden="true"><StarSvg /></span>
+                    <span key={`r2-${i}`} aria-hidden="true">
+                      <StarSvg />
+                    </span>
                   ),
                 )}
               </div>
-              <div className="ticker-inner" aria-hidden="true">
+              <div className="flex items-center gap-8 pr-8 shrink-0" aria-hidden="true">
                 {buildRow().map((el, i) =>
                   el.type === 'item' ? (
-                    <h3 key={`r3-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                    <h3
+                      key={`r3-${i}`}
+                      className="m-0 text-[clamp(18px,2.5vw,26px)] leading-[1.2] font-bold font-['Exo',sans-serif] whitespace-nowrap"
+                      aria-hidden="true"
+                    >
+                      {el.text}
+                    </h3>
                   ) : (
-                    <span key={`r3-${i}`} aria-hidden="true"><StarSvg /></span>
+                    <span key={`r3-${i}`} aria-hidden="true">
+                      <StarSvg />
+                    </span>
                   ),
                 )}
               </div>
-              <div className="ticker-inner" aria-hidden="true">
+              <div className="flex items-center gap-8 pr-8 shrink-0" aria-hidden="true">
                 {buildRow().map((el, i) =>
                   el.type === 'item' ? (
-                    <h3 key={`r4-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                    <h3
+                      key={`r4-${i}`}
+                      className="m-0 text-[clamp(18px,2.5vw,26px)] leading-[1.2] font-bold font-['Exo',sans-serif] whitespace-nowrap"
+                      aria-hidden="true"
+                    >
+                      {el.text}
+                    </h3>
                   ) : (
-                    <span key={`r4-${i}`} aria-hidden="true"><StarSvg /></span>
+                    <span key={`r4-${i}`} aria-hidden="true">
+                      <StarSvg />
+                    </span>
                   ),
                 )}
               </div>

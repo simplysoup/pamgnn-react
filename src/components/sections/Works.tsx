@@ -2,17 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { getCoverImage } from '@/lib/project-images'
-import { STATIC_ALL_PROJECTS } from '@/data/static-projects'
-
-const FEATURED_SLUGS = [
-  'comfortabull',
-  'camp-brigitte',
-  'vaughan-intl-film-festival',
-  'dynastic-wealth',
-]
+import { getFeaturedProjects } from '@/data/static-projects'
 
 export async function Works() {
-  const docs = STATIC_ALL_PROJECTS.filter((p) => FEATURED_SLUGS.includes(p.slug))
+  const docs = getFeaturedProjects()
 
   return (
     <section className="section" id="services">
@@ -21,7 +14,7 @@ export async function Works() {
           <div className="projects-collection-wrapper">
             <div className="projects-collection-list" role="list">
               {docs.map((project) => {
-                const coverUrl = getCoverImage(project.slug, project.coverImage)
+                const coverUrl = getCoverImage(project.slug)
 
                 return (
                   <div key={project.slug} className="project" role="listitem">

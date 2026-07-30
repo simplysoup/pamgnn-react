@@ -560,3 +560,34 @@ export function getStaticRelatedProjects(currentSlug: string) {
 export function getStaticProject(slug: string) {
   return STATIC_PROJECTS[slug] ?? null
 }
+
+/* ─── Project card data helpers ─────────────────────────── */
+
+export type ProjectCardData = {
+  slug: string
+  title: string
+  accentColor: string
+}
+
+/** Filter STATIC_PROJECTS by category for card grid display. */
+export function getProjectsByCategory(category: string): ProjectCardData[] {
+  return Object.entries(STATIC_PROJECTS)
+    .filter(([_, p]) => p.categories?.includes(category))
+    .map(([slug, p]) => ({ slug, title: p.title, accentColor: p.accentColor ?? '#4b1f44' }))
+}
+
+/** Slugs shown on the homepage Works section. */
+export const FEATURED_SLUGS = [
+  'comfortabull',
+  'camp-brigitte',
+  'vaughan-intl-film-festival',
+  'dynastic-wealth',
+]
+
+/** Get featured projects for the homepage Works section. */
+export function getFeaturedProjects(): ProjectCardData[] {
+  return FEATURED_SLUGS.map((slug) => {
+    const p = STATIC_PROJECTS[slug]
+    return p ? { slug, title: p.title, accentColor: p.accentColor ?? '#4b1f44' } : null
+  }).filter((p): p is ProjectCardData => p !== null)
+}

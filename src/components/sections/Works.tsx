@@ -2,29 +2,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { getCoverImage } from '@/lib/project-images'
+import { STATIC_ALL_PROJECTS } from '@/data/static-projects'
 
-type ProjectDoc = {
-  id: string | number
-  slug?: string
-  title?: string
-  coverImage?: { url?: string } | null
-  accentColor?: string
-}
-
-const STATIC_FEATURED: ProjectDoc[] = [
-  { id: 'static-1', slug: 'comfortabull', title: 'Comfortabull', accentColor: '#141d37' },
-  { id: 'static-2', slug: 'camp-brigitte', title: 'Camp Brigitte', accentColor: '#e29d36' },
-  {
-    id: 'static-3',
-    slug: 'vaughan-intl-film-festival',
-    title: 'Vaughan Intl. Film Festival',
-    accentColor: '#c0392b',
-  },
-  { id: 'static-4', slug: 'dynastic-wealth', title: 'Dynastic Wealth', accentColor: '#1a1a2e' },
+const FEATURED_SLUGS = [
+  'comfortabull',
+  'camp-brigitte',
+  'vaughan-intl-film-festival',
+  'dynastic-wealth',
 ]
 
 export async function Works() {
-  const docs = STATIC_FEATURED
+  const docs = STATIC_ALL_PROJECTS.filter((p) => FEATURED_SLUGS.includes(p.slug))
 
   return (
     <section className="section" id="services">
@@ -33,16 +21,14 @@ export async function Works() {
           <div className="projects-collection-wrapper">
             <div className="projects-collection-list" role="list">
               {docs.map((project) => {
-                const slug = typeof project.slug === 'string' ? project.slug : String(project.id)
-                const coverUrl = getCoverImage(slug, project.coverImage?.url)
-                const color = project.accentColor ?? '#4b1f44'
+                const coverUrl = getCoverImage(project.slug, project.coverImage)
 
                 return (
-                  <div key={String(project.id)} className="project" role="listitem">
+                  <div key={project.slug} className="project" role="listitem">
                     <Link
-                      href={`/project/${slug}`}
+                      href={`/project/${project.slug}`}
                       className="image-link rounded"
-                      style={{ backgroundColor: color }}
+                      style={{ backgroundColor: project.accentColor }}
                     >
                       {coverUrl ? (
                         <Image
@@ -61,7 +47,11 @@ export async function Works() {
                         />
                       ) : (
                         <div
-                          style={{ width: '100%', aspectRatio: '4/3', backgroundColor: color }}
+                          style={{
+                            width: '100%',
+                            aspectRatio: '4/3',
+                            backgroundColor: project.accentColor,
+                          }}
                         />
                       )}
                       <div className="view-more-overlay">

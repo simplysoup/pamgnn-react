@@ -1,12 +1,7 @@
 import Link from 'next/link'
+import { copyright, socials } from '@/data/site-settings'
 
-const COPYRIGHT = '© 2026 Pamela Desplenter'
-const SOCIALS = [
-  { href: 'https://www.youtube.com/@pamguinn', label: 'YouTube', icon: '/images/youtube.svg' },
-  { href: 'mailto:pamdesp@gmail.com', label: 'Email', icon: '/images/mail.svg' },
-  { href: 'https://www.linkedin.com/in/pmgnn/', label: 'LinkedIn', icon: '/images/linkedin.svg' },
-  { href: 'https://vimeo.com/pamgnn', label: 'Vimeo', icon: '/images/vimeo.svg' },
-].filter((s) => s.href && s.href !== 'mailto:')
+const SOCIALS = socials.filter((s) => s.href && s.href !== 'mailto:')
 
 const NAV_LINKS = [
   { label: 'HOME', href: '/' },
@@ -22,7 +17,7 @@ export async function Footer() {
         {/* Top row: copyright + social icons */}
         <div className="footer-top">
           <p className="text-white" style={{ margin: 0, fontSize: 14 }}>
-            {COPYRIGHT}
+            {copyright}
           </p>
           <ul className="sc-links" role="list">
             {SOCIALS.map(({ href, label, icon }) => (

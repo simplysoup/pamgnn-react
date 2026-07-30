@@ -12,7 +12,7 @@
 import type { ContentSection } from '@/types/content-sections'
 import type { ProcessStep } from '@/components/project/ProcessSection'
 
-type StaticProject = {
+export type StaticProject = {
   title: string
   accentColor: string
   summary: string

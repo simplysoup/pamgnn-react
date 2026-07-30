@@ -5,10 +5,12 @@ import { Skills } from '@/components/sections/Skills'
 import { Ticker } from '@/components/sections/Ticker'
 import { Works } from '@/components/sections/Works'
 
+import { heroLine1, heroLine2, heroLine3 } from '@/data/site-settings'
+
 export default async function HomePage() {
   return (
     <>
-      <Hero />
+      <Hero heroLine1={heroLine1} heroLine2={heroLine2} heroLine3={heroLine3} />
       <Ticker />
       <Works />
       <Skills />

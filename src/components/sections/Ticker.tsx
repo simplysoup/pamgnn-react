@@ -36,7 +36,12 @@ export function Ticker() {
   }, [])
 
   return (
-    <div className="overflow-hidden w-full" role="marquee" aria-label="Skill categories">
+    <div
+      className="overflow-hidden w-full"
+      data-ticker-outer
+      role="marquee"
+      aria-label="Skill categories"
+    >
       <div className="bg-ticker text-dark flex flex-row pt-[28px] pb-[22px] overflow-hidden w-[106%] relative">
         <motion.div
           className="flex-none flex"

@@ -74,7 +74,7 @@ export function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       if (isHomePage) {
-        const tickerEl = document.querySelector('.ticker-outer')
+        const tickerEl = document.querySelector('[data-ticker-outer]')
         const maxScroll = tickerEl
           ? Math.max(tickerEl.getBoundingClientRect().top + window.scrollY - 100, 100)
           : Math.max(window.innerHeight, 320)

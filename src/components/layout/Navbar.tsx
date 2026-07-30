@@ -132,6 +132,7 @@ export function Navbar() {
         }}
       >
         <div
+          data-testid="navbar-shell"
           className="absolute inset-0 rounded-[20px] backdrop-blur-[8px] pointer-events-none"
           style={{
             backgroundColor,

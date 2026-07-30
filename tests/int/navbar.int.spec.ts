@@ -38,7 +38,7 @@ describe('Navbar', () => {
     render(createElement(Navbar))
 
     const logoLink = screen.getByRole('link', { name: /pamgnn home/i })
-    const shell = document.querySelector('.navbar-shell')
+    const shell = document.querySelector('[data-testid="navbar-shell"]')
 
     expect(shell).not.toBeNull()
     expect(shell?.contains(logoLink)).toBe(false)

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 
 /* ─── Easing ───────────────────────────────────────────── */
 const easeOutExpo = [0.22, 1, 0.36, 1] as [number, number, number, number]
@@ -22,20 +22,23 @@ export function ProjectSummary({ summary }: ProjectSummaryProps) {
     <div ref={ref} className="project-summary">
       <p className="project-summary-text">
         {words.map((word, i) => (
-          <span key={`${word}-${i}`} className="project-summary-word-wrap">
-            <motion.span
-              className="project-summary-word"
-              initial={{ y: 30, opacity: 0 }}
-              animate={inView ? { y: 0, opacity: 1 } : {}}
-              transition={{
-                duration: 0.5,
-                ease: easeOutExpo,
-                delay: i * 0.035,
-              }}
-            >
-              {word}
-            </motion.span>
-          </span>
+          <Fragment key={`${word}-${i}`}>
+            <span className="project-summary-word-wrap">
+              <motion.span
+                className="project-summary-word"
+                initial={{ y: 30, opacity: 0 }}
+                animate={inView ? { y: 0, opacity: 1 } : {}}
+                transition={{
+                  duration: 0.5,
+                  ease: easeOutExpo,
+                  delay: i * 0.035,
+                }}
+              >
+                {word}
+              </motion.span>
+            </span>
+            {i < words.length - 1 && ' '}
+          </Fragment>
         ))}
       </p>
     </div>

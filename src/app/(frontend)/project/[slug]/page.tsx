@@ -6,6 +6,7 @@ import { ProjectRelated } from '@/components/project/ProjectRelated'
 import { StaticBody } from '@/components/project/StaticBody'
 
 import { StructuredBody } from '@/components/project/StructuredBody'
+import { ProcessSection } from '@/components/project/ProcessSection'
 import { getPayloadClient } from '@/lib/payload'
 
 import {
@@ -105,6 +106,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const tools = Array.isArray(project.tools) ? project.tools : (STATIC_PROJECTS[slug]?.tools ?? null)
   const categories = Array.isArray(project.categories) ? project.categories : (STATIC_PROJECTS[slug]?.categories ?? null)
   const galleryRaw = Array.isArray(project.gallery) ? project.gallery : []
+  const process = Array.isArray(project.process) ? project.process : (STATIC_PROJECTS[slug]?.process ?? null)
   const coverImageUrl = null
 
   // Build gallery image list from CMS or static fallback
@@ -142,6 +144,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <ProjectHero
         title={title}
         summary={summary}
+        categories={categories ?? undefined}
       />
 
 
@@ -168,6 +171,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
       </section>
+
+      {/* ── Process section (storyboard → style frames → final) ── */}
+      {process && process.length > 0 ? (
+        <section className="project-content-section">
+          <div className="container">
+            <div className="project-body">
+              <ProcessSection steps={process as import('@/components/project/ProcessSection').ProcessStep[]} />
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* ── Related projects carousel ── */}
       <ProjectRelated projects={relatedProjects} currentSlug={slug} />

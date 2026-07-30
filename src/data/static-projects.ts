@@ -10,6 +10,7 @@
  * ───────────────────────────────────────────────────────── */
 
 import type { ContentSection } from '@/types/content-sections'
+import type { ProcessStep } from '@/components/project/ProcessSection'
 
 type StaticProject = {
   title: string
@@ -21,6 +22,7 @@ type StaticProject = {
   client?: string
   tools?: string[]
   categories?: string[]
+  process?: ProcessStep[]
 }
 
 export const STATIC_PROJECTS: Record<string, StaticProject> = {
@@ -205,9 +207,15 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
       },
       {
         type: 'text',
-        heading: 'VIDEO &amp; MOTION',
+        heading: 'VFF By the Numbers',
         headingStyle: 'h2',
-        html: '<p>With my motion graphic, animation and video experience I was also tasked to work along the video team to create two videos (with landscape and mobile versions).</p><p>First up the VFF By the Numbers video which showcases the festival so far and how much it has grown.</p><p>Secondly an informative video for submissions for the student film competition. Highschool students across Ontario are open to submit their short films to be screened in front of a live audience and evaluated by professionals in the film industry with the chance to win prizes for their team and school.</p>',
+        html: '<div style="position:relative;padding-bottom:56.25%;margin-bottom:16px;border-radius:8px;overflow:hidden;background:#000;"><iframe src="https://player.vimeo.com/video/1204750863?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VFF By the Numbers"></iframe></div><p>VFF By the Numbers &mdash; showcasing the festival\'s growth so far. <a href="https://vimeo.com/1204748590" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;color:var(--primary);">Mobile version</a>.</p>',
+      },
+      {
+        type: 'text',
+        heading: 'Student Film Competition',
+        headingStyle: 'h2',
+        html: '<div style="position:relative;padding-bottom:56.25%;margin-bottom:16px;border-radius:8px;overflow:hidden;background:#000;"><iframe src="https://player.vimeo.com/video/1204747703?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Student Film Competition"></iframe></div><p>Informational video for the student film competition submissions. Highschool students across Ontario are open to submit their short films to be screened in front of a live audience and evaluated by professionals in the film industry with the chance to win prizes for their team and school. <a href="https://vimeo.com/1204747701" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;color:var(--primary);">Mobile version</a>.</p>',
       },
     ],
   },
@@ -217,8 +225,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
     title: 'Dynastic Wealth',
     accentColor: '#1a1a2e',
     summary: 'Visual identity and web design for Dr. Latanya White&rsquo;s financial advisory firm &ndash; building generational wealth through culturally relevant training.',
-    client: 'Dr. Latanya White',
-    categories: ['identity', 'web-design'],
+    client: 'Dynastic Wealth® | Concept Creative Group, LLC',
+    categories: ['identity', 'web-design', 'motion'],
     sections: [
       {
         type: 'fullWidthImage',
@@ -230,10 +238,10 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
       {
         type: 'detailsGrid',
         sidebar: [
-          { label: 'Client', value: 'Dr. Latanya White' },
-          { label: 'Category', tags: ['Identity', 'Web Design'] },
-          { label: 'Our Role', value: 'Brand Identity, Logo Design, Web Design' },
-          { label: 'Tools', toolSlugs: ['illustrator', 'photoshop'] },
+          { label: 'Client', value: 'Dynastic Wealth® | Concept Creative Group, LLC' },
+          { label: 'Category', tags: ['Identity', 'Web Design', 'Video Creation'] },
+          { label: 'Our Role', value: 'Creative Direction, Logo Design' },
+          { label: 'Tools', toolSlugs: ['clip-studio', 'illustrator'] },
         ],
         content: [
           {
@@ -241,6 +249,28 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
             html: '<p>Financial wellness and building generational wealth through culturally relevant training.</p><p>With a focus on building and creating intergenerational wealth Dr. Latanya White wanted a refresh of her brand and a new website. The website would serve as her base point for displaying future talks and features, promoting her services, and giving support with more than just financial wealth.</p>',
           },
         ],
+      },
+      {
+        type: 'fullWidthImage',
+        src: '/images/project-dynastic/second-design.jpg',
+        alt: 'Dynastic Wealth logo exploration and peacock iconography',
+        width: 1921,
+        height: 1080,
+      },
+      {
+        type: 'sideBySide',
+        left: {
+          src: '/images/project-dynastic/process-01.jpg',
+          alt: 'Logo development: peacock and wealth integration',
+          width: 1080,
+          height: 1080,
+        },
+        right: {
+          src: '/images/project-dynastic/process-02.jpg',
+          alt: 'Logo refinement: peacock, couple, and egg symbolism',
+          width: 1080,
+          height: 1080,
+        },
       },
       {
         type: 'text',
@@ -253,6 +283,19 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
         heading: 'SYMBOLISM',
         headingStyle: 'sidebar',
         html: '<p><strong>Couple:</strong> Depicts mentorship, community, and the tie with egg to show generational transfer of wealth</p><p><strong>Peacock:</strong> Shows success, ties to Concept Creative Group LLC, and vibrant wealth</p><p><strong>Egg:</strong> The nest egg, protected assets, new beginnings and the tie to the couple</p>',
+      },
+      {
+        type: 'text',
+        heading: 'VIDEO TEMPLATES',
+        headingStyle: 'h2',
+        html: '<p>I was also tasked with creating branded video templates for promotional use. From describing her expertise and services to events the templates were created in Canva for ease of use. Paired with the Speechelo text to speech software video creation was easy and intuitive for my teammates with no video experience.</p>',
+      },
+      {
+        type: 'fullWidthImage',
+        src: '/images/project-dynastic/site-preview.png',
+        alt: 'Dynastic Wealth website preview',
+        width: 1438,
+        height: 2866,
       },
     ],
   },
@@ -388,6 +431,36 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
       },
     ],
   },
+
+  /* ─── ATLA Reanimated ────────────────────────────────── */
+  'atla-reanimated': {
+    title: 'ATLA Reanimated',
+    accentColor: '#2a4b7c',
+    summary: 'A fan-reanimated sequence from Avatar: The Last Airbender &mdash; recreating a key scene frame-by-frame with original illustration and animation work, including a full process breakdown.',
+    categories: ['motion', 'illustration'],
+    tools: ['After Effects', 'Illustrator', 'Photoshop', 'Premiere Pro'],
+    sections: [
+      {
+        type: 'detailsGrid',
+        sidebar: [
+          { label: 'Category', tags: ['Motion', 'Illustration'] },
+          { label: 'Tools', toolSlugs: ['illustrator', 'photoshop', 'after-effects', 'premiere'] },
+        ],
+        content: [
+          {
+            type: 'text',
+            html: '<p>A sequence from Avatar: The Last Airbender, reanimated frame-by-frame as a fan project. Every illustration and animation element was created from scratch to match the show\'s iconic style while adding a personal creative touch. The full process &mdash; from reference study and storyboards to final composite &mdash; is documented in the video below.</p>',
+          },
+        ],
+      },
+      {
+        type: 'text',
+        heading: 'Final Video &amp; Process Breakdown',
+        headingStyle: 'h2',
+        html: '<div style="position:relative;padding-bottom:56.25%;margin-bottom:16px;border-radius:8px;overflow:hidden;background:#000;"><iframe src="https://www.youtube.com/embed/X7TH9HPnm3E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="ATLA Reanimated — Process Breakdown"></iframe></div><p>The complete reanimated sequence followed by a walkthrough of the creative process: from reference study and storyboarding to frame-by-frame animation, compositing, and final colour grading.</p>',
+      },
+    ],
+  },
 }
 
 /* ─── Static gallery fallback per project ──────────────── */
@@ -395,7 +468,7 @@ export const STATIC_GALLERIES: Record<string, string[]> = {
   'comfortabull':               ['/images/project-comfortabull.png'],
   'camp-brigitte':              ['/images/project-camp-brigitte.webp'],
   'vaughan-intl-film-festival': ['/images/project-vaughan.jpg'],
-  'dynastic-wealth':            ['/images/project-dynastic.png'],
+  'dynastic-wealth':            ['/images/project-dynastic.png', '/images/project-dynastic/second-design.jpg', '/images/project-dynastic/process-01.jpg', '/images/project-dynastic/site-preview.png'],
   'shinee-love-sick':           ['/images/project-shinee-preview.gif'],
   'pearl-earring':              ['/images/project-pearl-earring-gallery.webp'],
   'animated-business-cards':    ['/images/project-animated-business-cards.webp'],
@@ -412,6 +485,7 @@ export const STATIC_ALL_PROJECTS: { slug: string; title: string; coverImage?: st
   { slug: 'pearl-earring',              title: 'Pearl Earring',               coverImage: '/images/project-pearl-earring-gallery.webp',         accentColor: '#2c3e50' },
   { slug: 'animated-business-cards',    title: 'Animated Business Cards',    coverImage: '/images/project-animated-business-cards.webp',        accentColor: '#16a085' },
   { slug: 'social-media-graphics-ads',  title: 'Social Media Graphics & Ads', coverImage: '/images/project-social-media.webp',                  accentColor: '#e67e22' },
+  { slug: 'atla-reanimated',           title: 'ATLA Reanimated',              accentColor: '#2a4b7c' },
 ]
 
 /**

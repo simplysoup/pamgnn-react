@@ -6,24 +6,49 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useRef, useEffect, useState } from 'react'
 
-const links = [
+type NavLink = {
+  label: string
+  href?: string
+  children?: { label: string; href: string }[]
+}
+
+const links: NavLink[] = [
   { label: 'HOME', href: '/' },
-  { label: 'Works', href: '/#works' },
-  { label: 'WEB DESIGN', href: '/work/web-design' },
+  {
+    label: 'Works',
+    children: [
+      { label: 'Web Design', href: '/work/web-design' },
+      { label: 'Illustration', href: '/work/illustration' },
+      { label: 'Branding', href: '/work/branding' },
+    ],
+  },
   { label: 'REEL', href: '/work/reel' },
   { label: 'About', href: '/#about' },
-  { label: 'Contact', href: '/#contact' },
 ]
 
 export function Navbar() {
   const menuRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLLIElement>(null)
   const [open, setOpen] = useState(false)
+  const [worksOpen, setWorksOpen] = useState(false)
+  const [mobileWorksOpen, setMobileWorksOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
   const isHomePage = pathname === '/'
 
   useEffect(() => { setOpen(false) }, [pathname])
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setWorksOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
 
   // Focus trap: when menu opens, focus the close button
   useEffect(() => {
@@ -47,8 +72,6 @@ export function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       if (isHomePage) {
-        // EASING: to apply a custom scroll-to-progress curve, transform the raw
-        // ratio below before clamping, e.g. via a cubic-bezier lookup table.
         const tickerEl = document.querySelector('.ticker-outer')
         const maxScroll = tickerEl
           ? Math.max(tickerEl.getBoundingClientRect().top + window.scrollY - 100, 100)
@@ -88,14 +111,19 @@ export function Navbar() {
       ? '0 4px 24px rgba(18,24,26,0.13)'
       : '0 2px 5px rgba(42,38,46,0.25)'
 
+  // Flatten for mobile menu
+  const mobileLinks = links.flatMap((link) =>
+    link.children
+      ? [{ label: link.label, href: undefined }, ...link.children.map((c) => ({ label: `  ${c.label}`, href: c.href }))]
+      : [link],
+  )
+
   return (
     <>
       <nav
         className="navbar"
         style={{
           width: shellWidth,
-          
-          
         }}
       >
         <div
@@ -104,7 +132,6 @@ export function Navbar() {
             backgroundColor,
             boxShadow,
             opacity: shellOpacity,
-            
           }}
         />
         <div className="navbar-inner">
@@ -120,14 +147,66 @@ export function Navbar() {
           </Link>
 
           <ul className="navbar-links">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="nav-link">
-                  <span className="nav-links">{link.label}</span>
-                  <span className="link-line" />
-                </Link>
-              </li>
-            ))}
+            {links.map((link) =>
+              link.children ? (
+                <li
+                  key={link.label}
+                  ref={dropdownRef}
+                  className="nav-item-dropdown"
+                  onMouseEnter={() => setWorksOpen(true)}
+                  onMouseLeave={() => setWorksOpen(false)}
+                >
+                  <button
+                    className="nav-link nav-dropdown-toggle"
+                    onClick={() => setWorksOpen((v) => !v)}
+                    aria-expanded={worksOpen}
+                    aria-haspopup="true"
+                  >
+                    <span className="nav-links">{link.label}</span>
+                    <svg
+                      width="8"
+                      height="6"
+                      viewBox="0 0 8 6"
+                      fill="none"
+                      className={`dropdown-chevron${worksOpen ? ' is-open' : ''}`}
+                      style={{ marginLeft: 6 }}
+                    >
+                      <path d="M1 1.5L4 4.5L7 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                  <AnimatePresence>
+                    {worksOpen && (
+                      <motion.ul
+                        className="dropdown-menu"
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.15, ease: 'easeOut' }}
+                      >
+                        {link.children.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              className="dropdown-item"
+                              onClick={() => setWorksOpen(false)}
+                            >
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </motion.ul>
+                    )}
+                  </AnimatePresence>
+                </li>
+              ) : (
+                <li key={link.href}>
+                  <Link href={link.href!} className="nav-link">
+                    <span className="nav-links">{link.label}</span>
+                    <span className="link-line" />
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
 
           <button
@@ -162,22 +241,95 @@ export function Navbar() {
                 <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
               </svg>
             </button>
-            {links.map((link, i) => (
-              <motion.div
-                key={link.href}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 + 0.05, duration: 0.2 }}
+
+            {/* Home */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05, duration: 0.2 }}
+            >
+              <Link href="/" className="mobile-nav-link" onClick={() => setOpen(false)}>
+                HOME
+              </Link>
+            </motion.div>
+
+            {/* Works (section header + children) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.2 }}
+            >
+              <button
+                className="mobile-nav-link mobile-nav-section"
+                onClick={() => setMobileWorksOpen((v) => !v)}
+                aria-expanded={mobileWorksOpen}
               >
-                <Link
-                  href={link.href}
-                  className="mobile-nav-link"
-                  onClick={() => setOpen(false)}
+                <span>Works</span>
+                <svg
+                  width="8"
+                  height="6"
+                  viewBox="0 0 8 6"
+                  fill="none"
+                  className={`mobile-chevron${mobileWorksOpen ? ' is-open' : ''}`}
                 >
-                  {link.label}
-                </Link>
-              </motion.div>
-            ))}
+                  <path d="M1 1.5L4 4.5L7 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+              <AnimatePresence>
+                {mobileWorksOpen && (
+                  <motion.div
+                    className="mobile-submenu"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                  >
+                    {[
+                      { label: 'Web Design', href: '/work/web-design' },
+                      { label: 'Illustration', href: '/work/illustration' },
+                      { label: 'Branding', href: '/work/branding' },
+                    ].map((child, i) => (
+                      <motion.div
+                        key={child.href}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.04, duration: 0.15 }}
+                      >
+                        <Link
+                          href={child.href}
+                          className="mobile-nav-link mobile-nav-sublink"
+                          onClick={() => setOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+
+            {/* REEL */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.2 }}
+            >
+              <Link href="/work/reel" className="mobile-nav-link" onClick={() => setOpen(false)}>
+                REEL
+              </Link>
+            </motion.div>
+
+            {/* About */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.2 }}
+            >
+              <Link href="/#about" className="mobile-nav-link" onClick={() => setOpen(false)}>
+                About
+              </Link>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

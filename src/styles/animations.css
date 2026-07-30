@@ -1,0 +1,28 @@
+/* ─── Ball bounce animations ─────────────────────────────── */
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25%       { transform: translate(8px, -14px) rotate(5deg); }
+  50%       { transform: translate(-6px, -22px) rotate(-3deg); }
+  75%       { transform: translate(-12px, -8px) rotate(2deg); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%       { transform: translate(-10px, -18px) rotate(-6deg); }
+  66%       { transform: translate(12px, -10px) rotate(4deg); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0); }
+  40%       { transform: translate(6px, -20px); }
+  80%       { transform: translate(-8px, -12px); }
+}
+@keyframes float4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-10px, -16px) scale(1.04); }
+}
+
+.notsvg-blue.bouncing-2.ball1  { animation: float1 6s ease-in-out infinite; }
+.notsvg-blue.bouncing.small-ball { animation: float3 4.5s ease-in-out infinite; }
+.notsvg-purple.bouncing-2      { animation: float2 5s ease-in-out infinite; animation-delay: 0.8s; }
+.notsvg-purple.bouncing.ball2  { animation: float1 7s ease-in-out infinite; animation-delay: 1.2s; }
+.notsvg-purple.bouncing.ball3  { animation: float3 5.5s ease-in-out infinite; animation-delay: 0.4s; }
+.notsvg-blue.bouncing-2.ball4  { animation: float4 6.5s ease-in-out infinite; animation-delay: 1.8s; }

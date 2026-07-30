@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 /* ─── Easing ───────────────────────────────────────────── */
 const easeOutExpo = [0.22, 1, 0.36, 1] as [number, number, number, number]
@@ -28,9 +28,19 @@ const letterVariant = {
 type ProjectHeroProps = {
   title: string
   summary: string
+  categories?: string[]
 }
 
-export function ProjectHero({ title, summary }: ProjectHeroProps) {
+function getBackLink(categories?: string[]): string {
+  if (!categories || categories.length === 0) return '/work/web-design'
+  const cat = categories[0].toLowerCase()
+  if (cat === 'motion') return '/work/reel'
+  if (cat === 'illustration') return '/work/illustration'
+  if (cat === 'identity' || cat === 'branding') return '/work/branding'
+  return '/work/web-design'
+}
+
+export function ProjectHero({ title, summary, categories }: ProjectHeroProps) {
   const [heroLoaded, setHeroLoaded] = useState(false)
 
   useEffect(() => {
@@ -59,7 +69,7 @@ export function ProjectHero({ title, summary }: ProjectHeroProps) {
             transition={{ duration: 0.3, ease: easeOutExpo, delay: 0.05 }}
           >
             <Link
-              href="/work/web-design"
+            href={getBackLink(categories)}
               className="project-hero-back"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ marginRight: 6 }}>
@@ -99,20 +109,23 @@ export function ProjectHero({ title, summary }: ProjectHeroProps) {
             >
               <p className="project-hero-summary-text">
                 {words.map((word, i) => (
-                  <span key={`${word}-${i}`} className="project-hero-word-wrap">
-                    <motion.span
-                      className="project-hero-word"
-                      initial={{ y: 12, opacity: 0 }}
-                      animate={heroLoaded ? { y: 0, opacity: 1 } : {}}
-                      transition={{
-                        duration: 0.35,
-                        ease: easeOutExpo,
-                        delay: 0.55 + i * 0.025,
-                      }}
-                    >
-                      {word}
-                    </motion.span>
-                  </span>
+                  <Fragment key={`${word}-${i}`}>
+                    <span className="project-hero-word-wrap">
+                      <motion.span
+                        className="project-hero-word"
+                        initial={{ y: 12, opacity: 0 }}
+                        animate={heroLoaded ? { y: 0, opacity: 1 } : {}}
+                        transition={{
+                          duration: 0.35,
+                          ease: easeOutExpo,
+                          delay: 0.55 + i * 0.025,
+                        }}
+                      >
+                        {word}
+                      </motion.span>
+                    </span>
+                    {i < words.length - 1 && ' '}
+                  </Fragment>
                 ))}
               </p>
             </motion.div>

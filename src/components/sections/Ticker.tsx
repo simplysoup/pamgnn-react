@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 const items = ['Illustration', 'Web Design', 'Motion Design', 'Identity & Branding']
 
@@ -27,24 +28,80 @@ const row = buildRow()
 const repeated = [...row, ...row, ...row, ...row, ...row]
 
 export function Ticker() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   return (
-    <div className="ticker-outer">
+    <div className="ticker-outer" role="marquee" aria-label="Skill categories">
       <div className="ticker">
         <motion.div
           className="ticker-wrapper"
-          animate={{ x: ['0%', '-40%'] }}
-          transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+          animate={prefersReducedMotion ? { x: '0%' } : { x: ['0%', '-40%'] }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 18, ease: 'linear', repeat: Infinity }
+          }
           style={{ display: 'flex' }}
         >
-          <div className="ticker-inner">
-            {repeated.map((el, i) =>
+          {/* First set — accessible to screen readers */}
+          <div className="ticker-inner" aria-hidden="false">
+            {buildRow().map((el, i) =>
               el.type === 'item' ? (
                 <h3 key={i} className="ticker-item">{el.text}</h3>
               ) : (
-                <StarSvg key={i} />
+                <span key={i} aria-hidden="true"><StarSvg /></span>
               ),
             )}
           </div>
+          {/* Repeated copies — purely visual, hidden from screen readers */}
+          {!prefersReducedMotion && (
+            <>
+              <div className="ticker-inner" aria-hidden="true">
+                {buildRow().map((el, i) =>
+                  el.type === 'item' ? (
+                    <h3 key={`r1-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                  ) : (
+                    <span key={`r1-${i}`} aria-hidden="true"><StarSvg /></span>
+                  ),
+                )}
+              </div>
+              <div className="ticker-inner" aria-hidden="true">
+                {buildRow().map((el, i) =>
+                  el.type === 'item' ? (
+                    <h3 key={`r2-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                  ) : (
+                    <span key={`r2-${i}`} aria-hidden="true"><StarSvg /></span>
+                  ),
+                )}
+              </div>
+              <div className="ticker-inner" aria-hidden="true">
+                {buildRow().map((el, i) =>
+                  el.type === 'item' ? (
+                    <h3 key={`r3-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                  ) : (
+                    <span key={`r3-${i}`} aria-hidden="true"><StarSvg /></span>
+                  ),
+                )}
+              </div>
+              <div className="ticker-inner" aria-hidden="true">
+                {buildRow().map((el, i) =>
+                  el.type === 'item' ? (
+                    <h3 key={`r4-${i}`} className="ticker-item" aria-hidden="true">{el.text}</h3>
+                  ) : (
+                    <span key={`r4-${i}`} aria-hidden="true"><StarSvg /></span>
+                  ),
+                )}
+              </div>
+            </>
+          )}
         </motion.div>
       </div>
     </div>

@@ -6,7 +6,6 @@ import { Ticker } from '@/components/sections/Ticker'
 import { Works } from '@/components/sections/Works'
 
 import { getPayloadClient } from '@/lib/payload'
-import './styles.css'
 
 export default async function HomePage() {
   const payload = await getPayloadClient()

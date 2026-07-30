@@ -15,7 +15,12 @@ export default function NotFound() {
         color: 'var(--dark)',
       }}
     >
-      <h1 className="display-3">Page not found</h1>
+      <h1
+        className="tracking-wide uppercase font-exo font-bold text-dark"
+        style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', lineHeight: 1.25 }}
+      >
+        Page not found
+      </h1>
       <p
         style={{
           marginTop: '16px',
@@ -29,7 +34,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="button-with-icon"
+        className="inline-flex items-center gap-3 border border-secondary/80 rounded-[50px] text-secondary tracking-wide uppercase bg-transparent px-[22px] py-[14px] text-sm font-semibold leading-none no-underline cursor-pointer font-exo transition-colors duration-200 hover:bg-secondary hover:text-white"
         style={{ marginTop: '32px' }}
       >
         Return home

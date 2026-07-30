@@ -3,12 +3,6 @@ import type { ReactNode } from 'react'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
 
-// ─── Styles (remaining pre-Tailwind CSS — being migrated incrementally) ──
-import '../../styles/layout.css'
-import '../../styles/project-page.css'
-import '../../styles/animations.css'
-import '../../styles/responsive.css'
-
 export const metadata = {
   description: 'Pamela Desplenter — Design, Web, Animation',
   title: 'Pamela Desplenter | Design - Web - Animation',

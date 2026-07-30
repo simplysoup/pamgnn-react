@@ -68,81 +68,36 @@ Four changes in two files:
 
 **After:**
 ```tsx
-<nav
-  className="navbar"
-  style={{
-    width: shellWidth,
-  }}
+<nav className="fixed top-0 left-1/2 -translate-x-1/2 z-[9998] h-[88px] mt-3 flex items-center justify-center transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+  style={{ width: shellWidth }}
 >
 ```
 
-The `.navbar-shell` (glass backdrop) already has `pointer-events: none` in CSS, so the background remains non-interactive. But the hamburger button, logo, and other children now receive clicks at all scroll positions.
+The `navbar-shell` div below has `pointer-events: none` as an inline style, so the background remains non-interactive. But the hamburger button, logo, and other children now receive clicks at all scroll positions.
 
-### 2. `src/app/(frontend)/styles.css` — Enable CSS transitions on `.navbar` and `.navbar-shell`
+### 2. Transition on the `<nav>` element — Added transition via Tailwind utility class
 
-**Before** (commented-out hints):
-```css
-.navbar {
-  /* EASING: to animate width/transform changes, set e.g.:
-     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
-}
+The transition is now applied as a Tailwind utility class on the `<nav>` element:
 
-.navbar-shell {
-  /* EASING: to smooth background/opacity changes, set e.g.:
-     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); */
-}
+```tsx
+<nav className="... transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]" ...>
 ```
 
-**After:**
-```css
-.navbar {
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+And the `navbar-shell` div uses inline styles for its transition on `background-color` and `opacity`, since those values are computed dynamically from scroll progress.
 
-.navbar-shell {
-  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+### 3. `src/components/layout/Footer.tsx` — Footer social link colors
+
+The social links originally had `background-color: var(--dark)` making them invisible on the dark footer gradient. The fix adds a semi-transparent light background and hover state via Tailwind classes:
+
+```tsx
+<Link ... className="... bg-white/15 hover:bg-white/35 ...">
 ```
 
-### 3. `src/app/(frontend)/styles.css` — Footer social link colors
+### 4. Lottie z-index and ball visibility
 
-Added light semi-transparent backgrounds for footer-specific social links:
+The Lottie full-screen container now uses `z-1 opacity-50 mix-blend-hard-light` Tailwind classes (z-index 1 so it renders above the banner image).
 
-```css
-.footer .sc-link {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-.footer .sc-link:hover {
-  background-color: rgba(255, 255, 255, 0.35);
-}
-```
-
-### 4. `src/app/(frontend)/styles.css` — Lottie z-index and ball visibility
-
-Changed `.lottie-full-screen` z-index from `0` to `1` so it renders above the banner image.
-
-Replaced `display: none` for floating balls on mobile with responsive sizing instead:
-
-```css
-/* Before: balls completely hidden on mobile */
-@media screen and (max-width: 767px) {
-  .notsvg-blue, .notsvg-purple { display: none; }
-}
-
-/* After: smaller balls on mobile to avoid text overlap */
-@media screen and (max-width: 767px) {
-  .notsvg-blue.bouncing-2.ball1, .notsvg-purple.bouncing.ball2,
-  .notsvg-purple.bouncing.ball3, .notsvg-blue.bouncing-2.ball4 {
-    width: 3.5vw; max-width: 52px; min-width: 28px;
-  }
-  .notsvg-blue.bouncing.small-ball {
-    width: 1.5vw; max-width: 24px; min-width: 12px;
-  }
-  .notsvg-purple.bouncing-2 {
-    width: 1.8vw; max-width: 28px; min-width: 14px;
-  }
-}
-```
+The floating decorative balls use responsive Tailwind classes rather than `display: none` on mobile. The balls use size classes like `w-[5vw] max-w-24 min-w-11` that scale down naturally on smaller viewports, avoiding text overlap without hiding them entirely.
 
 ## Why This Works
 

@@ -55,7 +55,7 @@ export function Navbar() {
   // Focus trap: when menu opens, focus the close button
   useEffect(() => {
     if (open && menuRef.current) {
-      const closeBtn = menuRef.current.querySelector<HTMLButtonElement>('.mobile-menu-close')
+      const closeBtn = menuRef.current.querySelector<HTMLButtonElement>('[data-close-btn]')
       closeBtn?.focus()
     }
   }, [open])
@@ -267,6 +267,7 @@ export function Navbar() {
               className="absolute top-5 left-6 w-9 h-9 rounded-full bg-ticker border-none cursor-pointer flex items-center justify-center text-dark transition-colors duration-200 hover:bg-bhover"
               onClick={() => setOpen(false)}
               aria-label="Close menu"
+              data-close-btn
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path

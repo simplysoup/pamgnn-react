@@ -42,29 +42,22 @@ The `.mobile-menu-close` button (a "X" icon at `top:20px; right:24px` inside the
 
 ## Solution
 
-Changed the close button's horizontal positioning from right-aligned to left-aligned. **One CSS change in `src/app/(frontend)/styles.css`** (line ~157):
+Changed the close button's horizontal positioning from right-aligned to left-aligned. **One CSS change in the Navbar component `src/components/layout/Navbar.tsx`**:
 
 **Before:**
-```css
-.mobile-menu-close {
-  position: absolute;
-  top: 20px;
-  right: 24px;    /* overlapped hamburger */
-  width: 36px;
-  height: 36px;
-}
+```tsx
+<button
+  style={{ position: 'absolute', top: '20px', right: '24px', ... }}
+>
 ```
 
-**After:**
-```css
-.mobile-menu-close {
-  position: absolute;
-  top: 20px;
-  left: 24px;     /* separated from hamburger */
-  right: auto;    /* ensures no conflicting right value */
-  width: 36px;
-  height: 36px;
-}
+**After (left side, now using Tailwind):**
+```tsx
+<button
+  className="absolute top-5 left-6 w-9 h-9 rounded-full ..."
+  aria-label="Close menu"
+  data-close-btn
+>
 ```
 
 The close button now sits at x ≈ 24px (left side of the viewport, near the logo), while the hamburger remains at x ≈ 321–359px (far-right of the navbar). The hamburger toggle and the close button are now on opposite sides of the navbar.
@@ -75,26 +68,13 @@ The root cause is a **layout overlap**: both the hamburger button (far-right via
 
 By moving the close button to the left side, both interactive elements have their own dedicated region. The hamburger's `onClick` toggle (`setOpen(v => !v)`) is reachable through the overlay, and the close button explicitly calls `setOpen(false)` from a separate position.
 
-Verification after fix:
-```js
-const rect = document.querySelector('.hamburger').getBoundingClientRect();
-const el = document.elementFromPoint(rect.left + rect.width/2, rect.top + rect.height/2);
-el.classList.contains('mobile-menu'); // ✅ true — overlay, not close button
-```
+The close button is now on the left side of the viewport (`left-6`) while the hamburger remains on the far-right. The focus-trap `querySelector` uses `[data-close-btn]` instead of the old `.mobile-menu-close` class name.
 
 ## Prevention
 
 - When two UI elements toggle each other (hamburger opens menu, close button closes it), ensure they occupy **distinct viewport regions** to avoid spatial conflicts
 - Use `document.elementFromPoint()` during E2E testing to verify no unintended element interception
-- Add a Playwright assertion:
-  ```ts
-  const box = await page.locator('.hamburger').boundingBox();
-  const topEl = await page.evaluate(({x, y}) => {
-    const el = document.elementFromPoint(x, y);
-    return el?.className || '';
-  }, { x: box.x + box.width/2, y: box.y + box.height/2 });
-  expect(topEl).not.toContain('mobile-menu-close');
-  ```
+- For identifying the close button in tests, use `[data-close-btn]` selector since the old `.mobile-menu-close` CSS class no longer exists (all styling is now Tailwind utility classes)
 
 ## Related Issues
 

@@ -56,11 +56,11 @@ In `docker-compose.yml`, change the healthcheck test URL from `localhost:3000` t
 # Before (fails in Alpine):
 test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
 
-# After (works in Alpine):
-test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+# After (works in Alpine, simplified after Payload removal):
+test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ || exit 1"]
 ```
 
-The `start_period` was also increased from `30s` to `120s` to give the Next.js standalone server adequate time to start (Payload CMS initialization, DB migrations, and first-page build can take well over 30s on cold startup).
+After Payload CMS was removed from the project (no more DB migrations, no seed scripts), the `start_period` was reduced from `120s` to `60s` since the Next.js standalone server starts much faster. The healthcheck URL was also simplified to just `/` instead of `/api/health`.
 
 **File:** `docker-compose.yml` — fix applied in local commit `871825f` (SHA may change on merge; verify via `git log --oneline docker-compose.yml`)
 

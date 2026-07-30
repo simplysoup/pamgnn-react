@@ -93,8 +93,9 @@ body { overflow-x: hidden; }
 
 ### 6. Loading Webflow-hosted images and media
 
-Other project pages reference images hosted on `pamgnn.webflow.io` that were not migrated into the static project data. Each project page needs:
-- A `STATIC_GALLERIES` entry in `page.tsx` with image paths under `public/images/`
+Other project pages reference images hosted on `pamgnn.webflow.io` that were not migrated into the static project data. Each project needs:
+- A `STATIC_GALLERIES` entry in `src/data/static-projects.ts` with image paths under `public/images/`
+- The gallery is consumed by `buildGalleryImages()` in `src/lib/project-helpers.ts`
 - Full structured `sections` data (following the Comfortabull pattern) including `fullWidthImage`, `detailsGrid`, `sideBySide`, and `text` section types
 - Local image assets downloaded from Webflow and placed in `public/images/project-{slug}/`
 

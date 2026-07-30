@@ -48,33 +48,20 @@ Removed the conflicting inline style rules and wrapped touch-only hover effects 
 <div className="navbar-shell" style={{ backgroundColor, boxShadow, opacity: shellOpacity, pointerEvents: open ? 'none' : 'auto' }} />
 ```
 
-**After** — position and pointerEvents removed, CSS class rules apply:
+**After** — position and pointerEvents removed, CSS class rules apply (now using Tailwind utility classes):
 
 ```tsx
-<nav className="navbar" style={{ width: shellWidth, zIndex: 10000 }}>
-<div className="navbar-shell" style={{ backgroundColor, boxShadow, opacity: shellOpacity }} />
+<nav className="fixed top-0 left-1/2 -translate-x-1/2 z-[9998] h-[88px] mt-3 flex items-center justify-center transition-[width] duration-300" style={{ width: shellWidth, zIndex: 10000 }}>
+<div className="absolute inset-0 rounded-[20px] backdrop-blur-[8px] pointer-events-none" style={{ backgroundColor, boxShadow, opacity: shellOpacity }} />
 ```
 
-**styles.css** — Wrapped mobile hover effects in hover-media query:
+Note: The `position: fixed` is now expressed as the Tailwind `fixed` utility class, not a CSS class rule. The `pointer-events: none` on the shell div is set via the Tailwind `pointer-events-none` utility class.
 
-```css
-/* Before */
-.mobile-nav-link:hover {
-  opacity: 0.7;
-}
-.mobile-menu-close:hover {
-  background-color: var(--button-hover);
-}
+The hover effects are now handled via Tailwind utilities directly on the elements, with the hover media query condition applied through Tailwind's `hover:` prefix (which respects `@media (hover: hover)` at the browser level):
 
-/* After */
-@media (hover: hover) {
-  .mobile-nav-link:hover {
-    opacity: 0.7;
-  }
-  .mobile-menu-close:hover {
-    background-color: var(--button-hover);
-  }
-}
+```tsx
+<Link ... className="hover:opacity-70 ...">
+<button ... className="hover:bg-bhover ...">
 ```
 
 ## Why This Works

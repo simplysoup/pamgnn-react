@@ -9,13 +9,18 @@ export function Skills() {
   const [hovered, setHovered] = useState<number | null>(null)
 
   return (
-    <section className="section-homepage" id="skills">
-      <div className="container" style={{ paddingTop: 60, paddingBottom: 80 }}>
-        <div className="skills-grid">
+    <section className="-mt-[120px] pt-[120px]" id="skills">
+      <div
+        className="relative mx-auto w-full max-w-[1290px] px-10 pb-[60px]"
+        style={{ paddingTop: 60, paddingBottom: 80 }}
+      >
+        <div className="grid grid-cols-[220px_1fr] gap-[60px] items-start pt-[60px]">
           {/* ── Sticky sidebar ── */}
-          <div className="skills-sticky">
+          <div className="sticky top-[120px] flex flex-col gap-6">
             <div>
-              <h2 className="display-3">Skills</h2>
+              <h2 className="tracking-wide uppercase font-exo font-bold text-[clamp(28px,3.5vw,40px)] leading-tight">
+                Skills
+              </h2>
               <p
                 style={{
                   marginTop: 8,
@@ -30,10 +35,9 @@ export function Skills() {
             </div>
             {/* Icon preview */}
             <div
-              className="skills-preview"
+              className="w-full aspect-square rounded-[var(--rounded)] bg-ticker flex items-center justify-center transition-opacity duration-300"
               style={{
                 opacity: hovered !== null ? 1 : 0,
-                transition: 'opacity 0.3s ease',
               }}
             >
               {hovered !== null && (
@@ -57,28 +61,30 @@ export function Skills() {
             {SKILLS.map((skill, i) => (
               <div
                 key={skill.name}
-                className="skill-row-v2"
+                className="grid grid-cols-[100px_1fr_2fr] gap-6 border-b border-[rgba(18,24,26,0.1)] py-8 items-start cursor-default transition-[background-color] duration-200 last:border-b-0 hover:bg-[rgba(244,229,228,0.25)] hover:rounded-xl hover:px-3 max-[991px]:grid-cols-[60px_1fr] max-[767px]:grid-cols-[1fr] max-[767px]:gap-3"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
               >
                 {/* Large icon */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="flex items-center justify-center">
                   <Image
                     src={skill.icon}
                     alt=""
                     width={72}
                     height={72}
-                    className="skill-icon-large"
+                    className="w-[72px] h-[72px] shrink-0 max-[991px]:w-[52px] max-[991px]:h-[52px] max-[767px]:w-[44px] max-[767px]:h-[44px]"
                     aria-hidden
                   />
                 </div>
                 {/* Title */}
                 <div style={{ paddingTop: 4 }}>
-                  <span className="skill-title-v2">{skill.name}</span>
+                  <span className="text-lg font-bold font-exo tracking-wide text-dark leading-tight pt-1">
+                    {skill.name}
+                  </span>
                 </div>
                 {/* Description */}
-                <div className="skill-desc-v2-col">
-                  <p className="skill-desc-v2">{skill.description}</p>
+                <div className="max-[991px]:hidden max-[767px]:block">
+                  <p className="m-0 text-base leading-[26px] text-dark-70">{skill.description}</p>
                 </div>
               </div>
             ))}

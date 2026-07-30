@@ -37,7 +37,9 @@ export function Navbar() {
   const pathname = usePathname()
   const isHomePage = pathname === '/'
 
-  useEffect(() => { setOpen(false) }, [pathname])
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -114,70 +116,86 @@ export function Navbar() {
   // Flatten for mobile menu
   const mobileLinks = links.flatMap((link) =>
     link.children
-      ? [{ label: link.label, href: undefined }, ...link.children.map((c) => ({ label: `  ${c.label}`, href: c.href }))]
+      ? [
+          { label: link.label, href: undefined },
+          ...link.children.map((c) => ({ label: `  ${c.label}`, href: c.href })),
+        ]
       : [link],
   )
 
   return (
     <>
       <nav
-        className="navbar"
+        className="fixed top-0 left-1/2 -translate-x-1/2 z-[9998] h-[88px] mt-3 flex items-center justify-center transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] max-[991px]:h-[76px] max-[991px]:mt-[10px] max-[767px]:h-[68px] max-[767px]:mt-2"
         style={{
           width: shellWidth,
         }}
       >
         <div
-          className="navbar-shell"
+          className="absolute inset-0 rounded-[20px] backdrop-blur-[8px] pointer-events-none"
           style={{
             backgroundColor,
             boxShadow,
             opacity: shellOpacity,
           }}
         />
-        <div className="navbar-inner">
-          <Link href="/" aria-label="pamgnn home" className="navbar-logo">
+        <div className="relative z-[1] flex items-center w-full px-[max(2.5%,40px)] gap-6 max-[991px]:px-6 max-[767px]:px-4">
+          <Link
+            href="/"
+            aria-label="pamgnn home"
+            className="flex items-center shrink-0 no-underline pl-1.5 pointer-events-auto opacity-100"
+          >
             <Image
               src="/images/logo.png"
               alt="pamgnn"
               width={100}
               height={100}
-              className="navbar-logo-img"
+              className="w-20 h-auto max-[991px]:w-[72px] max-[767px]:w-[60px] max-[480px]:!w-[52px]"
               priority
             />
           </Link>
 
-          <ul className="navbar-links">
+          <ul className="flex items-center gap-9 flex-1 justify-center list-none m-0 p-0 max-[991px]:hidden">
             {links.map((link) =>
               link.children ? (
                 <li
                   key={link.label}
                   ref={dropdownRef}
-                  className="nav-item-dropdown"
+                  className="relative list-none"
                   onMouseEnter={() => setWorksOpen(true)}
                   onMouseLeave={() => setWorksOpen(false)}
                 >
                   <button
-                    className="nav-link nav-dropdown-toggle"
+                    className="text-secondary tracking-wide uppercase text-sm font-semibold leading-none no-underline flex items-center relative whitespace-nowrap bg-none border-none cursor-pointer font-inherit p-0 gap-0"
                     onClick={() => setWorksOpen((v) => !v)}
                     aria-expanded={worksOpen}
                     aria-haspopup="true"
                   >
-                    <span className="nav-links">{link.label}</span>
+                    <span className="text-secondary font-semibold text-sm">{link.label}</span>
                     <svg
                       width="8"
                       height="6"
                       viewBox="0 0 8 6"
                       fill="none"
-                      className={`dropdown-chevron${worksOpen ? ' is-open' : ''}`}
-                      style={{ marginLeft: 6 }}
+                      style={{
+                        marginLeft: 6,
+                        transition: 'transform 0.2s ease',
+                        transform: worksOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                      }}
                     >
-                      <path d="M1 1.5L4 4.5L7 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path
+                        d="M1 1.5L4 4.5L7 1.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </button>
                   <AnimatePresence>
                     {worksOpen && (
                       <motion.ul
-                        className="dropdown-menu"
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 min-w-[160px] bg-white/95 backdrop-blur-[10px] rounded-[14px] shadow-[0_8px_32px_rgba(18,24,26,0.12)] p-2 list-none z-[100]"
                         initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -6 }}
@@ -187,7 +205,7 @@ export function Navbar() {
                           <li key={child.href}>
                             <Link
                               href={child.href}
-                              className="dropdown-item"
+                              className="block px-4 py-[10px] text-secondary text-sm font-medium no-underline rounded-[10px] whitespace-nowrap transition-colors duration-150 hover:bg-ticker hover:text-dark"
                               onClick={() => setWorksOpen(false)}
                             >
                               {child.label}
@@ -200,9 +218,12 @@ export function Navbar() {
                 </li>
               ) : (
                 <li key={link.href}>
-                  <Link href={link.href!} className="nav-link">
-                    <span className="nav-links">{link.label}</span>
-                    <span className="link-line" />
+                  <Link
+                    href={link.href!}
+                    className="text-secondary tracking-wide uppercase text-sm font-semibold leading-none no-underline flex items-center relative whitespace-nowrap group"
+                  >
+                    <span className="text-secondary font-semibold text-sm">{link.label}</span>
+                    <span className="absolute -bottom-[3px] left-0 h-px bg-secondary w-0 transition-[width] duration-200 ease group-hover:w-full" />
                   </Link>
                 </li>
               ),
@@ -210,14 +231,23 @@ export function Navbar() {
           </ul>
 
           <button
-            className={`hamburger${open ? ' is-open' : ''}`}
+            className="hidden max-[991px]:flex flex-col gap-[5px] cursor-pointer border-none bg-transparent p-2 ml-auto relative z-[2] [touch-action:manipulation] [-webkit-tap-highlight-color:transparent]"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
           >
-            <span className="burger-line" />
-            <span className="burger-line" />
-            <span className="burger-line" />
+            <span
+              className="block w-[22px] h-[2px] rounded-[2px] bg-dark transition-all duration-200"
+              style={{ transform: open ? 'translateY(7px) rotate(45deg)' : 'none' }}
+            />
+            <span
+              className="block w-[22px] h-[2px] rounded-[2px] bg-dark transition-all duration-200"
+              style={{ opacity: open ? 0 : 1 }}
+            />
+            <span
+              className="block w-[22px] h-[2px] rounded-[2px] bg-dark transition-all duration-200"
+              style={{ transform: open ? 'translateY(-7px) rotate(-45deg)' : 'none' }}
+            />
           </button>
         </div>
       </nav>
@@ -226,19 +256,24 @@ export function Navbar() {
         {open && (
           <motion.div
             ref={menuRef}
-            className="mobile-menu"
+            className="fixed inset-0 z-[99997] bg-white flex flex-col items-center justify-center gap-8 px-6 py-10"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
           >
             <button
-              className="mobile-menu-close"
+              className="absolute top-5 left-6 w-9 h-9 rounded-full bg-ticker border-none cursor-pointer flex items-center justify-center text-dark transition-colors duration-200 hover:bg-bhover"
               onClick={() => setOpen(false)}
               aria-label="Close menu"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                <path
+                  d="M1 1L13 13M13 1L1 13"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
               </svg>
             </button>
 
@@ -248,7 +283,11 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05, duration: 0.2 }}
             >
-              <Link href="/" className="mobile-nav-link" onClick={() => setOpen(false)}>
+              <Link
+                href="/"
+                className="text-secondary text-[1.6rem] font-bold tracking-[0.05em] uppercase no-underline font-exo hover:opacity-70"
+                onClick={() => setOpen(false)}
+              >
                 HOME
               </Link>
             </motion.div>
@@ -260,7 +299,7 @@ export function Navbar() {
               transition={{ delay: 0.1, duration: 0.2 }}
             >
               <button
-                className="mobile-nav-link mobile-nav-section"
+                className="text-secondary text-[1.6rem] font-bold tracking-[0.05em] uppercase no-underline font-exo bg-none border-none cursor-pointer font-inherit inline-flex items-center gap-2 p-0 hover:opacity-70"
                 onClick={() => setMobileWorksOpen((v) => !v)}
                 aria-expanded={mobileWorksOpen}
               >
@@ -270,15 +309,24 @@ export function Navbar() {
                   height="6"
                   viewBox="0 0 8 6"
                   fill="none"
-                  className={`mobile-chevron${mobileWorksOpen ? ' is-open' : ''}`}
+                  style={{
+                    transition: 'transform 0.2s ease',
+                    transform: mobileWorksOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  }}
                 >
-                  <path d="M1 1.5L4 4.5L7 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M1 1.5L4 4.5L7 1.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </button>
               <AnimatePresence>
                 {mobileWorksOpen && (
                   <motion.div
-                    className="mobile-submenu"
+                    className="overflow-hidden flex flex-col items-center gap-4 pt-4"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
@@ -297,7 +345,7 @@ export function Navbar() {
                       >
                         <Link
                           href={child.href}
-                          className="mobile-nav-link mobile-nav-sublink"
+                          className="text-secondary text-[1.2rem] font-medium no-underline"
                           onClick={() => setOpen(false)}
                         >
                           {child.label}
@@ -315,7 +363,11 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.2 }}
             >
-              <Link href="/work/reel" className="mobile-nav-link" onClick={() => setOpen(false)}>
+              <Link
+                href="/work/reel"
+                className="text-secondary text-[1.6rem] font-bold tracking-[0.05em] uppercase no-underline font-exo hover:opacity-70"
+                onClick={() => setOpen(false)}
+              >
                 REEL
               </Link>
             </motion.div>
@@ -326,7 +378,11 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.2 }}
             >
-              <Link href="/#about" className="mobile-nav-link" onClick={() => setOpen(false)}>
+              <Link
+                href="/#about"
+                className="text-secondary text-[1.6rem] font-bold tracking-[0.05em] uppercase no-underline font-exo hover:opacity-70"
+                onClick={() => setOpen(false)}
+              >
                 About
               </Link>
             </motion.div>

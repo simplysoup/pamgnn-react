@@ -3,9 +3,7 @@ import type { ReactNode } from 'react'
 import { Footer } from '@/components/layout/Footer'
 import { Navbar } from '@/components/layout/Navbar'
 
-// ─── Styles (being migrated to Tailwind in U5) ──────────
-import '../../styles/navbar.css'
-import '../../styles/hero.css'
+// ─── Styles (remaining pre-Tailwind CSS — being migrated incrementally) ──
 import '../../styles/layout.css'
 import '../../styles/project-page.css'
 import '../../styles/animations.css'

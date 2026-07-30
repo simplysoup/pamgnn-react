@@ -12,19 +12,22 @@ export function ProjectCardGrid({ projects, heading }: ProjectCardGridProps) {
   return (
     <>
       {heading ? (
-        <h1 className="display-3" style={{ marginBottom: 60, textAlign: 'center' }}>
+        <h1
+          className="font-exo text-[clamp(28px,3.5vw,40px)] font-bold uppercase leading-tight tracking-wide"
+          style={{ marginBottom: 60, textAlign: 'center' }}
+        >
           {heading}
         </h1>
       ) : null}
-      <div className="projects-collection-list" role="list">
+      <div className="grid grid-cols-2 gap-[60px] pt-[60px]" role="list">
         {projects.map((project) => {
           const coverUrl = getCoverImage(project.slug)
 
           return (
-            <div key={project.slug} className="project" role="listitem">
+            <div key={project.slug} className="[&:nth-child(odd)]:-mt-20" role="listitem">
               <Link
                 href={`/project/${project.slug}`}
-                className="image-link rounded"
+                className="group relative block cursor-none overflow-hidden rounded-card no-underline"
                 style={{ backgroundColor: project.accentColor }}
               >
                 {coverUrl ? (
@@ -33,8 +36,7 @@ export function ProjectCardGrid({ projects, heading }: ProjectCardGridProps) {
                     alt={project.title}
                     width={660}
                     height={500}
-                    className="image"
-                    style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+                    className="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     sizes="(max-width: 767px) 100vw, 660px"
                   />
                 ) : (
@@ -46,8 +48,10 @@ export function ProjectCardGrid({ projects, heading }: ProjectCardGridProps) {
                     }}
                   />
                 )}
-                <div className="view-more-overlay">
-                  <span className="view-more-text">View More</span>
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-[250ms] group-hover:opacity-100">
+                  <span className="font-exo rounded-pill bg-[rgba(44,33,69,0.75)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.05em] text-white backdrop-blur-md">
+                    View More
+                  </span>
                 </div>
               </Link>
             </div>

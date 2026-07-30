@@ -15,11 +15,19 @@ export function About() {
   // The big circle drifts left and slightly upward as you scroll through the section
   const circleX = useTransform(scrollYProgress, [0, 1], [-200, -360])
   const circleY = useTransform(scrollYProgress, [0, 1], [-60, 60])
-  const circleScale = useTransform(scrollYProgress, [0, 0.2, 0.45, 0.8, 1], [0.6, 1.15, 1.15, 0.85, 0.5])
+  const circleScale = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.45, 0.8, 1],
+    [0.6, 1.15, 1.15, 0.85, 0.5],
+  )
   const circleOpacity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.85, 1], [0, 1, 1, 0.6, 0])
 
   return (
-    <section className="section about-section" id="about" ref={sectionRef}>
+    <section
+      className="-mt-[120px] pt-[120px] relative overflow-hidden"
+      id="about"
+      ref={sectionRef}
+    >
       <div style={{ position: 'relative' }}>
         {/* Parallax decorative circle */}
         <motion.div
@@ -52,21 +60,25 @@ export function About() {
         </motion.div>
 
         <div
-          className="container"
-          style={{ paddingTop: '80px', paddingBottom: '100px', position: 'relative', zIndex: 1 }}
+          className="w-full max-w-[1290px] mx-auto px-10 pb-[60px] relative"
+          style={{ paddingTop: '80px', paddingBottom: '100px', zIndex: 1 }}
         >
-          <div className="grid-2-columns" id="About">
+          <div className="grid grid-cols-2 gap-[60px] w-full p-5" id="About">
             {/* Left: heading + portrait */}
             <div>
-              <h2 className="display-3" style={{ marginBottom: 40 }}>Heyo!</h2>
+              <h2
+                className="tracking-wide uppercase text-[clamp(28px,3.5vw,40px)] leading-[1.25] font-exo font-bold"
+                style={{ marginBottom: 40 }}
+              >
+                Heyo!
+              </h2>
               <Image
                 src="/images/about-photo.png"
                 alt="Pamela Desplenter"
                 width={760}
                 height={560}
-                className="rounded-img-about-section"
+                className="rounded-[var(--rounded)] w-full h-auto"
                 sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 560px"
-                style={{ width: '100%', height: 'auto', borderRadius: 'var(--rounded)' }}
               />
             </div>
 

@@ -8,19 +8,19 @@ export async function Works() {
   const docs = getFeaturedProjects()
 
   return (
-    <section className="section" id="services">
-      <section className="section-homepage" id="works">
-        <div className="container">
+    <section className="-mt-[120px] pt-[120px]" id="services">
+      <section className="-mt-[120px] pt-[120px]" id="works">
+        <div className="relative mx-auto w-full max-w-[1290px] px-[40px] pb-[60px]">
           <div className="projects-collection-wrapper">
-            <div className="projects-collection-list" role="list">
+            <div className="grid grid-cols-2 gap-[60px] pt-[60px]" role="list">
               {docs.map((project) => {
                 const coverUrl = getCoverImage(project.slug)
 
                 return (
-                  <div key={project.slug} className="project" role="listitem">
+                  <div key={project.slug} className="[&:nth-child(odd)]:-mt-20" role="listitem">
                     <Link
                       href={`/project/${project.slug}`}
-                      className="image-link rounded"
+                      className="group relative block cursor-none overflow-hidden rounded-card no-underline"
                       style={{ backgroundColor: project.accentColor }}
                     >
                       {coverUrl ? (
@@ -29,13 +29,7 @@ export async function Works() {
                           alt={project.title ?? 'Project'}
                           width={660}
                           height={500}
-                          className="image"
-                          style={{
-                            width: '100%',
-                            height: 'auto',
-                            objectFit: 'cover',
-                            display: 'block',
-                          }}
+                          className="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                           sizes="(max-width: 767px) 100vw, 660px"
                         />
                       ) : (
@@ -47,8 +41,10 @@ export async function Works() {
                           }}
                         />
                       )}
-                      <div className="view-more-overlay">
-                        <span className="view-more-text">View More</span>
+                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-[250ms] group-hover:opacity-100">
+                        <span className="font-exo rounded-pill bg-[rgba(44,33,69,0.75)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.05em] text-white backdrop-blur-md">
+                          View More
+                        </span>
                       </div>
                     </Link>
                   </div>

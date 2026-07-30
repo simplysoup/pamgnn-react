@@ -4,23 +4,23 @@
   --secondary: #4b1f44;
   --white: #ffffff;
   --dark: #12181a;
-  --nav-position: 0%;
-  --nav-width: 100%;
-  --nav-border-radius: 20px;
-  --white-50: rgba(255,255,255,0.5);
-  --ticker: #f4e5e4;
-  --letter-spacing: 0.03em;
-  --dark-70: rgba(18,24,26,0.7);
-  --dark-80: rgba(18,24,26,0.8);
-  --dark-90: rgba(18,24,26,0.9);
+  --dark-70: rgba(18, 24, 26, 0.7);
+  --dark-80: rgba(18, 24, 26, 0.8);
+  --dark-90: rgba(18, 24, 26, 0.9);
   --dark-2: #293033;
+  --ticker: #f4e5e4;
+  --button-hover: #dbdcdd;
+  --white-50: rgba(255, 255, 255, 0.5);
+  --letter-spacing: 0.03em;
   --rounded: 10px;
   --pill-rounded: 50px;
   --spacer-l: 200px;
   --spacer-m: 140px;
   --spacer-s: 110px;
   --spacer-xs: 80px;
-  --button-hover: #dbdcdd;
+  --nav-position: 0%;
+  --nav-width: 100%;
+  --nav-border-radius: 20px;
   --transparent: transparent;
 }
 

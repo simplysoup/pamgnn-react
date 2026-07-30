@@ -28,6 +28,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# subagent artifacts
+.pi-subagents/
+
 # local env files
 .env
 .env.local

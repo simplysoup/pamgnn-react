@@ -1,1 +1,0 @@
-/tmp/compound-engineering/ce-compound/20260728-110026-5d698f41/solution.md

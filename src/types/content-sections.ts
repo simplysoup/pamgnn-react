@@ -1,14 +1,11 @@
 /* ─── Structured project content sections ───────────────── */
 /* A discriminated union for interleaved content sections    */
-/* that can be serialized from Payload CMS blocks later.     */
+/* that provide structured content sections for the project page.     */
 
 export type HeadingStyle = 'h2' | 'sidebar'
 
 export type ContentSection =
-  | SectionText
-  | SectionFullWidthImage
-  | SectionDetailsGrid
-  | SectionSideBySide
+  SectionText | SectionFullWidthImage | SectionDetailsGrid | SectionSideBySide
 
 export type SectionText = {
   type: 'text'

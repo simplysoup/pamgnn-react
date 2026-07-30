@@ -1,4 +1,3 @@
-import { getPayloadClient } from '@/lib/payload'
 import { getCoverImage } from '@/lib/project-images'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,41 +11,29 @@ type ProjectDoc = {
   category?: string
 }
 
-// Static fallback data shown when the database is empty or unreachable
-const STATIC_ILLUSTRATION: ProjectDoc[] = [
-  { id: 'static-1', slug: 'camp-brigitte',              title: 'Camp Brigitte',               accentColor: '#e29d36' },
-  { id: 'static-2', slug: 'pearl-earring',               title: 'Pearl Earring',               accentColor: '#2c3e50' },
-  { id: 'static-3', slug: 'shinee-love-sick',            title: 'Shinee Love Sick',            accentColor: '#7b2d8b' },
-  { id: 'static-4', slug: 'social-media-graphics-ads',   title: 'Social Media Graphics & Ads', accentColor: '#e67e22' },
-  { id: 'static-5', slug: 'atla-reanimated',             title: 'ATLA Reanimated',                accentColor: '#2a4b7c' },
+const STATIC_DATA: ProjectDoc[] = [
+  { id: 'static-1', slug: 'camp-brigitte', title: 'Camp Brigitte', accentColor: '#e29d36' },
+  { id: 'static-2', slug: 'pearl-earring', title: 'Pearl Earring', accentColor: '#2c3e50' },
+  { id: 'static-3', slug: 'shinee-love-sick', title: 'Shinee Love Sick', accentColor: '#7b2d8b' },
+  {
+    id: 'static-4',
+    slug: 'social-media-graphics-ads',
+    title: 'Social Media Graphics & Ads',
+    accentColor: '#e67e22',
+  },
+  { id: 'static-5', slug: 'atla-reanimated', title: 'ATLA Reanimated', accentColor: '#2a4b7c' },
 ]
 
 export default async function IllustrationPage() {
-  const payload = await getPayloadClient()
-  let docs: ProjectDoc[] = []
-
-  try {
-    const result = await payload.find({
-      collection: 'projects' as never,
-      limit: 20,
-      sort: 'order',
-      where: { category: { in: ['illustration'] } },
-    })
-    docs = (result.docs ?? []) as ProjectDoc[]
-  } catch {
-    docs = []
-  }
-
-  // Fall back to static data so the section always renders
-  if (docs.length === 0) {
-    docs = STATIC_ILLUSTRATION
-  }
+  const docs = STATIC_DATA
 
   return (
     <>
       <div className="page-sections">
         <div className="container">
-          <h1 className="display-3" style={{ marginBottom: 60, textAlign: 'center' }}>Illustration</h1>
+          <h1 className="display-3" style={{ marginBottom: 60, textAlign: 'center' }}>
+            Illustration
+          </h1>
           <div className="projects-collection-list" role="list">
             {docs.map((project) => {
               const slug = typeof project.slug === 'string' ? project.slug : String(project.id)
@@ -67,7 +54,12 @@ export default async function IllustrationPage() {
                         width={660}
                         height={500}
                         className="image"
-                        style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
                         sizes="(max-width: 767px) 100vw, 660px"
                       />
                     ) : (

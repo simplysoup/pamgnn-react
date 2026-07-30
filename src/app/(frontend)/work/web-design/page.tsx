@@ -1,4 +1,3 @@
-import { getPayloadClient } from '@/lib/payload'
 import { getCoverImage } from '@/lib/project-images'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,39 +11,27 @@ type ProjectDoc = {
   category?: string
 }
 
-// Static fallback data shown when the database is empty or unreachable
-const STATIC_WEB_DESIGN: ProjectDoc[] = [
-  { id: 'static-1', slug: 'comfortabull',               title: 'Comfortabull',                  accentColor: '#141d37' },
-  { id: 'static-2', slug: 'dynastic-wealth',             title: 'Dynastic Wealth',              accentColor: '#1a1a2e' },
-  { id: 'static-3', slug: 'social-media-graphics-ads',   title: 'Social Media Graphics & Ads',  accentColor: '#e67e22' },
+const STATIC_DATA: ProjectDoc[] = [
+  { id: 'static-1', slug: 'comfortabull', title: 'Comfortabull', accentColor: '#141d37' },
+  { id: 'static-2', slug: 'dynastic-wealth', title: 'Dynastic Wealth', accentColor: '#1a1a2e' },
+  {
+    id: 'static-3',
+    slug: 'social-media-graphics-ads',
+    title: 'Social Media Graphics & Ads',
+    accentColor: '#e67e22',
+  },
 ]
 
 export default async function WebDesignPage() {
-  const payload = await getPayloadClient()
-  let docs: ProjectDoc[] = []
-
-  try {
-    const result = await payload.find({
-      collection: 'projects' as never,
-      limit: 20,
-      sort: 'order',
-      where: { category: { in: ['web-design'] } },
-    })
-    docs = (result.docs ?? []) as ProjectDoc[]
-  } catch {
-    docs = []
-  }
-
-  // Fall back to static data so the section always renders
-  if (docs.length === 0) {
-    docs = STATIC_WEB_DESIGN
-  }
+  const docs = STATIC_DATA
 
   return (
     <>
       <div className="page-sections">
         <div className="container">
-          <h1 className="display-3" style={{ marginBottom: 60, textAlign: 'center' }}>Web Design</h1>
+          <h1 className="display-3" style={{ marginBottom: 60, textAlign: 'center' }}>
+            Web Design
+          </h1>
           <div className="projects-collection-list" role="list">
             {docs.map((project) => {
               const slug = typeof project.slug === 'string' ? project.slug : String(project.id)
@@ -65,7 +52,12 @@ export default async function WebDesignPage() {
                         width={660}
                         height={500}
                         className="image"
-                        style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+                        style={{
+                          width: '100%',
+                          height: 'auto',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
                         sizes="(max-width: 767px) 100vw, 660px"
                       />
                     ) : (

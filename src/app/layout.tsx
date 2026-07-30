@@ -4,7 +4,7 @@ import { exo, playfair, urbanist } from '@/lib/fonts'
 import './globals.css'
 
 export const metadata = {
-  description: 'Pamela Desplenter portfolio built with Next.js and Payload.',
+  description: 'Pamela Desplenter portfolio built with Next.js.',
   title: 'Pamela Desplenter',
 }
 

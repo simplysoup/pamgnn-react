@@ -12,8 +12,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/placeholder
-ENV PAYLOAD_SECRET=placeholder-secret-for-build-32-chars
 
 RUN corepack enable pnpm && pnpm run build
 
@@ -30,12 +28,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 RUN mkdir -p /app/public
 COPY --from=builder --chown=nextjs:nodejs /app/. /app/
-COPY --chown=nextjs:nodejs scripts/docker-entrypoint.sh ./
-RUN chmod +x docker-entrypoint.sh
 
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["./docker-entrypoint.sh"]
+CMD ["node", "server.js"]

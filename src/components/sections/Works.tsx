@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { getPayloadClient } from '@/lib/payload'
 import { getCoverImage } from '@/lib/project-images'
 
 type ProjectDoc = {
@@ -12,36 +11,20 @@ type ProjectDoc = {
   accentColor?: string
 }
 
-
-// Static fallback data shown when the database is empty or unreachable
 const STATIC_FEATURED: ProjectDoc[] = [
-  { id: 'static-1', slug: 'comfortabull',               title: 'Comfortabull',                  accentColor: '#141d37' },
-  { id: 'static-2', slug: 'camp-brigitte',              title: 'Camp Brigitte',                 accentColor: '#e29d36' },
-  { id: 'static-3', slug: 'vaughan-intl-film-festival', title: 'Vaughan Intl. Film Festival',   accentColor: '#c0392b' },
-  { id: 'static-4', slug: 'dynastic-wealth',            title: 'Dynastic Wealth',               accentColor: '#1a1a2e' },
+  { id: 'static-1', slug: 'comfortabull', title: 'Comfortabull', accentColor: '#141d37' },
+  { id: 'static-2', slug: 'camp-brigitte', title: 'Camp Brigitte', accentColor: '#e29d36' },
+  {
+    id: 'static-3',
+    slug: 'vaughan-intl-film-festival',
+    title: 'Vaughan Intl. Film Festival',
+    accentColor: '#c0392b',
+  },
+  { id: 'static-4', slug: 'dynastic-wealth', title: 'Dynastic Wealth', accentColor: '#1a1a2e' },
 ]
 
 export async function Works() {
-  const payload = await getPayloadClient()
-
-  let docs: ProjectDoc[] = []
-
-  try {
-    const result = await payload.find({
-      collection: 'projects' as never,
-      limit: 8,
-      sort: 'order',
-      where: { featured: { equals: true } },
-    })
-    docs = (result.docs ?? []) as ProjectDoc[]
-  } catch {
-    docs = []
-  }
-
-  // Fall back to static data so the section always renders
-  if (docs.length === 0) {
-    docs = STATIC_FEATURED
-  }
+  const docs = STATIC_FEATURED
 
   return (
     <section className="section" id="services">
@@ -68,11 +51,18 @@ export async function Works() {
                           width={660}
                           height={500}
                           className="image"
-                          style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+                          style={{
+                            width: '100%',
+                            height: 'auto',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
                           sizes="(max-width: 767px) 100vw, 660px"
                         />
                       ) : (
-                        <div style={{ width: '100%', aspectRatio: '4/3', backgroundColor: color }} />
+                        <div
+                          style={{ width: '100%', aspectRatio: '4/3', backgroundColor: color }}
+                        />
                       )}
                       <div className="view-more-overlay">
                         <span className="view-more-text">View More</span>

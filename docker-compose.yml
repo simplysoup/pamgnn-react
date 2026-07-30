@@ -1,27 +1,10 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-pamgnn}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pamgnn}
-      POSTGRES_DB: ${POSTGRES_DB:-pamgnn}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pamgnn}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
   mailhog:
     image: mailhog/mailhog:latest
     restart: unless-stopped
     ports:
-      - "1025:1025"
-      - "8025:8025"
+      - '1025:1025'
+      - '8025:8025'
     logging:
       driver: none
 
@@ -32,22 +15,17 @@ services:
       target: runner
     restart: unless-stopped
     ports:
-      - "55800:3000"
+      - '55800:3000'
     env_file:
       - .env.docker
     depends_on:
-      postgres:
-        condition: service_healthy
       mailhog:
         condition: service_started
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:3000/ || exit 1']
       interval: 15s
       timeout: 10s
       retries: 5
-      start_period: 120s
+      start_period: 60s
     volumes:
       - ./public/media:/app/public/media
-
-volumes:
-  pgdata:

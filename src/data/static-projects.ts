@@ -3,7 +3,7 @@
  *
  * Single source of truth for project detail content.
  * Populated with rich structured sections (ContentSection[])
- * that mirror the Payload CMS data shape.
+ * that provide rich structured content for project pages.
  *
  * To add a new project: add an entry to STATIC_PROJECTS,
  * then optionally add to STATIC_GALLERIES and STATIC_ALL_PROJECTS.
@@ -27,10 +27,11 @@ type StaticProject = {
 
 export const STATIC_PROJECTS: Record<string, StaticProject> = {
   /* ─── Comfortabull ─────────────────────────────────── */
-  'comfortabull': {
+  comfortabull: {
     title: 'Comfortabull',
     accentColor: '#141d37',
-    summary: 'Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need.',
+    summary:
+      'Comfortabull is a bulldog-focused doggy daycare; providing the care and attention bulldogs need.',
     client: 'Comfortabull',
     categories: ['branding'],
     sections: [
@@ -69,7 +70,7 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
         content: [
           {
             type: 'text',
-            html: '<p>First on my list, I had to figure out how I wanted to approach the bulldogs. I spent some time looking at and drawing French and English bulldogs and their key features. As we wanted both dogs and a cozy vibe I leaned towards having them both in a doggy bed together.</p><p>But another idea was to have the dogs be able to separate; and use them as 2 individual elements which made the doggy bed idea harder to work with so I also looked at stacking the dogs, having them face each other, and standing side by side.</p><p>Luckily, the graphic came together nicely, with the circle and dogs inside and a cute paw heart touch! With the lineart and crosshatching set, there weren\'t too many additional adjustments past the palette.</p>',
+            html: "<p>First on my list, I had to figure out how I wanted to approach the bulldogs. I spent some time looking at and drawing French and English bulldogs and their key features. As we wanted both dogs and a cozy vibe I leaned towards having them both in a doggy bed together.</p><p>But another idea was to have the dogs be able to separate; and use them as 2 individual elements which made the doggy bed idea harder to work with so I also looked at stacking the dogs, having them face each other, and standing side by side.</p><p>Luckily, the graphic came together nicely, with the circle and dogs inside and a cute paw heart touch! With the lineart and crosshatching set, there weren't too many additional adjustments past the palette.</p>",
           },
         ],
       },
@@ -134,7 +135,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'camp-brigitte': {
     title: 'Camp Brigitte',
     accentColor: '#e29d36',
-    summary: 'Camp Brigitte is an indigenous-owned lodging and vacation destination located in upper west Ontario. A place for family, friends, and nature.',
+    summary:
+      'Camp Brigitte is an indigenous-owned lodging and vacation destination located in upper west Ontario. A place for family, friends, and nature.',
     client: 'Camp Brigitte (via Bloom + Brilliance)',
     categories: ['illustration', 'identity'],
     sections: [
@@ -179,8 +181,9 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'vaughan-intl-film-festival': {
     title: 'Vaughan Intl. Film Festival',
     accentColor: '#c0392b',
-    summary: 'Event branding and motion graphics package for the Vaughan International Film Festival &ndash; from countdowns to contest videos.',
-    client: 'Vaughan Int\'l Film Festival',
+    summary:
+      'Event branding and motion graphics package for the Vaughan International Film Festival &ndash; from countdowns to contest videos.',
+    client: "Vaughan Int'l Film Festival",
     categories: ['motion', 'identity'],
     sections: [
       {
@@ -193,7 +196,7 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
       {
         type: 'detailsGrid',
         sidebar: [
-          { label: 'Client', value: 'Vaughan Int\'l Film Festival' },
+          { label: 'Client', value: "Vaughan Int'l Film Festival" },
           { label: 'Category', tags: ['Motion', 'Identity'] },
           { label: 'Our Role', value: 'Graphic Design, Motion Graphics, Video Production' },
           { label: 'Tools', toolSlugs: ['illustrator', 'photoshop', 'after-effects', 'premiere'] },
@@ -224,7 +227,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'dynastic-wealth': {
     title: 'Dynastic Wealth',
     accentColor: '#1a1a2e',
-    summary: 'Visual identity and web design for Dr. Latanya White&rsquo;s financial advisory firm &ndash; building generational wealth through culturally relevant training.',
+    summary:
+      'Visual identity and web design for Dr. Latanya White&rsquo;s financial advisory firm &ndash; building generational wealth through culturally relevant training.',
     client: 'Dynastic Wealth® | Concept Creative Group, LLC',
     categories: ['identity', 'web-design', 'motion'],
     sections: [
@@ -304,7 +308,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'shinee-love-sick': {
     title: 'Shinee Love Sick',
     accentColor: '#7b2d8b',
-    summary: 'Fan-art music video and editorial series for SHINee&rsquo;s &ldquo;Love Sick&rdquo; &ndash; inspired by Utomaru&rsquo;s animation style.',
+    summary:
+      'Fan-art music video and editorial series for SHINee&rsquo;s &ldquo;Love Sick&rdquo; &ndash; inspired by Utomaru&rsquo;s animation style.',
     categories: ['illustration', 'motion'],
     tools: ['After Effects', 'Illustrator', 'Premiere Pro'],
     sections: [
@@ -335,7 +340,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'pearl-earring': {
     title: 'Pearl Earring',
     accentColor: '#2c3e50',
-    summary: 'Illustration series reimagining Vermeer&rsquo;s &ldquo;Girl with a Pearl Earring&rdquo; through Loish&rsquo;s vibrant style.',
+    summary:
+      'Illustration series reimagining Vermeer&rsquo;s &ldquo;Girl with a Pearl Earring&rdquo; through Loish&rsquo;s vibrant style.',
     categories: ['illustration'],
     tools: ['Photoshop'],
     sections: [
@@ -373,7 +379,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'animated-business-cards': {
     title: 'Animated Business Cards',
     accentColor: '#16a085',
-    summary: 'Motion-design micro-animations for business card concepts &ndash; scan the QR code to see each card come to life.',
+    summary:
+      'Motion-design micro-animations for business card concepts &ndash; scan the QR code to see each card come to life.',
     categories: ['motion'],
     tools: ['Animate', 'Illustrator', 'After Effects'],
     sections: [
@@ -404,7 +411,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'social-media-graphics-ads': {
     title: 'Social Media Graphics & Ads',
     accentColor: '#e67e22',
-    summary: 'Social content packages for various client campaigns across industries &ndash; including BOW, Centanni, 21 Stages, Premier Care, and more.',
+    summary:
+      'Social content packages for various client campaigns across industries &ndash; including BOW, Centanni, 21 Stages, Premier Care, and more.',
     client: 'Various',
     categories: ['illustration', 'motion', 'web-design'],
     sections: [
@@ -436,7 +444,8 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
   'atla-reanimated': {
     title: 'ATLA Reanimated',
     accentColor: '#2a4b7c',
-    summary: 'A fan-reanimated sequence from Avatar: The Last Airbender &mdash; recreating a key scene frame-by-frame with original illustration and animation work, including a full process breakdown.',
+    summary:
+      'A fan-reanimated sequence from Avatar: The Last Airbender &mdash; recreating a key scene frame-by-frame with original illustration and animation work, including a full process breakdown.',
     categories: ['motion', 'illustration'],
     tools: ['After Effects', 'Illustrator', 'Photoshop', 'Premiere Pro'],
     sections: [
@@ -449,7 +458,7 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
         content: [
           {
             type: 'text',
-            html: '<p>A sequence from Avatar: The Last Airbender, reanimated frame-by-frame as a fan project. Every illustration and animation element was created from scratch to match the show\'s iconic style while adding a personal creative touch. The full process &mdash; from reference study and storyboards to final composite &mdash; is documented in the video below.</p>',
+            html: "<p>A sequence from Avatar: The Last Airbender, reanimated frame-by-frame as a fan project. Every illustration and animation element was created from scratch to match the show's iconic style while adding a personal creative touch. The full process &mdash; from reference study and storyboards to final composite &mdash; is documented in the video below.</p>",
           },
         ],
       },
@@ -465,27 +474,77 @@ export const STATIC_PROJECTS: Record<string, StaticProject> = {
 
 /* ─── Static gallery fallback per project ──────────────── */
 export const STATIC_GALLERIES: Record<string, string[]> = {
-  'comfortabull':               ['/images/project-comfortabull.png'],
-  'camp-brigitte':              ['/images/project-camp-brigitte.webp'],
+  comfortabull: ['/images/project-comfortabull.png'],
+  'camp-brigitte': ['/images/project-camp-brigitte.webp'],
   'vaughan-intl-film-festival': ['/images/project-vaughan.jpg'],
-  'dynastic-wealth':            ['/images/project-dynastic.png', '/images/project-dynastic/second-design.jpg', '/images/project-dynastic/process-01.jpg', '/images/project-dynastic/site-preview.png'],
-  'shinee-love-sick':           ['/images/project-shinee-preview.gif'],
-  'pearl-earring':              ['/images/project-pearl-earring-gallery.webp'],
-  'animated-business-cards':    ['/images/project-animated-business-cards.webp'],
-  'social-media-graphics-ads':  ['/images/project-social-media.webp'],
+  'dynastic-wealth': [
+    '/images/project-dynastic.png',
+    '/images/project-dynastic/second-design.jpg',
+    '/images/project-dynastic/process-01.jpg',
+    '/images/project-dynastic/site-preview.png',
+  ],
+  'shinee-love-sick': ['/images/project-shinee-preview.gif'],
+  'pearl-earring': ['/images/project-pearl-earring-gallery.webp'],
+  'animated-business-cards': ['/images/project-animated-business-cards.webp'],
+  'social-media-graphics-ads': ['/images/project-social-media.webp'],
 }
 
 /* ─── Static all-projects list for "related" section ───── */
-export const STATIC_ALL_PROJECTS: { slug: string; title: string; coverImage?: string; accentColor: string }[] = [
-  { slug: 'comfortabull',               title: 'Comfortabull',                coverImage: '/images/project-comfortabull.png',                   accentColor: '#141d37' },
-  { slug: 'camp-brigitte',              title: 'Camp Brigitte',               coverImage: '/images/project-camp-brigitte.webp',                 accentColor: '#e29d36' },
-  { slug: 'vaughan-intl-film-festival', title: 'Vaughan Intl. Film Festival', coverImage: '/images/project-vaughan.jpg',                        accentColor: '#c0392b' },
-  { slug: 'dynastic-wealth',            title: 'Dynastic Wealth',             coverImage: '/images/project-dynastic.png',                       accentColor: '#1a1a2e' },
-  { slug: 'shinee-love-sick',           title: 'Shinee Love Sick',            coverImage: '/images/project-shinee-preview.gif',                 accentColor: '#7b2d8b' },
-  { slug: 'pearl-earring',              title: 'Pearl Earring',               coverImage: '/images/project-pearl-earring-gallery.webp',         accentColor: '#2c3e50' },
-  { slug: 'animated-business-cards',    title: 'Animated Business Cards',    coverImage: '/images/project-animated-business-cards.webp',        accentColor: '#16a085' },
-  { slug: 'social-media-graphics-ads',  title: 'Social Media Graphics & Ads', coverImage: '/images/project-social-media.webp',                  accentColor: '#e67e22' },
-  { slug: 'atla-reanimated',           title: 'ATLA Reanimated',              accentColor: '#2a4b7c' },
+export const STATIC_ALL_PROJECTS: {
+  slug: string
+  title: string
+  coverImage?: string
+  accentColor: string
+}[] = [
+  {
+    slug: 'comfortabull',
+    title: 'Comfortabull',
+    coverImage: '/images/project-comfortabull.png',
+    accentColor: '#141d37',
+  },
+  {
+    slug: 'camp-brigitte',
+    title: 'Camp Brigitte',
+    coverImage: '/images/project-camp-brigitte.webp',
+    accentColor: '#e29d36',
+  },
+  {
+    slug: 'vaughan-intl-film-festival',
+    title: 'Vaughan Intl. Film Festival',
+    coverImage: '/images/project-vaughan.jpg',
+    accentColor: '#c0392b',
+  },
+  {
+    slug: 'dynastic-wealth',
+    title: 'Dynastic Wealth',
+    coverImage: '/images/project-dynastic.png',
+    accentColor: '#1a1a2e',
+  },
+  {
+    slug: 'shinee-love-sick',
+    title: 'Shinee Love Sick',
+    coverImage: '/images/project-shinee-preview.gif',
+    accentColor: '#7b2d8b',
+  },
+  {
+    slug: 'pearl-earring',
+    title: 'Pearl Earring',
+    coverImage: '/images/project-pearl-earring-gallery.webp',
+    accentColor: '#2c3e50',
+  },
+  {
+    slug: 'animated-business-cards',
+    title: 'Animated Business Cards',
+    coverImage: '/images/project-animated-business-cards.webp',
+    accentColor: '#16a085',
+  },
+  {
+    slug: 'social-media-graphics-ads',
+    title: 'Social Media Graphics & Ads',
+    coverImage: '/images/project-social-media.webp',
+    accentColor: '#e67e22',
+  },
+  { slug: 'atla-reanimated', title: 'ATLA Reanimated', accentColor: '#2a4b7c' },
 ]
 
 /**

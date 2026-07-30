@@ -1,17 +1,14 @@
 {
   "name": "",
   "version": "1.0.0",
-  "description": "A blank template to get started with Payload 3.0",
+  "description": "Pamela Desplenter portfolio built with Next.js",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "dev": "docker compose up --build -d && docker compose logs --tail=10 -f app",
     "devsafe": "docker compose down && docker compose build --no-cache && docker compose up -d && docker compose logs --tail=10 -f app",
-    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
-    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "docker compose up -d",
     "stop": "docker compose down",
     "test": "pnpm run test:int && pnpm run test:e2e",
@@ -20,10 +17,6 @@
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.3.6",
-    "@payloadcms/db-postgres": "^3.86.0",
-    "@payloadcms/next": "3.86.0",
-    "@payloadcms/richtext-lexical": "3.86.0",
-    "@payloadcms/ui": "3.86.0",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
     "framer-motion": "^12.42.2",
@@ -31,10 +24,8 @@
     "lottie-react": "^2.4.1",
     "next": "16.2.6",
     "nodemailer": "^9.0.3",
-    "payload": "3.86.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "sharp": "0.34.2",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -63,7 +54,6 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp",
       "esbuild",
       "unrs-resolver"
     ]

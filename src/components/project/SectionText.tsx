@@ -20,21 +20,28 @@ export function SectionText({ heading, headingStyle, html }: SectionTextType) {
   return (
     <motion.section
       ref={ref}
-      className="content-section"
+      className="py-[60px] max-md:py-[40px]"
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: easeOutExpo }}
     >
       {heading && headingStyle === 'h2' ? (
-        <h2 className="content-heading-h2">{heading}</h2>
+        <h2
+          className="font-exo font-bold tracking-wide uppercase mb-5 text-dark"
+          style={{ fontSize: 'clamp(20px, 3vw, 32px)' }}
+        >
+          {heading}
+        </h2>
       ) : null}
       {heading && headingStyle === 'sidebar' ? (
-        <div className="content-heading-sidebar-wrapper">
-          <span className="content-heading-sidebar">{heading}</span>
+        <div className="mb-3">
+          <span className="font-sans text-sm font-bold tracking-[0.05em] uppercase text-dark">
+            {heading}
+          </span>
         </div>
       ) : null}
       <div
-        className="content-text-body"
+        className="break-words text-[17px] leading-7 text-dark-70"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </motion.section>

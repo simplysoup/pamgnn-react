@@ -26,7 +26,7 @@ export function Hero({
   }, [])
 
   return (
-    <section className="section" id="home" style={{ marginTop: 0, paddingTop: 0 }}>
+    <section id="home">
       <div className="flex justify-center items-center w-full h-screen min-h-[600px] relative overflow-hidden text-center">
         {/* Wavy Lottie background */}
         {lottieData ? (

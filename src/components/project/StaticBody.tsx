@@ -46,12 +46,12 @@ export function StaticBody({ contentHtml }: StaticBodyProps) {
   return (
     <motion.div
       ref={ref}
-      className="project-body-content static-body"
+      className="max-w-[720px] will-change-[transform,opacity]"
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: easeOutExpo }}
     >
-      <div dangerouslySetInnerHTML={{ __html: safeHtml }} className="static-body-inner" />
+      <div dangerouslySetInnerHTML={{ __html: safeHtml }} className="project-body-inner" />
     </motion.div>
   )
 }

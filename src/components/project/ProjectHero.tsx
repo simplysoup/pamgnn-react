@@ -59,9 +59,9 @@ export function ProjectHero({ title, summary, categories }: ProjectHeroProps) {
   const words = (summary || '').split(/\s+/).filter(Boolean)
 
   return (
-    <section className="project-hero">
-      <div className="container">
-        <div className="project-hero-inner">
+    <section className="relative box-border min-h-screen pt-[140px] pb-10 bg-white overflow-hidden flex items-center">
+      <div className="w-full max-w-[1290px] mx-auto px-10 pb-[60px] relative">
+        <div className="text-center max-w-[900px] mx-auto">
           {/* Back link */}
           <motion.div
             initial={{ opacity: 0, y: -6 }}
@@ -69,11 +69,23 @@ export function ProjectHero({ title, summary, categories }: ProjectHeroProps) {
             transition={{ duration: 0.3, ease: easeOutExpo, delay: 0.05 }}
           >
             <Link
-            href={getBackLink(categories)}
-              className="project-hero-back"
+              href={getBackLink(categories)}
+              className="inline-flex items-center mb-7 text-sm tracking-wide uppercase font-semibold text-dark/50 no-underline transition-colors duration-200 hover:text-dark"
             >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ marginRight: 6 }}>
-                <path d="M9 6H3M3 6L6 9M3 6L6 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                style={{ marginRight: 6 }}
+              >
+                <path
+                  d="M9 6H3M3 6L6 9M3 6L6 3"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               Back to work
             </Link>
@@ -81,7 +93,7 @@ export function ProjectHero({ title, summary, categories }: ProjectHeroProps) {
 
           {/* Letter-by-letter title */}
           <motion.h1
-            className="project-hero-title"
+            className="font-exo uppercase text-[clamp(2.2rem,5vw,60px)] leading-[1.15] text-[#141d37] m-0 mb-5 flex flex-wrap justify-center gap-0"
             variants={letterContainer}
             initial="hidden"
             animate={heroLoaded ? 'show' : 'hidden'}
@@ -91,7 +103,7 @@ export function ProjectHero({ title, summary, categories }: ProjectHeroProps) {
               <motion.span
                 key={key}
                 variants={letterVariant}
-                className="project-hero-letter"
+                className="inline-block whitespace-pre"
                 aria-hidden="true"
               >
                 {char}
@@ -102,17 +114,17 @@ export function ProjectHero({ title, summary, categories }: ProjectHeroProps) {
           {/* Summary paragraph */}
           {words.length > 0 ? (
             <motion.div
-              className="project-hero-summary"
+              className="mt-1"
               initial={{ opacity: 0, y: 12 }}
               animate={heroLoaded ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, ease: easeOutExpo, delay: 0.5 }}
             >
-              <p className="project-hero-summary-text">
+              <p className="text-[clamp(1rem,2vw,24px)] leading-normal text-[#141d37] m-0 max-w-[720px] mx-auto">
                 {words.map((word, i) => (
                   <Fragment key={`${word}-${i}`}>
-                    <span className="project-hero-word-wrap">
+                    <span className="inline-block overflow-hidden align-top">
                       <motion.span
-                        className="project-hero-word"
+                        className="inline-block"
                         initial={{ y: 12, opacity: 0 }}
                         animate={heroLoaded ? { y: 0, opacity: 1 } : {}}
                         transition={{

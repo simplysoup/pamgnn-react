@@ -1,89 +1,59 @@
 #!/usr/bin/env bash
-# ─── pamgnn Docker control scripts ──────────────────────────
+# ─── pamgnn bare-metal control script ──────────────────────
 # Usage: ./scripts/control.sh <command>
-# Commands: up, down, logs, rebuild, rebuild-frontend,
-#           rebuild-backend, restart, status, shell
+# Commands: build, restart, stop, logs, status
 set -e
 
-COMPOSE="docker compose"
-SERVICE="app"
+APP_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+PM2="pm2"
+APP_NAME="pamgnn"
 
 case "${1:-help}" in
-  up)
-    echo "Starting all services in background..."
-    $COMPOSE up -d
-    $COMPOSE logs --tail=10 -f $SERVICE
-    ;;
-
-  down)
-    echo "Stopping all services..."
-    $COMPOSE down
-    ;;
-
-  logs)
-    $COMPOSE logs --tail=50 -f $SERVICE
-    ;;
-
-  status)
-    $COMPOSE ps
-    echo ""
-    echo "App health: $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:55800/api/health 2>/dev/null || echo 'unreachable')"
-    ;;
-
-  rebuild)
-    echo "=== Full rebuild (clean, all layers) ==="
-    $COMPOSE build --no-cache $SERVICE
-    $COMPOSE up -d $SERVICE
-    echo "Waiting for app to be ready..."
-    until curl -s -o /dev/null http://127.0.0.1:55800/api/health 2>/dev/null; do
-      sleep 2
-    done
-    echo "App is live at http://127.0.0.1:55800"
-    ;;
-
-  rebuild-frontend)
-    echo "=== Frontend-only rebuild ==="
-    echo "Rebuilding the Docker image (triggers 'next build' for TS/JS/CSS changes)..."
-    $COMPOSE build $SERVICE
-    $COMPOSE up -d $SERVICE
-    echo "Waiting for app to be ready..."
-    until curl -s -o /dev/null http://127.0.0.1:55800/api/health 2>/dev/null; do
-      sleep 2
-    done
-    echo "Frontend is live at http://127.0.0.1:55800"
-    ;;
-
-  rebuild-backend)
-    echo "=== Backend changes (migrations, seed, collections, payload config) ==="
-    echo "Performing a no-cache rebuild to ensure fresh backend code..."
-    docker compose build --no-cache $SERVICE
-    docker compose up -d $SERVICE
-    echo "Migrations and seed run automatically on startup..."
-    docker compose logs --tail=30 -f $SERVICE
+  build)
+    echo "=== Build Next.js app ==="
+    cd "$APP_DIR"
+    pnpm run build
+    # Link static assets into standalone output so server.js can serve them
+    # Copy assets into standalone output so server.js can serve them
+    cp -r .next/static .next/standalone/.next/static 2>/dev/null || true
+    cp -r public .next/standalone/public 2>/dev/null || true
+    $PM2 restart "$APP_NAME" || $PM2 start .next/standalone/server.js --name "$APP_NAME"
+    echo "✓ Build complete & app restarted"
     ;;
 
   restart)
-    echo "Restarting app container (no rebuild)..."
-    $COMPOSE restart $SERVICE
+    echo "=== Restart app ==="
+    $PM2 restart "$APP_NAME"
+    echo "✓ App restarted"
     ;;
 
-  shell)
-    echo "Opening shell in running app container..."
-    $COMPOSE exec $SERVICE sh
+  stop)
+    echo "=== Stop app ==="
+    $PM2 stop "$APP_NAME"
+    echo "✓ App stopped"
+    ;;
+
+  logs)
+    $PM2 logs "$APP_NAME" --lines 50
+    ;;
+
+  status)
+    $PM2 status "$APP_NAME"
+    echo ""
+    echo "App health: $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:55800/api/health 2>/dev/null || echo 'unreachable')"
     ;;
 
   help|*)
     echo "Usage: $0 <command>"
     echo ""
     echo "Commands:"
-    echo "  up               Start all services (background)"
-    echo "  down             Stop all services"
-    echo "  logs             Tail app logs"
-    echo "  status           Show service status + health check"
-    echo "  rebuild          Full clean rebuild (all layers)"
-    echo "  rebuild-frontend Quick rebuild for frontend code (TSX/CSS)"
-    echo "  rebuild-backend  Rebuild for backend changes (migrations, collections)"
-    echo "  restart          Restart app (no rebuild, pick up volume changes)"
-    echo "  shell            Open a shell inside the running app container"
+    echo "  build    Build Next.js + restart PM2"
+    echo "  restart  Restart PM2 process"
+    echo "  stop     Stop PM2 process"
+    echo "  logs     Tail app logs"
+    echo "  status   Show PM2 status + health check"
+    echo ""
+    echo "Built files are served from .next/standalone/server.js on port 55800."
+    echo "Caddy proxies :80 → localhost:55800."
     ;;
 esac

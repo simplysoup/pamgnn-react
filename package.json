@@ -6,11 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
-    "dev": "docker compose up --build -d && docker compose logs --tail=10 -f app",
-    "devsafe": "docker compose down && docker compose build --no-cache && docker compose up -d && docker compose logs --tail=10 -f app",
+    "dev": "next dev",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
-    "start": "docker compose up -d",
-    "stop": "docker compose down",
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
@@ -18,14 +15,13 @@
   "dependencies": {
     "@eslint/eslintrc": "^3.3.6",
     "cross-env": "^7.0.3",
-    "dotenv": "16.4.7",
     "framer-motion": "^12.42.2",
-    "graphql": "^16.8.1",
     "lottie-react": "^2.4.1",
     "next": "16.2.6",
     "nodemailer": "^9.0.3",
     "react": "19.2.6",
     "react-dom": "19.2.6",
+    "sharp": "^0.35.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {

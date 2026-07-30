@@ -19,13 +19,13 @@ export function ProjectSummary({ summary }: ProjectSummaryProps) {
   const words = summary.split(/\s+/)
 
   return (
-    <div ref={ref} className="project-summary">
-      <p className="project-summary-text">
+    <div ref={ref} className="mb-12">
+      <p className="text-xl leading-8 text-dark-70 max-w-[720px] m-0">
         {words.map((word, i) => (
           <Fragment key={`${word}-${i}`}>
-            <span className="project-summary-word-wrap">
+            <span className="inline-block overflow-hidden align-top">
               <motion.span
-                className="project-summary-word"
+                className="inline-block will-change-[transform,opacity]"
                 initial={{ y: 30, opacity: 0 }}
                 animate={inView ? { y: 0, opacity: 1 } : {}}
                 transition={{

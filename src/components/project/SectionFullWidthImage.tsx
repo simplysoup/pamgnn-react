@@ -21,18 +21,18 @@ export function SectionFullWidthImage({ src, alt, width, height }: SectionFullWi
   return (
     <motion.section
       ref={ref}
-      className="content-section"
+      className="py-[60px] max-md:py-[40px]"
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: easeOutExpo }}
     >
-      <div className="content-full-image" style={{ aspectRatio }}>
+      <div className="w-full relative rounded-card overflow-hidden" style={{ aspectRatio }}>
         <Image
           src={src}
           alt={alt}
           fill
           sizes="(max-width: 767px) 100vw, (max-width: 1290px) 90vw, 1200px"
-          className="content-full-image-img"
+          className="object-cover"
         />
       </div>
     </motion.section>

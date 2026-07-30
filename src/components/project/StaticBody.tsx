@@ -51,7 +51,10 @@ export function StaticBody({ contentHtml }: StaticBodyProps) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: easeOutExpo }}
     >
-      <div dangerouslySetInnerHTML={{ __html: safeHtml }} className="project-body-inner" />
+      <div
+        dangerouslySetInnerHTML={{ __html: safeHtml }}
+        className="max-w-[720px] text-[17px] leading-7 text-dark/70 [&>p]:mb-4 [&>p]:text-[17px] [&>p]:leading-7 [&>p]:text-dark/70 [&>h1]:text-dark [&>h2]:text-dark [&>h3]:text-dark [&>h1]:font-bold [&>h2]:font-bold [&>h3]:font-bold [&>h1]:my-8 [&>h2]:my-6 [&>h3]:my-5 [&>img]:w-full [&>img]:h-auto [&>img]:my-8 [&>img]:rounded-[var(--rounded)] [&>a]:text-secondary [&>a]:underline"
+      />
     </motion.div>
   )
 }

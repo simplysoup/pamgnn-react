@@ -41,9 +41,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <>
       <ProjectHero title={title} summary={summary ?? ''} categories={categories ?? undefined} />
 
-      <section className="project-content-section">
-        <div className="container">
-          <div className="project-body">
+      <section className="pt-20 pb-10">
+        <div className="w-full max-w-[1290px] mx-auto px-10 pb-[60px] relative">
+          <div className="flex flex-col gap-[50px]">
             {sections && sections.length > 0 ? <StructuredBody sections={sections} /> : null}
             {!sections && contentHtml ? <StaticBody contentHtml={contentHtml} /> : null}
           </div>
@@ -51,9 +51,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       {process && process.length > 0 ? (
-        <section className="project-content-section">
-          <div className="container">
-            <div className="project-body">
+        <section className="pt-20 pb-10">
+          <div className="w-full max-w-[1290px] mx-auto px-10 pb-[60px] relative">
+            <div className="flex flex-col gap-[50px]">
               <ProcessSection
                 steps={process as import('@/components/project/ProcessSection').ProcessStep[]}
               />

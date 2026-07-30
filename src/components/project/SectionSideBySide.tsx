@@ -18,28 +18,38 @@ export function SectionSideBySide({ left, right }: SectionSideBySideType) {
   return (
     <motion.section
       ref={ref}
-      className="content-section"
+      className="py-[60px] max-md:py-[40px]"
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: easeOutExpo }}
     >
-      <div className="content-side-by-side">
-        <div className="content-full-image" style={{ aspectRatio: left.width && left.height ? `${left.width} / ${left.height}` : '4 / 3' }}>
+      <div className="grid grid-cols-2 gap-6 max-md:grid-cols-1 max-md:gap-6">
+        <div
+          className="w-full relative rounded-card overflow-hidden"
+          style={{
+            aspectRatio: left.width && left.height ? `${left.width} / ${left.height}` : '4 / 3',
+          }}
+        >
           <Image
             src={left.src}
             alt={left.alt}
             fill
             sizes="(max-width: 767px) 100vw, 50vw"
-            className="content-full-image-img"
+            className="object-cover"
           />
         </div>
-        <div className="content-full-image" style={{ aspectRatio: right.width && right.height ? `${right.width} / ${right.height}` : '4 / 3' }}>
+        <div
+          className="w-full relative rounded-card overflow-hidden"
+          style={{
+            aspectRatio: right.width && right.height ? `${right.width} / ${right.height}` : '4 / 3',
+          }}
+        >
           <Image
             src={right.src}
             alt={right.alt}
             fill
             sizes="(max-width: 767px) 100vw, 50vw"
-            className="content-full-image-img"
+            className="object-cover"
           />
         </div>
       </div>
